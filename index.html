@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+<title>IR Remote</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+
+/* ── Top bar ── */
+.bar{background:#0c1422;border-bottom:2px solid #00d4ff;padding:13px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:99;box-shadow:0 2px 20px rgba(0,212,255,.15)}
+.bar-info{flex:1;min-width:0}
+.bar-title{font-size:15px;font-weight:700;color:#00d4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-sub{font-size:10px;color:#3a5870;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back-btn{flex-shrink:0;background:transparent;border:1px solid #1c3048;color:#4a6a80;padding:6px 13px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:700;transition:all .2s;display:none}
+.back-btn.show{display:block}
+.back-btn:hover{border-color:#00d4ff;color:#00d4ff}
+/* Serial status dot */
+.serial-dot{width:9px;height:9px;border-radius:50%;background:#1a2e42;flex-shrink:0;transition:background .3s}
+.serial-dot.ok{background:#00e87a;box-shadow:0 0 7px #00e87a}
+.serial-dot.err{background:#ff4455;box-shadow:0 0 7px #ff4455}
+
+/* ── Layout ── */
+.page{padding:14px;max-width:480px;margin:0 auto}
+.card{background:#0d1825;border:1px solid #1a2e42;border-radius:12px;padding:15px;margin-bottom:12px}
+.sec-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#2e4455;margin-bottom:10px;font-weight:700}
+
+/* ── Buttons ── */
+.btn{display:block;width:100%;padding:13px 16px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .18s;margin-bottom:8px;line-height:1.2}
+.btn:last-child{margin-bottom:0}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.bc{background:#00d4ff;color:#000}.bc:hover{background:#7ef0ff}
+.bg{background:#00e87a;color:#000}.bg:hover{background:#6effc0}
+.bgh{background:transparent;border:1px solid #1a2e42;color:#5a7a90}
+.bgh:hover{border-color:#00d4ff;color:#b0cce0}
+.br{background:#ff4455;color:#fff}.br:hover{background:#ff8899}
+.ba{background:#ffb020;color:#000}.ba:hover{background:#ffd060}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #1a2e42;font-size:12px;gap:8px}
+.irow:last-child{border:none}
+.ival{color:#00d4ff;font-weight:700;text-align:right;font-size:11px}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0c1825;border:1px solid #00d4ff;color:#7ef0ff;padding:10px 22px;border-radius:20px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;white-space:nowrap;max-width:90vw}
+.toast.show{opacity:1}
+
+/* ── Serial connect screen ── */
+.connect-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:18px;text-align:center}
+.connect-icon{font-size:52px;line-height:1}
+.connect-title{font-size:18px;font-weight:700;color:#d0e2f0}
+.connect-sub{font-size:12px;color:#3a5870;line-height:1.8;max-width:280px}
+.connect-note{font-size:10px;color:#2a3e50;line-height:1.7;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;padding:10px 14px;max-width:300px;text-align:left}
+.connect-note b{color:#4a6a80}
+
+/* ── Brand search ── */
+.search-box{position:relative;margin-bottom:10px}
+.search-box input{width:100%;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;color:#d0e2f0;padding:11px 14px 11px 40px;font-size:13px;outline:none;transition:border-color .2s}
+.search-box input:focus{border-color:#00d4ff}
+.search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;color:#2e4455;pointer-events:none}
+.brand-count{font-size:10px;color:#2e4455;margin-bottom:8px;padding-left:2px}
+
+/* ── Pattern nav ── */
+.pat-nav{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+.pat-nav .btn{margin:0;flex:1;padding:10px 8px}
+.pat-ctr{flex:0 0 56px;text-align:center;font-size:13px;font-weight:700;color:#5a7a90;background:#0c1422;border:1px solid #1a2e42;border-radius:8px;padding:9px 4px}
+
+/* ── Power test ── */
+.pwr-wrap{text-align:center;padding:16px 0 6px}
+.pwr-btn{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#200808,#140404);border:3px solid #ff4455;color:#ff4455;font-size:11px;font-weight:700;cursor:pointer;box-shadow:0 0 24px rgba(255,68,85,.25);transition:all .2s;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.pwr-btn:hover{box-shadow:0 0 44px rgba(255,68,85,.55)}
+.pwr-btn:active{transform:scale(.93)}
+.pwr-ico{font-size:32px;line-height:1}
+.sel-hint{text-align:center;font-size:11px;color:#2e4455;margin:6px 0 10px}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.confirm-overlay.show{display:flex}
+.confirm-box{background:#0d1825;border:1px solid #00d4ff;border-radius:16px;padding:28px 24px;max-width:320px;width:100%;text-align:center;box-shadow:0 8px 48px rgba(0,212,255,.15)}
+.confirm-box h3{font-size:17px;font-weight:700;color:#d0e2f0;margin-bottom:8px}
+.confirm-box p{font-size:12px;color:#3a5870;margin-bottom:20px;line-height:1.6}
+.confirm-row{display:flex;gap:10px}
+.confirm-row .btn{flex:1;margin:0}
+
+/* Animasi tombol fisik */
+@keyframes physpress{0%{transform:scale(1)}30%{transform:scale(.88)}70%{transform:scale(.88)}100%{transform:scale(1)}}
+@keyframes physglow{0%{box-shadow:0 0 18px rgba(255,68,85,.3)}40%{box-shadow:0 0 50px rgba(255,68,85,.9)}100%{box-shadow:0 0 18px rgba(255,68,85,.3)}}
+.phys-press{animation:physpress .25s ease,physglow .25s ease}
+/* Indikator tombol fisik */
+.phys-indicator{position:fixed;top:58px;right:14px;background:#0d1825;border:1px solid #ff4455;color:#ff8888;font-size:10px;font-weight:700;padding:5px 10px;border-radius:20px;z-index:150;opacity:0;transition:opacity .2s;pointer-events:none}
+.phys-indicator.show{opacity:1}
+.remote{max-width:300px;margin:0 auto;padding:4px 0 28px;display:flex;flex-direction:column;align-items:center}
+.rm-pwr-row{margin-bottom:10px}
+.rm-pwr-btn{width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#240a0a,#0a0404);border:3px solid #ff4455;color:#ff4455;font-size:28px;cursor:pointer;box-shadow:0 0 18px rgba(255,68,85,.3);transition:all .18s;display:inline-flex;align-items:center;justify-content:center}
+.rm-pwr-btn:active{background:#ff4455;color:#fff;transform:scale(.88)}
+.rm-quick{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;justify-content:center}
+.rm-q{padding:6px 11px;border-radius:20px;background:#0d1825;border:1px solid #1e3048;color:#4a6870;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap}
+.rm-q:active{background:#162030;color:#00d4ff;border-color:#00d4ff}
+.rm-pairs{display:flex;justify-content:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.rm-pcol{display:flex;flex-direction:column;align-items:center;gap:5px}
+.rm-plbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#2e4455;font-weight:700;margin-bottom:2px}
+.rm-pb{width:58px;height:34px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.rm-pb:active{transform:scale(.91)}
+.rm-pv{background:#0a1e10;border:1px solid rgba(0,232,122,.28);color:#00e87a}
+.rm-pv:active{background:#00e87a;color:#000}
+.rm-pc{background:#04101e;border:1px solid rgba(79,195,247,.22);color:#4fc3f7}
+.rm-pc:active{background:#4fc3f7;color:#000}
+.rm-pt{background:#130e00;border:1px solid rgba(255,176,32,.22);color:#ffb020}
+.rm-pt:active{background:#ffb020;color:#000}
+.rm-pe{background:#0d1825;border:1px solid #1e3048;color:#3a5870;font-size:9px;letter-spacing:.04em}
+.rm-pe:active{background:#1a2e42;color:#d0e2f0}
+.rm-dpad{display:grid;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px 44px;gap:3px;margin-bottom:14px}
+.rm-dp{border-radius:10px;background:#0d1825;border:1px solid #1e3048;color:#6080a0;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.rm-dp:active{background:#1a3050;transform:scale(.9)}
+.rm-ok{border-radius:50%;background:radial-gradient(circle,#0d2040,#060c18);border:2px solid #00d4ff;color:#00d4ff;font-size:11px;font-weight:800}
+.rm-ok:active{background:#00d4ff;color:#000;transform:scale(.9)}
+.rm-empty{}
+.rm-numpad{display:grid;grid-template-columns:repeat(3,52px);gap:8px;margin-bottom:14px}
+.rm-num{height:52px;border-radius:50%;background:#0d1825;border:1px solid #1a2e42;color:#8ab0d0;font-size:19px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.rm-num:active{background:#1a2e42;color:#00d4ff;transform:scale(.9)}
+.rm-nph{height:52px}
+.rm-misc-lbl{align-self:flex-start;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#2a3e50;font-weight:700;margin:4px 0;padding-left:2px}
+.rm-misc{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.rm-mb{padding:9px 4px;border-radius:8px;background:#0d1825;border:1px solid #1a2e42;color:#4a6a80;font-size:10px;font-weight:700;cursor:pointer;text-align:center;line-height:1.3;word-break:break-word;transition:all .15s}
+.rm-mb:active{background:#162030;color:#d0e2f0}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <button class="back-btn" id="backbtn" onclick="goBack()">&#8592; Back</button>
+  <div class="bar-info">
+    <div class="bar-title" id="btitle">IR Remote</div>
+    <div class="bar-sub" id="bsub">Hubungkan ESP8266 via USB</div>
+  </div>
+  <div class="serial-dot" id="sdot" title="Status Serial"></div>
+</div>
+
+<div class="phys-indicator" id="physind">&#9211; POWER</div>
+<div class="page" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<!-- Overlay konfirmasi tes power -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h3>Perangkat merespons?</h3>
+    <p>Apakah perangkat bereaksi terhadap sinyal yang baru dikirim?</p>
+    <div class="confirm-row">
+      <button class="btn bg" onclick="doYes()">&#10003; Ya, Berhasil</button>
+      <button class="btn br" onclick="doNo()">&#10007; Tidak</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Blokir zoom: ctrl+scroll dan pinch
+document.addEventListener('wheel', function(e) {
+  if (e.ctrlKey) e.preventDefault();
+}, { passive: false });
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0')) e.preventDefault();
+});
+document.addEventListener('touchstart', function(e) {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+document.addEventListener('touchmove', function(e) {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+var _lastTouch = 0;
+document.addEventListener('touchend', function(e) {
+  var now = Date.now();
+  if (now - _lastTouch < 300) e.preventDefault();
+  _lastTouch = now;
+}, { passive: false });
+// ═══════════════════════════════════════════════════════════
+// Tombol fisik (GPIO0 FLASH)
+// ═══════════════════════════════════════════════════════════
+window._physBtnAction = null;
+
+function showPhysIndicator() {
+  var el = document.getElementById('physind');
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function() { el.classList.remove('show'); }, 900);
+}
+
+function triggerPhysBtn() {
+  showPhysIndicator();
+  var pwrEl = document.querySelector('.rm-pwr-btn, .pwr-btn');
+  if (pwrEl) {
+    pwrEl.classList.remove('phys-press');
+    void pwrEl.offsetWidth;
+    pwrEl.classList.add('phys-press');
+    setTimeout(function() { pwrEl.classList.remove('phys-press'); }, 350);
+  }
+  if (typeof window._physBtnAction === 'function') window._physBtnAction();
+}
+
+// ═══════════════════════════════════════════════════════════
+var DB = null;
+var NAV = [];
+var CUR = { brand: null, type: null, pattern: 0, total: 0 };
+window._pwrSig = null;
+window._remSigs = [];
+
+// Serial state
+var serialPort = null;
+var serialWriter = null;
+var serialReader = null;
+var serialConnected = false;
+var serialReadBuf = '';
+var serialPendingResolve = null;
+
+// ═══════════════════════════════════════════════════════════
+// Utils
+// ═══════════════════════════════════════════════════════════
+function toast(m, ok) {
+  var t = document.getElementById('toast');
+  t.textContent = m;
+  t.style.borderColor = ok ? '#00e87a' : '#ff4455';
+  t.style.color = ok ? '#6effc0' : '#ff8888';
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(function() { t.classList.remove('show'); }, 2400);
+}
+
+function bar(title, sub, back) {
+  document.getElementById('btitle').textContent = title;
+  document.getElementById('bsub').textContent = sub || '';
+  var b = document.getElementById('backbtn');
+  back ? b.classList.add('show') : b.classList.remove('show');
+}
+
+function goBack() { if (NAV.length) NAV.pop()(); }
+
+function row(l, v) {
+  return '<div class="irow"><span>' + l + '</span><span class="ival">' + v + '</span></div>';
+}
+
+function esc(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+function setDot(state) {
+  var d = document.getElementById('sdot');
+  d.className = 'serial-dot' + (state === 'ok' ? ' ok' : state === 'err' ? ' err' : '');
+  d.title = state === 'ok' ? 'Terhubung' : state === 'err' ? 'Error' : 'Tidak terhubung';
+}
+
+// ═══════════════════════════════════════════════════════════
+// Serial API
+// ═══════════════════════════════════════════════════════════
+async function connectSerial() {
+  if (!('serial' in navigator)) {
+    toast('Web Serial tidak didukung. Gunakan Chrome/Edge.', false);
+    return false;
+  }
+  try {
+    serialPort = await navigator.serial.requestPort();
+    await serialPort.open({ baudRate: 115200 });
+    serialConnected = true;
+    serialWriter = serialPort.writable.getWriter();
+    setDot('ok');
+    bar('IR Remote', 'Terhubung · USB Serial', false);
+    // Mulai baca response di background
+    readSerialLoop();
+    return true;
+  } catch (e) {
+    setDot('err');
+    toast('Gagal konek: ' + e.message, false);
+    return false;
+  }
+}
+
+async function disconnectSerial() {
+  try {
+    serialConnected = false;
+    if (serialReader) { try { serialReader.cancel(); } catch(e){} serialReader = null; }
+    if (serialWriter) { try { serialWriter.releaseLock(); } catch(e){} serialWriter = null; }
+    if (serialPort) { await serialPort.close(); serialPort = null; }
+  } catch(e) {}
+  setDot('');
+  bar('IR Remote', 'Hubungkan ESP8266 via USB', false);
+}
+
+async function readSerialLoop() {
+  while (serialConnected && serialPort && serialPort.readable) {
+    try {
+      serialReader = serialPort.readable.getReader();
+      var decoder = new TextDecoder();
+      while (true) {
+        var result = await serialReader.read();
+        if (result.done) break;
+        serialReadBuf += decoder.decode(result.value);
+        // Proses setiap baris lengkap
+        var lines = serialReadBuf.split('\n');
+        serialReadBuf = lines.pop(); // Simpan yang belum lengkap
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line) continue;
+          // Cek event dari tombol fisik
+          try {
+            var ev = JSON.parse(line);
+            if (ev.event === 'btn_power') { triggerPhysBtn(); continue; }
+          } catch(e) {}
+          if (serialPendingResolve) {
+            var fn = serialPendingResolve;
+            serialPendingResolve = null;
+            fn(line);
+          }
+        }
+      }
+    } catch(e) {
+      if (serialConnected) setDot('err');
+    } finally {
+      try { serialReader.releaseLock(); } catch(e) {}
+    }
+    if (!serialConnected) break;
+  }
+}
+
+async function sendSerial(obj) {
+  if (!serialConnected || !serialWriter) {
+    toast('ESP8266 tidak terhubung', false);
+    return { ok: false, err: 'Tidak terhubung' };
+  }
+  var line = JSON.stringify(obj) + '\n';
+  var enc = new TextEncoder();
+  try {
+    await serialWriter.write(enc.encode(line));
+    // Tunggu response maks 2 detik
+    var response = await Promise.race([
+      new Promise(function(resolve) { serialPendingResolve = resolve; }),
+      new Promise(function(resolve) { setTimeout(function() { resolve('{"ok":false,"err":"timeout"}'); }, 2000); })
+    ]);
+    serialPendingResolve = null;
+    try { return JSON.parse(response); } catch(e) { return { ok: false, err: 'Parse error' }; }
+  } catch(e) {
+    return { ok: false, err: e.message };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Load DB
+// ═══════════════════════════════════════════════════════════
+async function loadDB() {
+  try {
+    var r = await fetch('./db.json');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DB = await r.json();
+    if (!DB.devices || !Array.isArray(DB.devices)) throw new Error('Format tidak valid');
+    return true;
+  } catch(e) {
+    return e.message;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Halaman: Connect
+// ═══════════════════════════════════════════════════════════
+function showConnect(dbErr) {
+  NAV = [];
+  bar('IR Remote', 'Hubungkan ESP8266 via USB', false);
+  var dbStatus = DB
+    ? '<span style="color:#00e87a">&#10003; ' + DB.devices.length + ' device dimuat</span>'
+    : '<span style="color:#ff4455">&#10007; ' + (dbErr || 'db.json tidak ditemukan') + '</span>';
+  var h = '<div class="connect-wrap">'
+    + '<div class="connect-icon">&#128268;</div>'
+    + '<div class="connect-title">Hubungkan ESP8266</div>'
+    + '<div class="connect-sub">Sambungkan ESP8266 ke komputer via USB, lalu klik tombol di bawah untuk memilih port Serial.</div>'
+    + '<button class="btn bc" style="max-width:260px" onclick="doConnect()">&#9654;&nbsp; Pilih Port USB</button>'
+    + '<div class="connect-note">'
+    + '<b>Status database:</b> ' + dbStatus + '<br>'
+    + '<b>Browser:</b> Chrome atau Edge (Web Serial API)<br>'
+    + '<b>Baud rate:</b> 115200<br>'
+    + '<b>db.json:</b> letakkan satu folder dengan file ini'
+    + '</div>'
+    + '</div>';
+  document.getElementById('app').innerHTML = h;
+}
+
+async function doConnect() {
+  var ok = await connectSerial();
+  if (ok) {
+    if (DB) showBrands();
+    else showConnect('db.json belum dimuat');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Halaman: Brand (dengan search)
+// ═══════════════════════════════════════════════════════════
+function showBrands() {
+  NAV = [];
+  bar('Pilih Brand', 'Ketik untuk mencari', false);
+  var all = [];
+  DB.devices.forEach(function(d) { if (all.indexOf(d.brand) < 0) all.push(d.brand); });
+  all.sort();
+  var h = '<div class="search-box"><span class="search-ico">&#128269;</span>'
+    + '<input id="bq" type="text" placeholder="Cari brand... (' + all.length + ' tersedia)" oninput="renderBrands()">'
+    + '</div>'
+    + '<div class="brand-count" id="bcnt">' + all.length + ' brand</div>'
+    + '<div id="blist"></div>';
+  document.getElementById('app').innerHTML = h;
+  document.getElementById('bq').focus();
+  renderBrands();
+}
+
+function renderBrands() {
+  var q = (document.getElementById('bq') || {}).value || '';
+  var ql = q.toLowerCase().trim();
+  var all = [];
+  DB.devices.forEach(function(d) { if (all.indexOf(d.brand) < 0) all.push(d.brand); });
+  all.sort();
+  var fil = ql ? all.filter(function(b) { return b.toLowerCase().indexOf(ql) >= 0; }) : all;
+  document.getElementById('bcnt').textContent = fil.length + (ql ? ' ditemukan' : ' brand');
+  var h = '';
+  fil.forEach(function(b) {
+    var c = DB.devices.filter(function(d) { return d.brand === b; }).length;
+    var safe = ql.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var lbl = (ql && safe)
+      ? b.replace(new RegExp('(' + safe + ')', 'gi'), '<mark style="background:rgba(0,212,255,.18);color:#00d4ff;border-radius:2px">$1</mark>')
+      : b;
+    h += '<button class="btn bgh" style="text-align:left;display:flex;justify-content:space-between;align-items:center" onclick="showTypes(\'' + esc(b) + '\')">'
+      + '<span>' + lbl + '</span><span style="color:#2e4455;font-size:11px;flex-shrink:0">&nbsp;' + c + ' file</span></button>';
+  });
+  if (!fil.length) h = '<p style="text-align:center;color:#2e4455;padding:24px;font-size:13px">Tidak ditemukan</p>';
+  document.getElementById('blist').innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Halaman: Types
+// ═══════════════════════════════════════════════════════════
+function showTypes(brand) {
+  NAV.push(showBrands);
+  CUR.brand = brand;
+  bar(brand, 'Pilih tipe perangkat', true);
+  var types = [];
+  DB.devices.forEach(function(d) { if (d.brand === brand && types.indexOf(d.category) < 0) types.push(d.category); });
+  types.sort();
+  var h = '<div class="card"><div class="sec-label">' + brand + '</div>';
+  types.forEach(function(t) {
+    var c = DB.devices.filter(function(d) { return d.brand === brand && d.category === t; }).length;
+    h += '<button class="btn bgh" style="display:flex;justify-content:space-between;align-items:center" onclick="showPower(\'' + esc(brand) + '\',\'' + esc(t) + '\',0)">'
+      + '<span>' + t + '</span><span style="color:#2e4455;font-size:11px">' + c + ' pola</span></button>';
+  });
+  h += '</div>';
+  document.getElementById('app').innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Halaman: Power test
+// ═══════════════════════════════════════════════════════════
+function showPower(brand, type, pattern) {
+  var devs = DB.devices.filter(function(d) { return d.brand === brand && d.category === type; });
+  var total = devs.length;
+  if (!total) { toast('Tidak ada data', false); return; }
+  if (pattern < 0) pattern = 0;
+  if (pattern >= total) pattern = total - 1;
+  CUR.brand = brand; CUR.type = type; CUR.pattern = pattern; CUR.total = total;
+  var key = 'types:' + brand;
+  var lastIsTypes = NAV.length && NAV[NAV.length - 1]._k === key;
+  if (!lastIsTypes) { var fn = function() { showTypes(brand); }; fn._k = key; NAV.push(fn); }
+  bar('Pilih Pola', brand + ' · ' + type, true);
+  var dev = devs[pattern], ps = null;
+  if (dev && dev.signals) {
+    for (var i = 0; i < dev.signals.length; i++) {
+      var sn = dev.signals[i].name.toUpperCase();
+      if (sn === 'POWER' || sn === 'PWR' || sn.indexOf('POWER') >= 0 || sn.indexOf('STANDBY') >= 0) { ps = dev.signals[i]; break; }
+    }
+    if (!ps && dev.signals.length) ps = dev.signals[0];
+  }
+  window._pwrSig = ps;
+  window._physBtnAction = doPower;
+  var be = esc(brand), te = esc(type);
+  var h = '<div class="pat-nav">'
+    + '<button class="btn ba" ' + (pattern > 0 ? 'onclick="showPower(\'' + be + '\',\'' + te + '\',' + (pattern-1) + ')"' : 'disabled') + '>&#8592; Sebelum</button>'
+    + '<div class="pat-ctr">' + (pattern+1) + '/' + total + '</div>'
+    + '<button class="btn ba" ' + (pattern < total-1 ? 'onclick="showPower(\'' + be + '\',\'' + te + '\',' + (pattern+1) + ')"' : 'disabled') + '>Berikut &#8594;</button>'
+    + '</div>';
+  if (dev) h += '<div class="card"><div class="sec-label">Info Pola ' + (pattern+1) + '</div>'
+    + row('File', dev.source_file || '-')
+    + row('Protokol', dev.protocols ? dev.protocols.join(', ') : '?')
+    + row('Jumlah Tombol', (dev.signals ? dev.signals.length : 0) + ' sinyal')
+    + '</div>';
+  h += '<div class="pwr-wrap"><button class="pwr-btn" id="pwrbtn" onclick="doPower()" ' + (ps ? '' : 'disabled') + '>'
+    + '<span class="pwr-ico">&#9211;</span><span>TES POWER</span></button></div>'
+    + '<p class="sel-hint">' + (ps ? 'Tekan untuk cek apakah pola ini cocok' : 'Tidak ada sinyal power') + '</p>'
+    + '<button class="btn bc" onclick="showRemote(\'' + be + '\',\'' + te + '\',' + pattern + ')">&#9654;&nbsp; Langsung Pilih Pola Ini</button>';
+  document.getElementById('app').innerHTML = h;
+}
+
+// Overlay confirm modal (di luar #app agar tidak tertimpa innerHTML)
+function showConfirmOverlay() {
+  document.getElementById('confirm-overlay').classList.add('show');
+}
+function hideConfirmOverlay() {
+  document.getElementById('confirm-overlay').classList.remove('show');
+}
+
+var _pwrBusy = false;
+async function doPower() {
+  if (_pwrBusy || !window._pwrSig) return;
+  _pwrBusy = true;
+  var btn = document.getElementById('pwrbtn');
+  btn.style.opacity = '.4';
+  await sendSignal(window._pwrSig);
+  btn.style.opacity = '1';
+  _pwrBusy = false;
+  showConfirmOverlay();
+}
+function doYes() { hideConfirmOverlay(); showRemote(CUR.brand, CUR.type, CUR.pattern); }
+function doNo() {
+  hideConfirmOverlay();
+  var next = CUR.pattern + 1;
+  if (next < CUR.total) { showPower(CUR.brand, CUR.type, next); }
+  else { toast('Semua ' + CUR.total + ' pola sudah dicoba', false); }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Halaman: Remote control
+// ═══════════════════════════════════════════════════════════
+function showRemote(brand, type, pattern) {
+  var devs = DB.devices.filter(function(d) { return d.brand === brand && d.category === type; });
+  var dev = devs[pattern];
+  if (!dev) { toast('Device tidak ditemukan', false); return; }
+  var _b = brand, _t = type, _p = pattern;
+  NAV.push(function() { showPower(_b, _t, _p); });
+  bar(brand + ' · ' + type, 'Pola ' + (pattern+1), true);
+  var sigs = dev.signals || [];
+  window._remSigs = sigs;
+
+  function fi(pats) {
+    for (var i = 0; i < sigs.length; i++) {
+      var u = sigs[i].name.toUpperCase().replace(/[-_ ]/g, '');
+      for (var k = 0; k < pats.length; k++) if (u === pats[k]) return i;
+    }
+    for (var i = 0; i < sigs.length; i++) {
+      var u = sigs[i].name.toUpperCase().replace(/[-_ ]/g, '');
+      for (var k = 0; k < pats.length; k++) { var p = pats[k]; if (p.length >= 4 && u.indexOf(p) >= 0) return i; }
+    }
+    return -1;
+  }
+
+  var iPwr  = fi(['POWER','PWR','STANDBY','ONOFF','POWERTOGGLE']);
+  // Tombol fisik → kirim power di halaman remote
+  window._physBtnAction = (function(idx) {
+    return function() { if (idx >= 0) clickBtn(idx); };
+  })(iPwr);
+  var iVu   = fi(['VOLUP','VOLUMEUP','VOL+','VOLUME+']);
+  var iVd   = fi(['VOLDOWN','VOLDN','VOLUMEDOWN','VOL-','VOLUME-']);
+  var iMu   = fi(['MUTE','MUTETOGGLE']);
+  var iCu   = fi(['CHUP','CH+','CHANNELUP','CHANNEL+','PROGUP','PROG+','PAGEUP']);
+  var iCd   = fi(['CHDOWN','CHDN','CH-','CHANNELDOWN','CHANNEL-','PROGDOWN','PROG-','PAGEDOWN']);
+  var iTu   = fi(['TEMPUP','TEMP+','TEMPERATUREUP','WARMER','HEATUP','HEAT+']);
+  var iTd   = fi(['TEMPDOWN','TEMP-','TEMPERATUREDOWN','COOLER','HEATDOWN','HEAT-']);
+  var iUp   = fi(['UP','ARROWUP','DPADUP','CURSORUP','NAVIGATEUP']);
+  var iDn   = fi(['DOWN','ARROWDOWN','DPADDOWN','CURSORDOWN','NAVIGATEDOWN']);
+  var iLt   = fi(['LEFT','ARROWLEFT','DPADLEFT','CURSORLEFT','NAVIGATELEFT']);
+  var iRt   = fi(['RIGHT','ARROWRIGHT','DPADRIGHT','CURSORRIGHT','NAVIGATERIGHT']);
+  var iOk   = fi(['OK','ENTER','SELECT','CONFIRM','CENTER','DPADCENTER']);
+  var iMenu = fi(['MENU','SETTINGS','SETUP']);
+  var iHome = fi(['HOME','HOMESCREEN']);
+  var iBk   = fi(['BACK','RETURN','EXIT','GOBACK']);
+  var iInfo = fi(['INFO','DISPLAY','STATUS','DETAILS']);
+  var iGui  = fi(['GUIDE','EPG','PROGRAMGUIDE']);
+  var nums  = [];
+  for (var n = 0; n <= 9; n++) nums.push(fi([String(n), 'NUM'+n, 'KEY'+n, 'DIGIT'+n, 'NUMBER'+n]));
+
+  var used = {};
+  [iPwr,iVu,iVd,iMu,iCu,iCd,iTu,iTd,iUp,iDn,iLt,iRt,iOk,iMenu,iHome,iBk,iInfo,iGui]
+    .forEach(function(x) { if (x >= 0) used[x] = 1; });
+  nums.forEach(function(x) { if (x >= 0) used[x] = 1; });
+  var misc = [];
+  sigs.forEach(function(s, i) { if (!used[i]) misc.push(i); });
+
+  function rb(idx, cls, lbl) {
+    if (idx < 0) return '';
+    var s = sigs[idx], l = lbl || (s.name.length > 8 ? s.name.slice(0, 7) + '…' : s.name);
+    return '<button class="' + cls + '" onclick="clickBtn(' + idx + ')" title="' + s.name + '">' + l + '</button>';
+  }
+  function dp(idx, lbl, cls) {
+    cls = cls || 'rm-dp';
+    if (idx >= 0) return '<button class="' + cls + '" onclick="clickBtn(' + idx + ')" title="' + sigs[idx].name + '">' + lbl + '</button>';
+    return '<div class="rm-empty"></div>';
+  }
+
+  var h = '<div class="remote">';
+
+  // 1. Power
+  if (iPwr >= 0) h += '<div class="rm-pwr-row">' + rb(iPwr, 'rm-pwr-btn', '&#9211;') + '</div>';
+
+  // 2. Quick pills
+  var qRow = [[iMenu,'MENU'],[iHome,'HOME'],[iBk,'BACK'],[iInfo,'INFO'],[iGui,'GUIDE']].filter(function(x) { return x[0] >= 0; });
+  if (qRow.length) { h += '<div class="rm-quick">'; qRow.forEach(function(x) { h += rb(x[0], 'rm-q', x[1]); }); h += '</div>'; }
+
+  // 3. Pairs: VOL | CH | TEMP
+  var pCols = [];
+  if (iVu >= 0 || iVd >= 0 || iMu >= 0) pCols.push({ lbl:'VOL', u:iVu, d:iVd, ex:iMu, exl:'MUTE', c:'rm-pv' });
+  if (iCu >= 0 || iCd >= 0)              pCols.push({ lbl:'CH',  u:iCu, d:iCd, ex:-1,  exl:'',     c:'rm-pc' });
+  if (iTu >= 0 || iTd >= 0)              pCols.push({ lbl:'TEMP',u:iTu, d:iTd, ex:-1,  exl:'',     c:'rm-pt' });
+  if (pCols.length) {
+    h += '<div class="rm-pairs">';
+    pCols.forEach(function(p) {
+      h += '<div class="rm-pcol"><div class="rm-plbl">' + p.lbl + '</div>';
+      if (p.u >= 0) h += rb(p.u, 'rm-pb ' + p.c, '+');
+      if (p.d >= 0) h += rb(p.d, 'rm-pb ' + p.c, '−');
+      if (p.ex >= 0) h += rb(p.ex, 'rm-pb rm-pe', p.exl);
+      h += '</div>';
+    });
+    h += '</div>';
+  }
+
+  // 4. D-pad
+  if (iUp >= 0 || iDn >= 0 || iLt >= 0 || iRt >= 0 || iOk >= 0) {
+    h += '<div class="rm-dpad">';
+    h += '<div class="rm-empty"></div>' + dp(iUp,'&#9650;') + '<div class="rm-empty"></div>';
+    h += dp(iLt,'&#9664;') + dp(iOk,'OK','rm-dp rm-ok') + dp(iRt,'&#9654;');
+    h += '<div class="rm-empty"></div>' + dp(iDn,'&#9660;') + '<div class="rm-empty"></div>';
+    h += '</div>';
+  }
+
+  // 5. Numpad
+  if (nums.some(function(x) { return x >= 0; })) {
+    h += '<div class="rm-numpad">';
+    [1,2,3,4,5,6,7,8,9,-1,0,-1].forEach(function(n) {
+      if (n === -1) { h += '<div class="rm-nph"></div>'; return; }
+      var idx = nums[n];
+      if (idx >= 0) h += '<button class="rm-num" onclick="clickBtn(' + idx + ')">' + n + '</button>';
+      else h += '<div class="rm-nph"></div>';
+    });
+    h += '</div>';
+  }
+
+  // 6. Lainnya
+  if (misc.length) {
+    h += '<div class="rm-misc-lbl">Lainnya</div><div class="rm-misc">';
+    misc.forEach(function(i) {
+      var l = sigs[i].name.length > 9 ? sigs[i].name.slice(0, 8) + '…' : sigs[i].name;
+      h += '<button class="rm-mb" onclick="clickBtn(' + i + ')" title="' + sigs[i].name + '">' + l + '</button>';
+    });
+    h += '</div>';
+  }
+
+  h += '</div>';
+  document.getElementById('app').innerHTML = h;
+}
+
+function clickBtn(i) { sendSignal(window._remSigs[i]); }
+
+// ═══════════════════════════════════════════════════════════
+// Kirim sinyal IR via Serial
+// ═══════════════════════════════════════════════════════════
+function parseVal(dec, hex, raw) {
+  if (dec !== null && dec !== undefined && !isNaN(dec)) return (dec >>> 0);
+  if (hex && typeof hex === 'string') { var v = parseInt(hex, 16); if (!isNaN(v)) return (v >>> 0); }
+  if (raw && typeof raw === 'string') {
+    var v2 = parseInt(raw, 16); if (!isNaN(v2)) return (v2 >>> 0);
+    var v3 = parseInt(raw);     if (!isNaN(v3)) return (v3 >>> 0);
+  }
+  return 0;
+}
+
+async function sendSignal(sig) {
+  if (!sig) return false;
+  var p;
+  if (sig.raw_timings_us && sig.raw_timings_us.length > 0) {
+    p = { proto: 'RAW', raw: sig.raw_timings_us, freq: sig.frequency_hz || 38000 };
+  } else {
+    p = {
+      proto: (sig.protocol || 'NEC').replace(/\{\d+\}/, '').trim().toUpperCase(),
+      addr:  parseVal(sig.address_decimal, sig.address_hex, sig.address_raw),
+      cmd:   parseVal(sig.command_decimal, sig.command_hex, sig.command_raw),
+      freq:  sig.frequency_hz || 38000,
+      bits:  sig.signal_structure ? (sig.signal_structure.bits || 32) : 32
+    };
+  }
+  var j = await sendSerial(p);
+  toast(j.ok ? ('OK: ' + sig.name) : ('Gagal: ' + (j.err || 'Error')), j.ok);
+  return j.ok;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════
+(async function init() {
+  var dbErr = await loadDB();
+  if (dbErr !== true) {
+    showConnect(dbErr);
+  } else {
+    showConnect();
+  }
+})();
+</script>
+</body>
+</html>
