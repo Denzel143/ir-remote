@@ -6,7 +6,7 @@
 <title>IR Remote</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
-input,textarea{user-select:text!important;-webkit-user-select:text!important;-moz-user-select:text!important}
+input,textarea{user-select:text!important;-webkit-user-select:text!important}
 body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
 
 /* ── Top bar ── */
@@ -17,9 +17,9 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .back-btn{flex-shrink:0;background:transparent;border:1px solid #1c3048;color:#4a6a80;padding:6px 13px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:700;transition:all .2s;display:none}
 .back-btn.show{display:block}
 .back-btn:hover{border-color:#00d4ff;color:#00d4ff}
-.serial-dot{width:9px;height:9px;border-radius:50%;background:#1a2e42;flex-shrink:0;transition:background .3s}
-.serial-dot.ok{background:#00e87a;box-shadow:0 0 7px #00e87a}
-.serial-dot.err{background:#ff4455;box-shadow:0 0 7px #ff4455}
+.conn-dot{width:9px;height:9px;border-radius:50%;background:#1a2e42;flex-shrink:0;transition:background .3s}
+.conn-dot.ok{background:#00e87a;box-shadow:0 0 7px #00e87a}
+.conn-dot.err{background:#ff4455;box-shadow:0 0 7px #ff4455}
 
 /* ── Page / Cards ── */
 .page{padding:14px;max-width:480px;margin:0 auto}
@@ -42,18 +42,30 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .ba{background:#ffb020;color:#000}.ba:hover{background:#ffd060}
 .bx{background:transparent;border:1px solid #ff4455;color:#ff4455}
 .bx:hover{background:rgba(255,68,85,.1)}
+.bbl{background:#1a3a8a;color:#7eb8ff;border:1px solid #2a5acc}
+.bbl:hover{background:#2a4aaa;color:#b0d8ff}
 
 /* ── Toast ── */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0c1825;border:1px solid #00d4ff;color:#7ef0ff;padding:10px 22px;border-radius:20px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;white-space:nowrap;max-width:90vw}
 .toast.show{opacity:1}
 
-/* ── Connect screen ── */
-.connect-wrap{display:flex;flex-direction:column;align-items:center;padding:48px 20px;gap:18px;text-align:center}
-.connect-icon{font-size:52px}
-.connect-title{font-size:18px;font-weight:700;color:#d0e2f0}
-.connect-sub{font-size:12px;color:#3a5870;line-height:1.8;max-width:280px}
-.connect-note{font-size:10px;color:#2a3e50;line-height:1.7;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;padding:10px 14px;max-width:300px;text-align:left}
-.connect-note b{color:#4a6a80}
+/* ── Landing ── */
+.land-wrap{display:flex;flex-direction:column;align-items:center;padding:48px 20px 28px;gap:16px;text-align:center}
+.land-icon{font-size:56px;line-height:1}
+.land-title{font-size:20px;font-weight:700;color:#d0e2f0}
+.land-sub{font-size:12px;color:#3a5870;line-height:1.8;max-width:280px}
+.land-divider{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#2a3e50;margin:4px 0}
+.conn-cards{display:flex;gap:12px;width:100%;max-width:320px}
+.conn-card{flex:1;background:#0d1825;border:1px solid #1a2e42;border-radius:14px;padding:20px 12px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
+.conn-card:hover{border-color:#00d4ff;background:#0c1e30}
+.conn-card:active{transform:scale(.96)}
+.conn-card.ble{border-color:#2a4acc}
+.conn-card.ble:hover{border-color:#7eb8ff;background:#0c1435}
+.conn-card-icon{font-size:34px;line-height:1}
+.conn-card-title{font-size:13px;font-weight:700;color:#d0e2f0}
+.conn-card-sub{font-size:10px;color:#3a5870;text-align:center;line-height:1.5}
+.conn-note{font-size:10px;color:#2a3e50;line-height:1.7;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;padding:10px 14px;max-width:320px;text-align:left;width:100%}
+.conn-note b{color:#4a6a80}
 
 /* ── Saved Configs ── */
 .cfg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -61,7 +73,7 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .cfg-add{width:40px;height:40px;border-radius:50%;background:#00d4ff;color:#000;border:none;font-size:24px;line-height:1;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
 .cfg-add:hover{background:#7ef0ff}
 .cfg-add:active{transform:scale(.88)}
-.cfg-empty{text-align:center;padding:44px 20px;color:#2e4455}
+.cfg-empty{text-align:center;padding:40px 20px;color:#2e4455}
 .cfg-empty-icon{font-size:44px;margin-bottom:14px}
 .cfg-empty p{font-size:13px;line-height:1.9}
 .cfg-item{background:#0d1825;border:1px solid #1a2e42;border-radius:12px;padding:13px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .18s}
@@ -71,12 +83,19 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .cfg-item-name{font-size:14px;font-weight:700;color:#d0e2f0;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cfg-item-meta{font-size:10px;color:#3a5870}
 .cfg-item-actions{display:flex;gap:6px;flex-shrink:0}
-.cfg-item-ren{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid #1e3048;color:#3a5870;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cfg-item-ren,.cfg-item-del{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid #1e3048;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cfg-item-ren{color:#3a5870;font-size:13px}
 .cfg-item-ren:hover{border-color:#00d4ff;color:#00d4ff}
 .cfg-item-ren:active{background:#00d4ff;color:#000;transform:scale(.9)}
-.cfg-item-del{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid #1e3048;color:#3a5870;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cfg-item-del{color:#3a5870;font-size:14px}
 .cfg-item-del:hover{border-color:#ff4455;color:#ff4455}
 .cfg-item-del:active{background:#ff4455;color:#fff;transform:scale(.9)}
+
+/* ── DB load banner ── */
+.db-banner{background:#0a1520;border:1px solid #ffb020;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.db-banner-text{flex:1;font-size:11px;color:#c08030;line-height:1.5}
+.db-banner-btn{flex-shrink:0;padding:7px 13px;border-radius:6px;background:#ffb020;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.db-banner-btn:active{transform:scale(.95)}
 
 /* ── Brand search ── */
 .search-box{position:relative;margin-bottom:10px}
@@ -98,14 +117,15 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .pwr-ico{font-size:32px;line-height:1}
 .sel-hint{text-align:center;font-size:11px;color:#2e4455;margin:6px 0 10px}
 
-/* ── Confirm overlay ── */
-.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px}
-.confirm-overlay.show{display:flex}
-.confirm-box{background:#0d1825;border:1px solid #00d4ff;border-radius:16px;padding:28px 24px;max-width:320px;width:100%;text-align:center;box-shadow:0 8px 48px rgba(0,212,255,.15)}
-.confirm-box h3{font-size:17px;font-weight:700;color:#d0e2f0;margin-bottom:8px}
-.confirm-box p{font-size:12px;color:#3a5870;margin-bottom:20px;line-height:1.6}
-.confirm-row{display:flex;gap:10px}
-.confirm-row .btn{flex:1;margin:0}
+/* ── Overlays ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex}
+.ov-box{background:#0d1825;border:1px solid #00d4ff;border-radius:16px;padding:28px 24px;max-width:320px;width:100%;text-align:center;box-shadow:0 8px 48px rgba(0,212,255,.15)}
+.ov-box h3{font-size:17px;font-weight:700;color:#d0e2f0;margin-bottom:8px}
+.ov-box p{font-size:12px;color:#3a5870;margin-bottom:20px;line-height:1.6}
+.ov-row{display:flex;gap:10px}
+.ov-row .btn{flex:1;margin:0}
+.ov-box.danger{border-color:#ff4455}
 
 /* ── Save config ── */
 .save-input{width:100%;background:#07090f;border:1px solid #1a2e42;border-radius:8px;color:#d0e2f0;padding:12px 14px;font-size:15px;outline:none;transition:border-color .2s;display:block}
@@ -118,8 +138,8 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 @keyframes physpress{0%{transform:scale(1)}30%{transform:scale(.88)}70%{transform:scale(.88)}100%{transform:scale(1)}}
 @keyframes physglow{0%{box-shadow:0 0 18px rgba(255,68,85,.3)}40%{box-shadow:0 0 50px rgba(255,68,85,.9)}100%{box-shadow:0 0 18px rgba(255,68,85,.3)}}
 .phys-press{animation:physpress .25s ease,physglow .25s ease}
-.phys-indicator{position:fixed;top:58px;right:14px;background:#0d1825;border:1px solid #ff4455;color:#ff8888;font-size:10px;font-weight:700;padding:5px 10px;border-radius:20px;z-index:150;opacity:0;transition:opacity .2s;pointer-events:none}
-.phys-indicator.show{opacity:1}
+.phys-ind{position:fixed;top:58px;right:14px;background:#0d1825;border:1px solid #ff4455;color:#ff8888;font-size:10px;font-weight:700;padding:5px 10px;border-radius:20px;z-index:150;opacity:0;transition:opacity .2s;pointer-events:none}
+.phys-ind.show{opacity:1}
 
 /* ── Remote ── */
 .remote{max-width:300px;margin:0 auto;padding:4px 0 28px;display:flex;flex-direction:column;align-items:center}
@@ -134,14 +154,10 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .rm-plbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#2e4455;font-weight:700;margin-bottom:2px}
 .rm-pb{width:58px;height:34px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
 .rm-pb:active{transform:scale(.91)}
-.rm-pv{background:#0a1e10;border:1px solid rgba(0,232,122,.28);color:#00e87a}
-.rm-pv:active{background:#00e87a;color:#000}
-.rm-pc{background:#04101e;border:1px solid rgba(79,195,247,.22);color:#4fc3f7}
-.rm-pc:active{background:#4fc3f7;color:#000}
-.rm-pt{background:#130e00;border:1px solid rgba(255,176,32,.22);color:#ffb020}
-.rm-pt:active{background:#ffb020;color:#000}
-.rm-pe{background:#0d1825;border:1px solid #1e3048;color:#3a5870;font-size:9px;letter-spacing:.04em}
-.rm-pe:active{background:#1a2e42;color:#d0e2f0}
+.rm-pv{background:#0a1e10;border:1px solid rgba(0,232,122,.28);color:#00e87a}.rm-pv:active{background:#00e87a;color:#000}
+.rm-pc{background:#04101e;border:1px solid rgba(79,195,247,.22);color:#4fc3f7}.rm-pc:active{background:#4fc3f7;color:#000}
+.rm-pt{background:#130e00;border:1px solid rgba(255,176,32,.22);color:#ffb020}.rm-pt:active{background:#ffb020;color:#000}
+.rm-pe{background:#0d1825;border:1px solid #1e3048;color:#3a5870;font-size:9px;letter-spacing:.04em}.rm-pe:active{background:#1a2e42;color:#d0e2f0}
 .rm-dpad{display:grid;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px 44px;gap:3px;margin-bottom:14px}
 .rm-dp{border-radius:10px;background:#0d1825;border:1px solid #1e3048;color:#6080a0;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .rm-dp:active{background:#1a3050;transform:scale(.9)}
@@ -164,20 +180,22 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
   <button class="back-btn" id="backbtn" onclick="goBack()">&#8592; Back</button>
   <div class="bar-info">
     <div class="bar-title" id="btitle">IR Remote</div>
-    <div class="bar-sub" id="bsub">Connect ESP8266 via USB</div>
+    <div class="bar-sub" id="bsub">Choose a connection method</div>
   </div>
-  <div class="serial-dot" id="sdot"></div>
+  <div class="conn-dot" id="cdot"></div>
 </div>
 
-<div class="phys-indicator" id="physind">&#9211; POWER</div>
+<div class="phys-ind" id="physind">&#9211; POWER</div>
 <div class="page" id="app"></div>
 <div class="toast" id="toast"></div>
+<input type="file" id="db-picker" accept=".json" style="display:none" onchange="onDbFilePick(event)">
 
-<div class="confirm-overlay" id="confirm-overlay">
-  <div class="confirm-box">
+<!-- Power test confirm overlay -->
+<div class="overlay" id="pwr-overlay">
+  <div class="ov-box">
     <h3>Did the device respond?</h3>
     <p>Check whether the device reacted to the signal just sent.</p>
-    <div class="confirm-row">
+    <div class="ov-row">
       <button class="btn bg" onclick="doYes()">&#10003;&nbsp; Yes!</button>
       <button class="btn br" onclick="doNo()">&#10007;&nbsp; No</button>
     </div>
@@ -185,12 +203,12 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 </div>
 
 <!-- Delete confirm overlay -->
-<div class="confirm-overlay" id="del-overlay">
-  <div class="confirm-box">
+<div class="overlay" id="del-overlay">
+  <div class="ov-box danger">
     <h3>Delete configuration?</h3>
-    <p id="del-overlay-name" style="font-weight:700;color:#d0e2f0;margin-bottom:6px"></p>
+    <p id="del-name" style="font-weight:700;color:#d0e2f0;margin-bottom:6px"></p>
     <p>This cannot be undone.</p>
-    <div class="confirm-row">
+    <div class="ov-row">
       <button class="btn br" onclick="doDeleteConfirm()">&#10005;&nbsp; Delete</button>
       <button class="btn bgh" onclick="doDeleteCancel()">Cancel</button>
     </div>
@@ -198,13 +216,13 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 </div>
 
 <!-- Rename overlay -->
-<div class="confirm-overlay" id="ren-overlay">
-  <div class="confirm-box">
+<div class="overlay" id="ren-overlay">
+  <div class="ov-box">
     <h3>Rename configuration</h3>
     <p style="margin-bottom:14px">Enter a new name below.</p>
     <input class="save-input" id="ren-input" type="text" maxlength="40" autocomplete="off"
-      style="margin-bottom:16px;user-select:text;-webkit-user-select:text">
-    <div class="confirm-row">
+      style="margin-bottom:16px">
+    <div class="ov-row">
       <button class="btn bg" onclick="doRenameConfirm()">&#10003;&nbsp; Save</button>
       <button class="btn bgh" onclick="doRenameCancel()">Cancel</button>
     </div>
@@ -213,295 +231,356 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 
 <script>
 // ── Block zoom ─────────────────────────────────────────────
-document.addEventListener('wheel', function(e){ if(e.ctrlKey) e.preventDefault(); },{passive:false});
-document.addEventListener('keydown', function(e){ if(e.ctrlKey&&(e.key==='+'||e.key==='-'||e.key==='='||e.key==='0')) e.preventDefault(); });
-document.addEventListener('touchstart', function(e){ if(e.touches.length>1) e.preventDefault(); },{passive:false});
-document.addEventListener('touchmove', function(e){ if(e.touches.length>1) e.preventDefault(); },{passive:false});
+document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault();},{passive:false});
+document.addEventListener('keydown',function(e){if(e.ctrlKey&&(e.key==='+'||e.key==='-'||e.key==='='||e.key==='0'))e.preventDefault();});
+document.addEventListener('touchstart',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
+document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
 var _lt=0;
-document.addEventListener('touchend', function(e){ var n=Date.now(); if(n-_lt<300) e.preventDefault(); _lt=n; },{passive:false});
+document.addEventListener('touchend',function(e){var n=Date.now();if(n-_lt<300)e.preventDefault();_lt=n;},{passive:false});
 
-// ── Physical button (GPIO0) ────────────────────────────────
-window._physBtnAction = null;
-
-function triggerPhysBtn() {
-  var el = document.getElementById('physind');
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(function(){ el.classList.remove('show'); }, 900);
-  var pwrEl = document.querySelector('.rm-pwr-btn,.pwr-btn');
-  if (pwrEl) {
-    pwrEl.classList.remove('phys-press');
-    void pwrEl.offsetWidth;
-    pwrEl.classList.add('phys-press');
-    setTimeout(function(){ pwrEl.classList.remove('phys-press'); }, 350);
-  }
-  if (typeof window._physBtnAction === 'function') window._physBtnAction();
+// ── Physical button ────────────────────────────────────────
+window._physBtnAction=null;
+function triggerPhysBtn(){
+  var el=document.getElementById('physind');
+  el.classList.add('show'); clearTimeout(el._t);
+  el._t=setTimeout(function(){el.classList.remove('show');},900);
+  var pw=document.querySelector('.rm-pwr-btn,.pwr-btn');
+  if(pw){pw.classList.remove('phys-press');void pw.offsetWidth;pw.classList.add('phys-press');setTimeout(function(){pw.classList.remove('phys-press');},350);}
+  if(typeof window._physBtnAction==='function') window._physBtnAction();
 }
 
-// ── State ──────────────────────────────────────────────────
-var DB = null;
-var NAV = [];
-var CUR = { brand:'', type:'', pattern:0, total:0 };
-window._pwrSig  = null;
-window._remSigs = [];
+// ══════════════════════════════════════════════════════════
+// State
+// ══════════════════════════════════════════════════════════
+var DB=null, NAV=[];
+var CUR={brand:'',type:'',pattern:0,total:0};
+window._pwrSig=null; window._remSigs=[];
 
-// ── Serial ─────────────────────────────────────────────────
-var _port=null, _writer=null, _reader=null, _connected=false, _rbuf='', _pending=null;
+// Connection type: null | 'usb' | 'ble'
+var CONN=null;
 
-function toast(m, ok) {
-  var t = document.getElementById('toast');
-  t.textContent = m;
-  t.style.borderColor = ok ? '#00e87a' : '#ff4455';
-  t.style.color       = ok ? '#6effc0' : '#ff8888';
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+// ── USB Serial state ───────────────────────────────────────
+var _port=null,_writer=null,_reader=null,_usbConn=false,_rbuf='',_pending=null;
+
+// ── BLE state ──────────────────────────────────────────────
+var _bleDevice=null,_bleServer=null,_rxChar=null,_bleBuf='',_blePending=null;
+var BLE_SVC='6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+var BLE_RX ='6e400002-b5a3-f393-e0a9-e50e24dcca9e'; // write
+var BLE_TX ='6e400003-b5a3-f393-e0a9-e50e24dcca9e'; // notify
+
+// ══════════════════════════════════════════════════════════
+// Utils
+// ══════════════════════════════════════════════════════════
+function toast(m,ok){
+  var t=document.getElementById('toast');
+  t.textContent=m; t.style.borderColor=ok?'#00e87a':'#ff4455'; t.style.color=ok?'#6effc0':'#ff8888';
+  t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('show');},2400);
+}
+function bar(title,sub,back){
+  document.getElementById('btitle').textContent=title;
+  document.getElementById('bsub').textContent=sub||'';
+  var b=document.getElementById('backbtn'); back?b.classList.add('show'):b.classList.remove('show');
+}
+function goBack(){if(NAV.length) NAV.pop()();}
+function row(l,v){return '<div class="irow"><span>'+l+'</span><span class="ival">'+v+'</span></div>';}
+function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function setDot(s){
+  var d=document.getElementById('cdot');
+  d.className='conn-dot'+(s==='ok'?' ok':s==='err'?' err':'');
+  d.title=s==='ok'?'Connected':s==='err'?'Error':'Not connected';
 }
 
-function bar(title, sub, back) {
-  document.getElementById('btitle').textContent = title;
-  document.getElementById('bsub').textContent   = sub || '';
-  var b = document.getElementById('backbtn');
-  back ? b.classList.add('show') : b.classList.remove('show');
+// ══════════════════════════════════════════════════════════
+// USB Serial
+// ══════════════════════════════════════════════════════════
+async function connectUsb(){
+  if(!('serial' in navigator)){toast('Web Serial not supported. Use Chrome or Edge.',false);return false;}
+  try{
+    _port=await navigator.serial.requestPort();
+    await _port.open({baudRate:115200});
+    _usbConn=true; _writer=_port.writable.getWriter();
+    CONN='usb'; setDot('ok'); bar('IR Remote','Connected · USB Serial',false);
+    _usbReadLoop(); return true;
+  }catch(e){setDot('err');toast('USB connection failed: '+e.message,false);return false;}
 }
-
-function goBack() { if (NAV.length) NAV.pop()(); }
-
-function row(l, v) {
-  return '<div class="irow"><span>'+l+'</span><span class="ival">'+v+'</span></div>';
-}
-
-function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-
-function setDot(s) {
-  var d = document.getElementById('sdot');
-  d.className = 'serial-dot'+(s==='ok'?' ok':s==='err'?' err':'');
-  d.title = s==='ok'?'Connected':s==='err'?'Error':'Not connected';
-}
-
-async function connectSerial() {
-  if (!('serial' in navigator)) { toast('Web Serial not supported. Use Chrome or Edge.',false); return false; }
-  try {
-    _port = await navigator.serial.requestPort();
-    await _port.open({ baudRate:115200 });
-    _connected = true;
-    _writer = _port.writable.getWriter();
-    setDot('ok');
-    bar('IR Remote','Connected · USB Serial',false);
-    _readLoop();
-    return true;
-  } catch(e) { setDot('err'); toast('Connection failed: '+e.message,false); return false; }
-}
-
-async function _readLoop() {
-  var dec = new TextDecoder();
-  while (_connected && _port && _port.readable) {
-    try {
-      _reader = _port.readable.getReader();
-      while (true) {
-        var r = await _reader.read();
-        if (r.done) break;
-        _rbuf += dec.decode(r.value);
-        var lines = _rbuf.split('\n');
-        _rbuf = lines.pop();
-        for (var i=0; i<lines.length; i++) {
-          var ln = lines[i].trim();
-          if (!ln) continue;
-          try { var ev=JSON.parse(ln); if(ev.event==='btn_power'){ triggerPhysBtn(); continue; } } catch(e){}
-          if (_pending) { var fn=_pending; _pending=null; fn(ln); }
+async function _usbReadLoop(){
+  var dec=new TextDecoder();
+  while(_usbConn&&_port&&_port.readable){
+    try{
+      _reader=_port.readable.getReader();
+      while(true){
+        var r=await _reader.read(); if(r.done) break;
+        _rbuf+=dec.decode(r.value);
+        var lines=_rbuf.split('\n'); _rbuf=lines.pop();
+        for(var i=0;i<lines.length;i++){
+          var ln=lines[i].trim(); if(!ln) continue;
+          try{var ev=JSON.parse(ln);if(ev.event==='btn_power'){triggerPhysBtn();continue;}}catch(e){}
+          if(_pending){var fn=_pending;_pending=null;fn(ln);}
         }
       }
-    } catch(e) { if(_connected) setDot('err'); }
-    finally { try { _reader.releaseLock(); } catch(e){} }
-    if (!_connected) break;
+    }catch(e){if(_usbConn)setDot('err');}
+    finally{try{_reader.releaseLock();}catch(e){}}
+    if(!_usbConn) break;
   }
 }
-
-async function sendSerial(obj) {
-  if (!_connected || !_writer) { toast('ESP8266 not connected',false); return {ok:false,err:'Not connected'}; }
-  try {
+async function _usbSend(obj){
+  if(!_usbConn||!_writer){toast('ESP32 not connected',false);return{ok:false,err:'Not connected'};}
+  try{
     await _writer.write(new TextEncoder().encode(JSON.stringify(obj)+'\n'));
-    var resp = await Promise.race([
-      new Promise(function(res){ _pending=res; }),
-      new Promise(function(res){ setTimeout(function(){ res('{"ok":false,"err":"timeout"}'); },2000); })
+    var resp=await Promise.race([
+      new Promise(function(res){_pending=res;}),
+      new Promise(function(res){setTimeout(function(){res('{"ok":false,"err":"timeout"}');},2000);})
     ]);
-    _pending = null;
-    try { return JSON.parse(resp); } catch(e) { return {ok:false,err:'Parse error'}; }
-  } catch(e) { return {ok:false,err:e.message}; }
+    _pending=null;
+    try{return JSON.parse(resp);}catch(e){return{ok:false,err:'Parse error'};}
+  }catch(e){return{ok:false,err:e.message};}
 }
 
-// ── LocalStorage configs ───────────────────────────────────
-var LS = 'ir_remote_configs';
-var _cfgs = []; // in-memory source of truth
-
-function _cfgPersist() {
-  try { localStorage.setItem(LS, JSON.stringify(_cfgs)); } catch(e){}
+// ══════════════════════════════════════════════════════════
+// BLE
+// ══════════════════════════════════════════════════════════
+function _handleBleLine(ln){
+  ln=ln.trim(); if(!ln) return;
+  try{var ev=JSON.parse(ln);if(ev.event==='btn_power'){triggerPhysBtn();return;}}catch(e){}
+  if(_blePending){var fn=_blePending;_blePending=null;fn(ln);}
+}
+function _onBleNotify(event){
+  _bleBuf+=new TextDecoder().decode(event.target.value);
+  var lines=_bleBuf.split('\n'); _bleBuf=lines.pop();
+  lines.forEach(function(l){_handleBleLine(l);});
 }
 
-function _cfgRestore() {
-  try {
-    var saved = JSON.parse(localStorage.getItem(LS) || '[]');
-    if (Array.isArray(saved)) _cfgs = saved;
-  } catch(e) { _cfgs = []; }
-}
-
-function cfgLoad()    { return _cfgs.slice(); }
-
-function cfgAdd(c) {
-  c.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  _cfgs.push(c);
-  _cfgPersist();
-  return c.id;
-}
-
-function cfgDelete(id) {
-  _cfgs = _cfgs.filter(function(c){ return c.id !== id; });
-  _cfgPersist();
-}
-
-// ── Load DB ────────────────────────────────────────────────
-async function loadDB() {
-  try {
-    var r = await fetch('./db.json');
-    if (!r.ok) throw new Error('HTTP '+r.status);
-    DB = await r.json();
-    if (!DB.devices||!Array.isArray(DB.devices)) throw new Error('Invalid format');
+async function connectBle(){
+  if(!('bluetooth' in navigator)){toast('Web Bluetooth not supported. Use Chrome on Android.',false);return false;}
+  try{
+    _bleDevice=await navigator.bluetooth.requestDevice({
+      filters:[{name:'IR-Remote'}],
+      optionalServices:[BLE_SVC]
+    });
+    _bleDevice.addEventListener('gattserverdisconnected',function(){
+      CONN=null; setDot(''); bar('IR Remote','Choose a connection method',false);
+      toast('Bluetooth disconnected',false);
+    });
+    _bleServer=await _bleDevice.gatt.connect();
+    var svc=await _bleServer.getPrimaryService(BLE_SVC);
+    var txChar=await svc.getCharacteristic(BLE_TX); // notify
+    _rxChar=await svc.getCharacteristic(BLE_RX);     // write
+    await txChar.startNotifications();
+    txChar.addEventListener('characteristicvaluechanged',_onBleNotify);
+    CONN='ble'; setDot('ok'); bar('IR Remote','Connected · Bluetooth',false);
     return true;
-  } catch(e) { return e.message; }
+  }catch(e){setDot('err');toast('BLE connection failed: '+e.message,false);return false;}
+}
+
+async function _bleSend(obj){
+  if(!_rxChar){toast('ESP32 not connected',false);return{ok:false,err:'Not connected'};}
+  var data=new TextEncoder().encode(JSON.stringify(obj)+'\n');
+  var CHUNK=128;
+  try{
+    for(var i=0;i<data.length;i+=CHUNK){
+      await _rxChar.writeValueWithoutResponse(data.slice(i,i+CHUNK));
+      if(data.length>CHUNK) await new Promise(function(r){setTimeout(r,10);});
+    }
+    var resp=await Promise.race([
+      new Promise(function(res){_blePending=res;}),
+      new Promise(function(res){setTimeout(function(){res('{"ok":false,"err":"timeout"}');},3000);})
+    ]);
+    _blePending=null;
+    try{return JSON.parse(resp);}catch(e){return{ok:false,err:'Parse error'};}
+  }catch(e){return{ok:false,err:e.message};}
+}
+
+// ── Unified send ───────────────────────────────────────────
+async function sendCmd(obj){
+  if(CONN==='usb') return await _usbSend(obj);
+  if(CONN==='ble') return await _bleSend(obj);
+  toast('Not connected',false); return{ok:false,err:'Not connected'};
 }
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Connect
+// LocalStorage configs
 // ══════════════════════════════════════════════════════════
-function showConnect(dbErr) {
-  NAV = []; window._physBtnAction = null;
-  bar('IR Remote','Connect ESP8266 via USB',false);
-  var dbSt = DB
-    ? '<span style="color:#00e87a">&#10003; '+DB.devices.length+' devices loaded</span>'
-    : '<span style="color:#ff4455">&#10007; '+(dbErr||'db.json not found')+'</span>';
-  document.getElementById('app').innerHTML =
-    '<div class="connect-wrap">'
-    +'<div class="connect-icon">&#128268;</div>'
-    +'<div class="connect-title">Connect ESP8266</div>'
-    +'<div class="connect-sub">Plug in the ESP8266 via USB, then select the Serial port below.</div>'
-    +'<button class="btn bc" style="max-width:260px" onclick="doConnect()">&#9654;&nbsp; Select USB Port</button>'
-    +'<div class="connect-note">'
-    +'<b>Database:</b> '+dbSt+'<br>'
-    +'<b>Browser:</b> Chrome or Edge (Web Serial API)<br>'
-    +'<b>Baud rate:</b> 115200<br>'
-    +'<b>db.json:</b> same folder as this file'
-    +'</div></div>';
+var LS='ir_remote_configs', _cfgs=[];
+function _persist(){try{localStorage.setItem(LS,JSON.stringify(_cfgs));}catch(e){}}
+function _restore(){try{var s=JSON.parse(localStorage.getItem(LS)||'[]');if(Array.isArray(s))_cfgs=s;}catch(e){_cfgs=[];}}
+function cfgLoad(){return _cfgs.slice();}
+function cfgAdd(c){c.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);_cfgs.push(c);_persist();return c.id;}
+function cfgDelete(id){_cfgs=_cfgs.filter(function(c){return c.id!==id;});_persist();}
+
+// ══════════════════════════════════════════════════════════
+// DB loading
+// ══════════════════════════════════════════════════════════
+async function loadDB(){
+  try{
+    var r=await fetch('./db.json');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    DB=await r.json();
+    if(!DB.devices||!Array.isArray(DB.devices)) throw new Error('Invalid format');
+    return true;
+  }catch(e){return e.message;}
 }
 
-async function doConnect() {
-  var ok = await connectSerial();
-  if (ok) { if (DB) showConfigs(); else showConnect('db.json not loaded'); }
+function promptDbPicker(){document.getElementById('db-picker').click();}
+
+function onDbFilePick(event){
+  var file=event.target.files[0]; if(!file) return;
+  var rd=new FileReader();
+  rd.onload=function(e){
+    try{
+      var parsed=JSON.parse(e.target.result);
+      if(!parsed.devices||!Array.isArray(parsed.devices)) throw new Error('Invalid format');
+      DB=parsed;
+      toast('Loaded: '+DB.devices.length+' devices',true);
+      // Re-render configs page to remove banner
+      showConfigs();
+    }catch(err){toast('Failed to load: '+err.message,false);}
+  };
+  rd.readAsText(file);
+  event.target.value=''; // reset picker
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Landing
+// ══════════════════════════════════════════════════════════
+function showLanding(){
+  NAV=[]; window._physBtnAction=null;
+  bar('IR Remote','Choose a connection method',false);
+  document.getElementById('app').innerHTML=
+    '<div class="land-wrap">'
+    +'<div class="land-icon">&#128246;</div>'
+    +'<div class="land-title">IR Remote</div>'
+    +'<div class="land-sub">Connect to your ESP32 via USB or Bluetooth.</div>'
+    +'<div class="conn-cards">'
+    +'<div class="conn-card" onclick="doConnectUsb()">'
+    +'<div class="conn-card-icon">&#128268;</div>'
+    +'<div class="conn-card-title">USB</div>'
+    +'<div class="conn-card-sub">PC &amp; Laptop<br>Chrome / Edge</div>'
+    +'</div>'
+    +'<div class="conn-card ble" onclick="doConnectBle()">'
+    +'<div class="conn-card-icon">&#128243;</div>'
+    +'<div class="conn-card-title">Bluetooth</div>'
+    +'<div class="conn-card-sub">Phone &amp; Tablet<br>Chrome Android</div>'
+    +'</div>'
+    +'</div>'
+    +'<div class="conn-note">'
+    +'<b>ESP32</b> must be running IR-Remote firmware<br>'
+    +'<b>USB:</b> same folder as this file, place <code>db.json</code> there<br>'
+    +'<b>Bluetooth:</b> load <code>db.json</code> from device storage'
+    +'</div>'
+    +'</div>';
+}
+
+async function doConnectUsb(){
+  var ok=await connectUsb();
+  if(ok){await loadDB(); showConfigs();}
+}
+async function doConnectBle(){
+  var ok=await connectBle();
+  if(ok){await loadDB(); showConfigs();}
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Saved Configurations
 // ══════════════════════════════════════════════════════════
-function showConfigs() {
-  NAV = []; window._physBtnAction = null;
+function showConfigs(){
+  NAV=[]; window._physBtnAction=null;
   bar('IR Remote','Saved configurations',false);
-  var cfgs = cfgLoad();
-  var h = '<div class="cfg-header">'
+  var cfgs=cfgLoad();
+  var h='';
+
+  // Show db load banner if DB not loaded
+  if(!DB){
+    h+='<div class="db-banner">'
+      +'<div class="db-banner-text">&#9888;&nbsp; No device database loaded.<br>Load <b>db.json</b> to add new configurations.</div>'
+      +'<button class="db-banner-btn" onclick="promptDbPicker()">Load db.json</button>'
+      +'</div>';
+  }
+
+  h+='<div class="cfg-header">'
     +'<span class="cfg-heading">'+cfgs.length+' configuration'+(cfgs.length!==1?'s':'')+' saved</span>'
     +'<button class="cfg-add" onclick="startAdd()" title="Add configuration">+</button>'
     +'</div>';
-  if (!cfgs.length) {
-    h += '<div class="cfg-empty">'
+
+  if(!cfgs.length){
+    h+='<div class="cfg-empty">'
       +'<div class="cfg-empty-icon">&#128246;</div>'
       +'<p>No configurations saved yet.<br>Tap <b>+</b> to add one.</p>'
       +'</div>';
-  } else {
+  }else{
     cfgs.forEach(function(c){
-      h += '<div class="cfg-item" onclick="openConfig(\''+c.id+'\')">'
+      h+='<div class="cfg-item" onclick="openConfig(\''+c.id+'\')">'
         +'<div class="cfg-item-body">'
         +'<div class="cfg-item-name">'+c.name+'</div>'
         +'<div class="cfg-item-meta">'+c.brand+' &middot; '+c.type+' &middot; Pattern '+(c.pattern+1)+'</div>'
         +'</div>'
         +'<div class="cfg-item-actions">'
-        +'<button class="cfg-item-ren" onclick="event.stopPropagation();promptRename(\''+c.id+'\')" title="Rename">&#9998;</button>'
-        +'<button class="cfg-item-del" onclick="event.stopPropagation();promptDelete(\''+c.id+'\')" title="Delete">&#10005;</button>'
-        +'</div>'
-        +'</div>';
+        +'<button class="cfg-item-ren" onclick="event.stopPropagation();promptRename(\''+c.id+'\')">&#9998;</button>'
+        +'<button class="cfg-item-del" onclick="event.stopPropagation();promptDelete(\''+c.id+'\')">&#10005;</button>'
+        +'</div></div>';
     });
   }
-  document.getElementById('app').innerHTML = h;
+  document.getElementById('app').innerHTML=h;
 }
 
-function openConfig(id) {
-  var c = _cfgs.find(function(x){ return x.id===id; });
-  if (!c) { toast('Configuration not found',false); return; }
-  showRemote(c.brand, c.type, c.pattern, c.name);
+function openConfig(id){
+  var c=_cfgs.find(function(x){return x.id===id;});
+  if(!c){toast('Configuration not found',false);return;}
+  showRemote(c.brand,c.type,c.pattern,c.name);
 }
 
-// Delete with confirm overlay
-var _pendingDeleteId = null;
+function startAdd(){
+  if(!DB){promptDbPicker();return;}
+  showBrands();
+}
 
-function promptDelete(id) {
-  var c = _cfgs.find(function(x){ return x.id===id; });
-  if (!c) return;
-  _pendingDeleteId = id;
-  document.getElementById('del-overlay-name').textContent = '\u201c' + c.name + '\u201d';
+// Delete overlay
+var _delId=null;
+function promptDelete(id){
+  var c=_cfgs.find(function(x){return x.id===id;});
+  if(!c) return;
+  _delId=id;
+  document.getElementById('del-name').textContent='\u201c'+c.name+'\u201d';
   document.getElementById('del-overlay').classList.add('show');
 }
-
-function doDeleteConfirm() {
+function doDeleteConfirm(){
   document.getElementById('del-overlay').classList.remove('show');
-  if (_pendingDeleteId) { cfgDelete(_pendingDeleteId); _pendingDeleteId = null; }
-  showConfigs();
-  toast('Configuration deleted', true);
+  if(_delId){cfgDelete(_delId);_delId=null;}
+  showConfigs(); toast('Configuration deleted',true);
 }
+function doDeleteCancel(){document.getElementById('del-overlay').classList.remove('show');_delId=null;}
 
-function doDeleteCancel() {
-  document.getElementById('del-overlay').classList.remove('show');
-  _pendingDeleteId = null;
-}
-
-// Rename with overlay
-var _pendingRenameId = null;
-
-function promptRename(id) {
-  var c = _cfgs.find(function(x){ return x.id===id; });
-  if (!c) return;
-  _pendingRenameId = id;
-  var inp = document.getElementById('ren-input');
-  inp.value = c.name;
+// Rename overlay
+var _renId=null;
+function promptRename(id){
+  var c=_cfgs.find(function(x){return x.id===id;});
+  if(!c) return;
+  _renId=id;
+  var inp=document.getElementById('ren-input');
+  inp.value=c.name;
   document.getElementById('ren-overlay').classList.add('show');
-  setTimeout(function(){ inp.focus(); inp.select(); }, 80);
+  setTimeout(function(){inp.focus();inp.select();},80);
 }
-
-function doRenameConfirm() {
-  var inp = document.getElementById('ren-input');
-  var name = inp ? inp.value.trim() : '';
-  if (!name) { toast('Please enter a name', false); inp.focus(); return; }
-  var c = _cfgs.find(function(x){ return x.id===_pendingRenameId; });
-  if (c) { c.name = name; _cfgPersist(); }
+function doRenameConfirm(){
+  var inp=document.getElementById('ren-input');
+  var name=inp?inp.value.trim():'';
+  if(!name){toast('Please enter a name',false);inp.focus();return;}
+  var c=_cfgs.find(function(x){return x.id===_renId;});
+  if(c){c.name=name;_persist();}
   document.getElementById('ren-overlay').classList.remove('show');
-  _pendingRenameId = null;
-  showConfigs();
-  toast('Renamed to: ' + name, true);
+  _renId=null; showConfigs(); toast('Renamed to: '+name,true);
 }
-
-function doRenameCancel() {
-  document.getElementById('ren-overlay').classList.remove('show');
-  _pendingRenameId = null;
-}
-
-function startAdd() { showBrands(); }
+function doRenameCancel(){document.getElementById('ren-overlay').classList.remove('show');_renId=null;}
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Select Brand
 // ══════════════════════════════════════════════════════════
-function showBrands() {
+function showBrands(){
   NAV.push(showConfigs);
   bar('Select Brand','Type to search',true);
-  var all = [];
-  DB.devices.forEach(function(d){ if(all.indexOf(d.brand)<0) all.push(d.brand); });
+  var all=[];
+  DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});
   all.sort();
-  document.getElementById('app').innerHTML =
+  document.getElementById('app').innerHTML=
     '<div class="search-box"><span class="search-ico">&#128269;</span>'
     +'<input id="bq" type="text" placeholder="Search brand... ('+all.length+' available)" oninput="renderBrands()">'
     +'</div>'
@@ -510,71 +589,68 @@ function showBrands() {
   document.getElementById('bq').focus();
   renderBrands();
 }
-
-function renderBrands() {
-  var q=(document.getElementById('bq')||{}).value||'', ql=q.toLowerCase().trim();
+function renderBrands(){
+  var q=(document.getElementById('bq')||{}).value||'',ql=q.toLowerCase().trim();
   var all=[];
-  DB.devices.forEach(function(d){ if(all.indexOf(d.brand)<0) all.push(d.brand); });
+  DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});
   all.sort();
-  var fil = ql ? all.filter(function(b){ return b.toLowerCase().indexOf(ql)>=0; }) : all;
-  document.getElementById('bcnt').textContent = fil.length+(ql?' found':' brands');
+  var fil=ql?all.filter(function(b){return b.toLowerCase().indexOf(ql)>=0;}):all;
+  document.getElementById('bcnt').textContent=fil.length+(ql?' found':' brands');
   var h='';
   fil.forEach(function(b){
-    var c=DB.devices.filter(function(d){ return d.brand===b; }).length;
+    var c=DB.devices.filter(function(d){return d.brand===b;}).length;
     var safe=ql.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     var lbl=(ql&&safe)?b.replace(new RegExp('('+safe+')','gi'),'<mark style="background:rgba(0,212,255,.18);color:#00d4ff;border-radius:2px">$1</mark>'):b;
     h+='<button class="btn bgh" style="text-align:left;display:flex;justify-content:space-between;align-items:center" onclick="showTypes(\''+esc(b)+'\')">'
       +'<span>'+lbl+'</span><span style="color:#2e4455;font-size:11px;flex-shrink:0">&nbsp;'+c+' files</span></button>';
   });
   if(!fil.length) h='<p style="text-align:center;color:#2e4455;padding:24px;font-size:13px">Not found</p>';
-  document.getElementById('blist').innerHTML = h;
+  document.getElementById('blist').innerHTML=h;
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Select Type
 // ══════════════════════════════════════════════════════════
-function showTypes(brand) {
+function showTypes(brand){
   NAV.push(showBrands);
-  CUR.brand = brand;
+  CUR.brand=brand;
   bar(brand,'Select device type',true);
   var types=[];
-  DB.devices.forEach(function(d){ if(d.brand===brand&&types.indexOf(d.category)<0) types.push(d.category); });
+  DB.devices.forEach(function(d){if(d.brand===brand&&types.indexOf(d.category)<0)types.push(d.category);});
   types.sort();
   var h='<div class="card"><div class="sec-label">'+brand+'</div>';
   types.forEach(function(t){
-    var c=DB.devices.filter(function(d){ return d.brand===brand&&d.category===t; }).length;
+    var c=DB.devices.filter(function(d){return d.brand===brand&&d.category===t;}).length;
     h+='<button class="btn bgh" style="display:flex;justify-content:space-between;align-items:center" onclick="showPower(\''+esc(brand)+'\',\''+esc(t)+'\',0)">'
       +'<span>'+t+'</span><span style="color:#2e4455;font-size:11px">'+c+' patterns</span></button>';
   });
   h+='</div>';
-  document.getElementById('app').innerHTML = h;
+  document.getElementById('app').innerHTML=h;
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Test Pattern
 // ══════════════════════════════════════════════════════════
-function showPower(brand, type, pattern) {
-  var devs=DB.devices.filter(function(d){ return d.brand===brand&&d.category===type; });
+function showPower(brand,type,pattern){
+  var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var total=devs.length;
-  if(!total){ toast('No data found',false); return; }
-  if(pattern<0) pattern=0;
-  if(pattern>=total) pattern=total-1;
-  CUR.brand=brand; CUR.type=type; CUR.pattern=pattern; CUR.total=total;
+  if(!total){toast('No data found',false);return;}
+  if(pattern<0) pattern=0; if(pattern>=total) pattern=total-1;
+  CUR.brand=brand;CUR.type=type;CUR.pattern=pattern;CUR.total=total;
   var key='types:'+brand;
   var lastIsTypes=NAV.length&&NAV[NAV.length-1]._k===key;
-  if(!lastIsTypes){ var fn=function(){ showTypes(brand); }; fn._k=key; NAV.push(fn); }
+  if(!lastIsTypes){var fn=function(){showTypes(brand);};fn._k=key;NAV.push(fn);}
   bar('Test Pattern',brand+' · '+type,true);
-  var dev=devs[pattern], ps=null;
+  var dev=devs[pattern],ps=null;
   if(dev&&dev.signals){
     for(var i=0;i<dev.signals.length;i++){
       var sn=dev.signals[i].name.toUpperCase();
-      if(sn==='POWER'||sn==='PWR'||sn.indexOf('POWER')>=0||sn.indexOf('STANDBY')>=0){ ps=dev.signals[i]; break; }
+      if(sn==='POWER'||sn==='PWR'||sn.indexOf('POWER')>=0||sn.indexOf('STANDBY')>=0){ps=dev.signals[i];break;}
     }
     if(!ps&&dev.signals.length) ps=dev.signals[0];
   }
-  window._pwrSig = ps;
-  window._physBtnAction = doPower;
-  var be=esc(brand), te=esc(type);
+  window._pwrSig=ps; window._physBtnAction=doPower;
+  var be=esc(brand),te=esc(type);
   var h='<div class="pat-nav">'
     +'<button class="btn ba" '+(pattern>0?'onclick="showPower(\''+be+'\',\''+te+'\','+(pattern-1)+')"':'disabled')+'>&#8592; Prev</button>'
     +'<div class="pat-ctr">'+(pattern+1)+'/'+total+'</div>'
@@ -587,52 +663,42 @@ function showPower(brand, type, pattern) {
     +'</div>';
   h+='<div class="pwr-wrap"><button class="pwr-btn" id="pwrbtn" onclick="doPower()" '+(ps?'':'disabled')+'>'
     +'<span class="pwr-ico">&#9211;</span><span>TEST POWER</span></button></div>'
-    +'<p class="sel-hint">'+(ps?'Point at device and press to test this pattern':'No power signal found in this pattern')+'</p>'
+    +'<p class="sel-hint">'+(ps?'Point at device and press to test':'No power signal in this pattern')+'</p>'
     +'<button class="btn bc" onclick="showSaveConfig(\''+be+'\',\''+te+'\','+pattern+')">&#9654;&nbsp; Select This Pattern</button>';
-  document.getElementById('app').innerHTML = h;
+  document.getElementById('app').innerHTML=h;
 }
-
-function showConfirmOverlay(){ document.getElementById('confirm-overlay').classList.add('show'); }
-function hideConfirmOverlay(){ document.getElementById('confirm-overlay').classList.remove('show'); }
 
 var _pwrBusy=false;
 async function doPower(){
   if(_pwrBusy||!window._pwrSig) return;
   _pwrBusy=true;
-  var btn=document.getElementById('pwrbtn');
-  btn.style.opacity='.4';
+  var btn=document.getElementById('pwrbtn'); btn.style.opacity='.4';
   await sendSignal(window._pwrSig);
-  btn.style.opacity='1';
-  _pwrBusy=false;
-  showConfirmOverlay();
+  btn.style.opacity='1'; _pwrBusy=false;
+  document.getElementById('pwr-overlay').classList.add('show');
 }
-
-function doYes(){ hideConfirmOverlay(); showSaveConfig(CUR.brand,CUR.type,CUR.pattern); }
-
+function doYes(){document.getElementById('pwr-overlay').classList.remove('show');showSaveConfig(CUR.brand,CUR.type,CUR.pattern);}
 function doNo(){
-  hideConfirmOverlay();
+  document.getElementById('pwr-overlay').classList.remove('show');
   var next=CUR.pattern+1;
-  if(next<CUR.total){ showPower(CUR.brand,CUR.type,next); }
-  else { toast('All '+CUR.total+' patterns tried',false); }
+  if(next<CUR.total) showPower(CUR.brand,CUR.type,next);
+  else toast('All '+CUR.total+' patterns tried',false);
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Save Configuration
 // ══════════════════════════════════════════════════════════
-function showSaveConfig(brand, type, pattern) {
-  window._physBtnAction = null;
+function showSaveConfig(brand,type,pattern){
+  window._physBtnAction=null;
   bar('Save Configuration',brand+' · '+type,false);
-  var devs=DB.devices.filter(function(d){ return d.brand===brand&&d.category===type; });
+  var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
-  var be=esc(brand), te=esc(type);
-  var h='<div class="card">'
-    +'<div class="sec-label">Configuration name</div>'
-    +'<input class="save-input" id="cfg-name" type="text" placeholder="e.g. Living Room TV" maxlength="40" oninput="" autocomplete="off">'
+  var be=esc(brand),te=esc(type);
+  var h='<div class="card"><div class="sec-label">Configuration name</div>'
+    +'<input class="save-input" id="cfg-name" type="text" placeholder="e.g. Living Room TV" maxlength="40" autocomplete="off">'
     +'</div>'
     +'<div class="card"><div class="sec-label">Settings to be saved</div>'
-    +row('Brand',brand)
-    +row('Type',type)
-    +row('Pattern',(pattern+1)+' of '+devs.length)
+    +row('Brand',brand)+row('Type',type)+row('Pattern',(pattern+1)+' of '+devs.length)
     +(dev?row('File',dev.source_file||'-'):'')
     +(dev?row('Protocol',dev.protocols?dev.protocols.join(', '):'?'):'')
     +(dev?row('Buttons',(dev.signals?dev.signals.length:0)+' signals'):'')
@@ -642,23 +708,18 @@ function showSaveConfig(brand, type, pattern) {
     +'<button class="btn ba" onclick="showPower(\''+be+'\',\''+te+'\',0)">&#8592;&nbsp; Back</button>'
     +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>'
     +'</div>';
-  document.getElementById('app').innerHTML = h;
-  setTimeout(function(){ var inp=document.getElementById('cfg-name'); if(inp) inp.focus(); },80);
+  document.getElementById('app').innerHTML=h;
+  setTimeout(function(){var i=document.getElementById('cfg-name');if(i)i.focus();},80);
 }
-
-function doSave(brand, type, pattern){
+function doSave(brand,type,pattern){
   var inp=document.getElementById('cfg-name');
   var name=inp?inp.value.trim():'';
-  if(!name){ toast('Please enter a configuration name',false); if(inp) inp.focus(); return; }
-  var devs=DB.devices.filter(function(d){ return d.brand===brand&&d.category===type; });
+  if(!name){toast('Please enter a configuration name',false);if(inp)inp.focus();return;}
+  var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
-  cfgAdd({
-    name:name, brand:brand, type:type, pattern:pattern,
-    source_file:dev?dev.source_file||'':'',
-    protocols:dev?dev.protocols||[]:[],
-    signal_count:dev?dev.signals?dev.signals.length:0:0,
-    saved_at:new Date().toISOString()
-  });
+  cfgAdd({name:name,brand:brand,type:type,pattern:pattern,
+    source_file:dev?dev.source_file||'':'',protocols:dev?dev.protocols||[]:[],
+    signal_count:dev?dev.signals?dev.signals.length:0:0,saved_at:new Date().toISOString()});
   toast('Saved: '+name,true);
   showRemote(brand,type,pattern,name);
 }
@@ -666,77 +727,73 @@ function doSave(brand, type, pattern){
 // ══════════════════════════════════════════════════════════
 // PAGE: Remote Control
 // ══════════════════════════════════════════════════════════
-function showRemote(brand, type, pattern, configName) {
-  var devs=DB.devices.filter(function(d){ return d.brand===brand&&d.category===type; });
+function showRemote(brand,type,pattern,configName){
+  var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
-  if(!dev){ toast('Device not found',false); return; }
+  if(!dev){toast('Device not found',false);return;}
   NAV=[showConfigs];
-  var barTitle = configName || (brand + ' · ' + type);
-  var barSub   = configName ? (brand + ' · ' + type + ' · Pattern ' + (pattern+1)) : ('Pattern ' + (pattern+1));
-  bar(barTitle, barSub, true);
+  var barTitle=configName||(brand+' · '+type);
+  var barSub=configName?(brand+' · '+type+' · Pattern '+(pattern+1)):('Pattern '+(pattern+1));
+  bar(barTitle,barSub,true);
   var sigs=dev.signals||[];
   window._remSigs=sigs;
 
   function fi(pats){
-    for(var i=0;i<sigs.length;i++){
-      var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');
-      for(var k=0;k<pats.length;k++) if(u===pats[k]) return i;
-    }
-    for(var i=0;i<sigs.length;i++){
-      var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');
-      for(var k=0;k<pats.length;k++){ var p=pats[k]; if(p.length>=4&&u.indexOf(p)>=0) return i; }
-    }
+    for(var i=0;i<sigs.length;i++){var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');for(var k=0;k<pats.length;k++)if(u===pats[k])return i;}
+    for(var i=0;i<sigs.length;i++){var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');for(var k=0;k<pats.length;k++){var p=pats[k];if(p.length>=4&&u.indexOf(p)>=0)return i;}}
     return -1;
   }
 
-  var iPwr =fi(['POWER','PWR','STANDBY','ONOFF','POWERTOGGLE']);
-  window._physBtnAction=(function(idx){ return function(){ if(idx>=0) clickBtn(idx); }; })(iPwr);
+  var iPwr=fi(['POWER','PWR','STANDBY','ONOFF','POWERTOGGLE']);
+  window._physBtnAction=(function(idx){return function(){if(idx>=0)clickBtn(idx);};})(iPwr);
 
-  var iVu=fi(['VOLUP','VOLUMEUP','VOL+','VOLUME+']),  iVd=fi(['VOLDOWN','VOLDN','VOLUMEDOWN','VOL-','VOLUME-']);
+  var iVu=fi(['VOLUP','VOLUMEUP','VOL+','VOLUME+']),   iVd=fi(['VOLDOWN','VOLDN','VOLUMEDOWN','VOL-','VOLUME-']);
   var iMu=fi(['MUTE','MUTETOGGLE']);
-  var iCu=fi(['CHUP','CH+','CHANNELUP','CHANNEL+','PROGUP','PROG+','PAGEUP']), iCd=fi(['CHDOWN','CHDN','CH-','CHANNELDOWN','CHANNEL-','PROGDOWN','PROG-','PAGEDOWN']);
-  var iTu=fi(['TEMPUP','TEMP+','TEMPERATUREUP','WARMER','HEATUP','HEAT+']),     iTd=fi(['TEMPDOWN','TEMP-','TEMPERATUREDOWN','COOLER','HEATDOWN','HEAT-']);
-  var iUp=fi(['UP','ARROWUP','DPADUP','CURSORUP']),    iDn=fi(['DOWN','ARROWDOWN','DPADDOWN','CURSORDOWN']);
+  var iCu=fi(['CHUP','CH+','CHANNELUP','CHANNEL+','PROGUP','PROG+','PAGEUP']),
+      iCd=fi(['CHDOWN','CHDN','CH-','CHANNELDOWN','CHANNEL-','PROGDOWN','PROG-','PAGEDOWN']);
+  var iTu=fi(['TEMPUP','TEMP+','TEMPERATUREUP','WARMER','HEATUP','HEAT+']),
+      iTd=fi(['TEMPDOWN','TEMP-','TEMPERATUREDOWN','COOLER','HEATDOWN','HEAT-']);
+  var iUp=fi(['UP','ARROWUP','DPADUP','CURSORUP']),   iDn=fi(['DOWN','ARROWDOWN','DPADDOWN','CURSORDOWN']);
   var iLt=fi(['LEFT','ARROWLEFT','DPADLEFT','CURSORLEFT']), iRt=fi(['RIGHT','ARROWRIGHT','DPADRIGHT','CURSORRIGHT']);
   var iOk=fi(['OK','ENTER','SELECT','CONFIRM','CENTER','DPADCENTER']);
-  var iMenu=fi(['MENU','SETTINGS','SETUP']), iHome=fi(['HOME','HOMESCREEN']);
-  var iBk=fi(['BACK','RETURN','EXIT','GOBACK']), iInfo=fi(['INFO','DISPLAY','STATUS']), iGui=fi(['GUIDE','EPG']);
+  var iMenu=fi(['MENU','SETTINGS','SETUP']),iHome=fi(['HOME','HOMESCREEN']);
+  var iBk=fi(['BACK','RETURN','EXIT','GOBACK']),iInfo=fi(['INFO','DISPLAY','STATUS']),iGui=fi(['GUIDE','EPG']);
   var nums=[]; for(var n=0;n<=9;n++) nums.push(fi([String(n),'NUM'+n,'KEY'+n,'DIGIT'+n,'NUMBER'+n]));
 
   var used={};
   [iPwr,iVu,iVd,iMu,iCu,iCd,iTu,iTd,iUp,iDn,iLt,iRt,iOk,iMenu,iHome,iBk,iInfo,iGui]
-    .forEach(function(x){ if(x>=0) used[x]=1; });
-  nums.forEach(function(x){ if(x>=0) used[x]=1; });
-  var misc=[]; sigs.forEach(function(s,i){ if(!used[i]) misc.push(i); });
+    .forEach(function(x){if(x>=0)used[x]=1;});
+  nums.forEach(function(x){if(x>=0)used[x]=1;});
+  var misc=[]; sigs.forEach(function(s,i){if(!used[i])misc.push(i);});
 
   function rb(idx,cls,lbl){
-    if(idx<0) return '';
+    if(idx<0)return'';
     var s=sigs[idx],l=lbl||(s.name.length>8?s.name.slice(0,7)+'…':s.name);
-    return '<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+s.name+'">'+l+'</button>';
+    return'<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+s.name+'">'+l+'</button>';
   }
   function dp(idx,lbl,cls){
     cls=cls||'rm-dp';
-    if(idx>=0) return '<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+sigs[idx].name+'">'+lbl+'</button>';
-    return '<div class="rm-empty"></div>';
+    if(idx>=0)return'<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+sigs[idx].name+'">'+lbl+'</button>';
+    return'<div class="rm-empty"></div>';
   }
 
   var h='<div class="remote">';
   if(iPwr>=0) h+='<div class="rm-pwr-row">'+rb(iPwr,'rm-pwr-btn','&#9211;')+'</div>';
 
-  var qRow=[[iMenu,'MENU'],[iHome,'HOME'],[iBk,'BACK'],[iInfo,'INFO'],[iGui,'GUIDE']].filter(function(x){ return x[0]>=0; });
-  if(qRow.length){ h+='<div class="rm-quick">'; qRow.forEach(function(x){ h+=rb(x[0],'rm-q',x[1]); }); h+='</div>'; }
+  var qRow=[[iMenu,'MENU'],[iHome,'HOME'],[iBk,'BACK'],[iInfo,'INFO'],[iGui,'GUIDE']].filter(function(x){return x[0]>=0;});
+  if(qRow.length){h+='<div class="rm-quick">';qRow.forEach(function(x){h+=rb(x[0],'rm-q',x[1]);});h+='</div>';}
 
   var pCols=[];
   if(iVu>=0||iVd>=0||iMu>=0) pCols.push({lbl:'VOL',u:iVu,d:iVd,ex:iMu,exl:'MUTE',c:'rm-pv'});
-  if(iCu>=0||iCd>=0)          pCols.push({lbl:'CH', u:iCu,d:iCd,ex:-1, exl:'',    c:'rm-pc'});
-  if(iTu>=0||iTd>=0)          pCols.push({lbl:'TEMP',u:iTu,d:iTd,ex:-1,exl:'',    c:'rm-pt'});
+  if(iCu>=0||iCd>=0)          pCols.push({lbl:'CH', u:iCu,d:iCd,ex:-1, exl:'',   c:'rm-pc'});
+  if(iTu>=0||iTd>=0)          pCols.push({lbl:'TEMP',u:iTu,d:iTd,ex:-1,exl:'',   c:'rm-pt'});
   if(pCols.length){
     h+='<div class="rm-pairs">';
     pCols.forEach(function(p){
       h+='<div class="rm-pcol"><div class="rm-plbl">'+p.lbl+'</div>';
-      if(p.u>=0) h+=rb(p.u,'rm-pb '+p.c,'+');
-      if(p.d>=0) h+=rb(p.d,'rm-pb '+p.c,'−');
-      if(p.ex>=0) h+=rb(p.ex,'rm-pb rm-pe',p.exl);
+      if(p.u>=0)h+=rb(p.u,'rm-pb '+p.c,'+');
+      if(p.d>=0)h+=rb(p.d,'rm-pb '+p.c,'−');
+      if(p.ex>=0)h+=rb(p.ex,'rm-pb rm-pe',p.exl);
       h+='</div>';
     });
     h+='</div>';
@@ -750,12 +807,12 @@ function showRemote(brand, type, pattern, configName) {
     h+='</div>';
   }
 
-  if(nums.some(function(x){ return x>=0; })){
+  if(nums.some(function(x){return x>=0;})){
     h+='<div class="rm-numpad">';
     [1,2,3,4,5,6,7,8,9,-1,0,-1].forEach(function(n){
-      if(n===-1){ h+='<div class="rm-nph"></div>'; return; }
+      if(n===-1){h+='<div class="rm-nph"></div>';return;}
       var idx=nums[n];
-      if(idx>=0) h+='<button class="rm-num" onclick="clickBtn('+idx+')">'+n+'</button>';
+      if(idx>=0)h+='<button class="rm-num" onclick="clickBtn('+idx+')">'+n+'</button>';
       else h+='<div class="rm-nph"></div>';
     });
     h+='</div>';
@@ -769,45 +826,43 @@ function showRemote(brand, type, pattern, configName) {
     });
     h+='</div>';
   }
-
   h+='</div>';
   document.getElementById('app').innerHTML=h;
 }
 
-function clickBtn(i){ sendSignal(window._remSigs[i]); }
+function clickBtn(i){sendSignal(window._remSigs[i]);}
 
-// ── Send IR ────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════
+// Send IR signal
+// ══════════════════════════════════════════════════════════
 function parseVal(dec,hex,raw){
-  if(dec!==null&&dec!==undefined&&!isNaN(dec)) return(dec>>>0);
-  if(hex&&typeof hex==='string'){ var v=parseInt(hex,16); if(!isNaN(v)) return(v>>>0); }
-  if(raw&&typeof raw==='string'){ var v2=parseInt(raw,16); if(!isNaN(v2)) return(v2>>>0); var v3=parseInt(raw); if(!isNaN(v3)) return(v3>>>0); }
+  if(dec!==null&&dec!==undefined&&!isNaN(dec))return(dec>>>0);
+  if(hex&&typeof hex==='string'){var v=parseInt(hex,16);if(!isNaN(v))return(v>>>0);}
+  if(raw&&typeof raw==='string'){var v2=parseInt(raw,16);if(!isNaN(v2))return(v2>>>0);var v3=parseInt(raw);if(!isNaN(v3))return(v3>>>0);}
   return 0;
 }
-
 async function sendSignal(sig){
   if(!sig) return false;
   var p;
   if(sig.raw_timings_us&&sig.raw_timings_us.length>0){
     p={proto:'RAW',raw:sig.raw_timings_us,freq:sig.frequency_hz||38000};
-  } else {
-    p={
-      proto:(sig.protocol||'NEC').replace(/\{\d+\}/,'').trim().toUpperCase(),
-      addr:parseVal(sig.address_decimal,sig.address_hex,sig.address_raw),
-      cmd:parseVal(sig.command_decimal,sig.command_hex,sig.command_raw),
-      freq:sig.frequency_hz||38000,
-      bits:sig.signal_structure?(sig.signal_structure.bits||32):32
-    };
+  }else{
+    p={proto:(sig.protocol||'NEC').replace(/\{\d+\}/,'').trim().toUpperCase(),
+       addr:parseVal(sig.address_decimal,sig.address_hex,sig.address_raw),
+       cmd:parseVal(sig.command_decimal,sig.command_hex,sig.command_raw),
+       freq:sig.frequency_hz||38000,
+       bits:sig.signal_structure?(sig.signal_structure.bits||32):32};
   }
-  var j=await sendSerial(p);
+  var j=await sendCmd(p);
   toast(j.ok?('OK: '+sig.name):('Failed: '+(j.err||'Error')),j.ok);
   return j.ok;
 }
 
 // ── Init ───────────────────────────────────────────────────
 (async function(){
-  _cfgRestore();
-  var err=await loadDB();
-  showConnect(err!==true?err:null);
+  _restore();
+  await loadDB(); // try to load db.json (works on PC, may fail on mobile)
+  showLanding();
 })();
 </script>
 </body>
