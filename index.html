@@ -8,8 +8,6 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 input,textarea{user-select:text!important;-webkit-user-select:text!important}
 body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
-
-/* ── Top bar ── */
 .bar{background:#0c1422;border-bottom:2px solid #00d4ff;padding:13px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:99;box-shadow:0 2px 20px rgba(0,212,255,.15)}
 .bar-info{flex:1;min-width:0}
 .bar-title{font-size:15px;font-weight:700;color:#00d4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -20,16 +18,12 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .conn-dot{width:9px;height:9px;border-radius:50%;background:#1a2e42;flex-shrink:0;transition:background .3s}
 .conn-dot.ok{background:#00e87a;box-shadow:0 0 7px #00e87a}
 .conn-dot.err{background:#ff4455;box-shadow:0 0 7px #ff4455}
-
-/* ── Page / Cards ── */
 .page{padding:14px;max-width:480px;margin:0 auto}
 .card{background:#0d1825;border:1px solid #1a2e42;border-radius:12px;padding:15px;margin-bottom:12px}
 .sec-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#2e4455;margin-bottom:10px;font-weight:700}
 .irow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #1a2e42;font-size:12px;gap:8px}
 .irow:last-child{border:none}
 .ival{color:#00d4ff;font-weight:700;text-align:right;font-size:11px}
-
-/* ── Buttons ── */
 .btn{display:block;width:100%;padding:13px 16px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .18s;margin-bottom:8px;line-height:1.2}
 .btn:last-child{margin-bottom:0}
 .btn:active{transform:scale(.97)}
@@ -42,19 +36,13 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .ba{background:#ffb020;color:#000}.ba:hover{background:#ffd060}
 .bx{background:transparent;border:1px solid #ff4455;color:#ff4455}
 .bx:hover{background:rgba(255,68,85,.1)}
-.bbl{background:#1a3a8a;color:#7eb8ff;border:1px solid #2a5acc}
-.bbl:hover{background:#2a4aaa;color:#b0d8ff}
-
-/* ── Toast ── */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0c1825;border:1px solid #00d4ff;color:#7ef0ff;padding:10px 22px;border-radius:20px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;white-space:nowrap;max-width:90vw}
 .toast.show{opacity:1}
-
 /* ── Landing ── */
 .land-wrap{display:flex;flex-direction:column;align-items:center;padding:48px 20px 28px;gap:16px;text-align:center}
 .land-icon{font-size:56px;line-height:1}
 .land-title{font-size:20px;font-weight:700;color:#d0e2f0}
 .land-sub{font-size:12px;color:#3a5870;line-height:1.8;max-width:280px}
-.land-divider{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#2a3e50;margin:4px 0}
 .conn-cards{display:flex;gap:12px;width:100%;max-width:320px}
 .conn-card{flex:1;background:#0d1825;border:1px solid #1a2e42;border-radius:14px;padding:20px 12px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
 .conn-card:hover{border-color:#00d4ff;background:#0c1e30}
@@ -66,7 +54,16 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .conn-card-sub{font-size:10px;color:#3a5870;text-align:center;line-height:1.5}
 .conn-note{font-size:10px;color:#2a3e50;line-height:1.7;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;padding:10px 14px;max-width:320px;text-align:left;width:100%}
 .conn-note b{color:#4a6a80}
-
+/* ── WiFi bar ── */
+.wifi-bar{background:#07111e;border:1px solid #1a2e42;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.wifi-bar.connected{border-color:rgba(0,232,122,.3)}
+.wifi-icon{font-size:18px;flex-shrink:0}
+.wifi-info{flex:1;min-width:0}
+.wifi-ssid-txt{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wifi-rssi-txt{font-size:10px;color:#3a5870;margin-top:1px}
+.wifi-conn-btn{flex-shrink:0;padding:6px 12px;border-radius:6px;background:#0d3050;border:1px solid #00d4ff;color:#00d4ff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s}
+.wifi-conn-btn:hover{background:#1a4070}
+.wifi-conn-btn:active{transform:scale(.94)}
 /* ── Saved Configs ── */
 .cfg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cfg-heading{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#2e4455;font-weight:700}
@@ -78,6 +75,8 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .cfg-empty p{font-size:13px;line-height:1.9}
 .cfg-item{background:#0d1825;border:1px solid #1a2e42;border-radius:12px;padding:13px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .18s}
 .cfg-item:hover{border-color:#00d4ff}
+.cfg-item.atv-cfg{border-color:#1a3070}
+.cfg-item.atv-cfg:hover{border-color:#4a90ff}
 .cfg-item:active{background:#0c1a28}
 .cfg-item-body{flex:1;min-width:0}
 .cfg-item-name{font-size:14px;font-weight:700;color:#d0e2f0;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -90,25 +89,51 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .cfg-item-del{color:#3a5870;font-size:14px}
 .cfg-item-del:hover{border-color:#ff4455;color:#ff4455}
 .cfg-item-del:active{background:#ff4455;color:#fff;transform:scale(.9)}
-
+.dev-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;margin-left:4px;vertical-align:middle}
+.dev-badge.ir{background:#071810;color:#00e87a;border:1px solid rgba(0,232,122,.2)}
+.dev-badge.atv{background:#07101a;color:#4fc3f7;border:1px solid rgba(79,195,247,.2)}
 /* ── DB load banner ── */
 .db-banner{background:#0a1520;border:1px solid #ffb020;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
 .db-banner-text{flex:1;font-size:11px;color:#c08030;line-height:1.5}
 .db-banner-btn{flex-shrink:0;padding:7px 13px;border-radius:6px;background:#ffb020;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
-.db-banner-btn:active{transform:scale(.95)}
-
+/* ── Choice cards ── */
+.choice-cards{display:flex;gap:14px;margin-top:8px}
+.choice-card{flex:1;background:#0d1825;border:1px solid #1a2e42;border-radius:14px;padding:24px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
+.choice-card:hover{border-color:#00d4ff;background:#0c1e30}
+.choice-card:active{transform:scale(.96)}
+.choice-card.atv-choice{border-color:#1a3070}
+.choice-card.atv-choice:hover{border-color:#4a90ff;background:#0c1435}
+.choice-icon{font-size:40px;line-height:1}
+.choice-title{font-size:14px;font-weight:700;color:#d0e2f0}
+.choice-sub{font-size:10px;color:#3a5870;text-align:center;line-height:1.5}
+/* ── Network list ── */
+.net-item{background:#0d1825;border:1px solid #1a2e42;border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .15s}
+.net-item:hover{border-color:#00d4ff}
+.net-item:active{background:#0c1a28;transform:scale(.98)}
+.net-body{flex:1;min-width:0}
+.net-ssid{font-size:13px;font-weight:700;color:#d0e2f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.net-meta{font-size:10px;color:#3a5870;margin-top:2px}
+.net-badge{font-size:9px;font-weight:700;padding:3px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.net-badge.open{background:#071810;color:#00e87a;border:1px solid rgba(0,232,122,.25)}
+.net-badge.lock{background:#1a1008;color:#ffb020;border:1px solid rgba(255,176,32,.25)}
+.net-badge.known{background:#07101a;color:#4fc3f7;border:1px solid rgba(79,195,247,.25)}
+/* ── ATV list ── */
+.atv-item{background:#0d1825;border:1px solid #1a3070;border-radius:10px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .15s}
+.atv-item:hover{border-color:#4a90ff}
+.atv-item:active{background:#0c1435;transform:scale(.98)}
+.atv-item-icon{font-size:28px;flex-shrink:0}
+.atv-item-name{font-size:14px;font-weight:700;color:#d0e2f0}
+.atv-item-host{font-size:10px;color:#3a5870;margin-top:2px}
 /* ── Brand search ── */
 .search-box{position:relative;margin-bottom:10px}
 .search-box input{width:100%;background:#0d1825;border:1px solid #1a2e42;border-radius:8px;color:#d0e2f0;padding:11px 14px 11px 40px;font-size:13px;outline:none;transition:border-color .2s}
 .search-box input:focus{border-color:#00d4ff}
 .search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;color:#2e4455;pointer-events:none}
 .brand-count{font-size:10px;color:#2e4455;margin-bottom:8px;padding-left:2px}
-
 /* ── Pattern nav ── */
 .pat-nav{display:flex;gap:8px;align-items:center;margin-bottom:14px}
 .pat-nav .btn{margin:0;flex:1;padding:10px 8px}
 .pat-ctr{flex:0 0 56px;text-align:center;font-size:13px;font-weight:700;color:#5a7a90;background:#0c1422;border:1px solid #1a2e42;border-radius:8px;padding:9px 4px}
-
 /* ── Power test ── */
 .pwr-wrap{text-align:center;padding:16px 0 6px}
 .pwr-btn{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#200808,#140404);border:3px solid #ff4455;color:#ff4455;font-size:11px;font-weight:700;cursor:pointer;box-shadow:0 0 24px rgba(255,68,85,.25);transition:all .2s;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
@@ -116,7 +141,6 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .pwr-btn:active{transform:scale(.93)}
 .pwr-ico{font-size:32px;line-height:1}
 .sel-hint{text-align:center;font-size:11px;color:#2e4455;margin:6px 0 10px}
-
 /* ── Overlays ── */
 .overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px}
 .overlay.show{display:flex}
@@ -126,21 +150,25 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .ov-row{display:flex;gap:10px}
 .ov-row .btn{flex:1;margin:0}
 .ov-box.danger{border-color:#ff4455}
-
+.ov-box.warn{border-color:#ffb020}
+/* ── Overlay loading ── */
+.ov-load{text-align:center;padding:8px 0}
+.ov-load p{font-size:12px;color:#5a7a90;margin-top:14px;line-height:1.6}
+/* ── Spinner ── */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:36px;height:36px;border:3px solid #1a2e42;border-top-color:#00d4ff;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto}
 /* ── Save config ── */
 .save-input{width:100%;background:#07090f;border:1px solid #1a2e42;border-radius:8px;color:#d0e2f0;padding:12px 14px;font-size:15px;outline:none;transition:border-color .2s;display:block}
 .save-input:focus{border-color:#00d4ff}
 .save-input::placeholder{color:#2e4455}
 .save-actions{display:flex;gap:8px;margin-top:4px}
 .save-actions .btn{flex:1;margin:0}
-
 /* ── Physical button ── */
 @keyframes physpress{0%{transform:scale(1)}30%{transform:scale(.88)}70%{transform:scale(.88)}100%{transform:scale(1)}}
 @keyframes physglow{0%{box-shadow:0 0 18px rgba(255,68,85,.3)}40%{box-shadow:0 0 50px rgba(255,68,85,.9)}100%{box-shadow:0 0 18px rgba(255,68,85,.3)}}
 .phys-press{animation:physpress .25s ease,physglow .25s ease}
 .phys-ind{position:fixed;top:58px;right:14px;background:#0d1825;border:1px solid #ff4455;color:#ff8888;font-size:10px;font-weight:700;padding:5px 10px;border-radius:20px;z-index:150;opacity:0;transition:opacity .2s;pointer-events:none}
 .phys-ind.show{opacity:1}
-
 /* ── Remote ── */
 .remote{max-width:300px;margin:0 auto;padding:4px 0 28px;display:flex;flex-direction:column;align-items:center}
 .rm-pwr-row{margin-bottom:10px}
@@ -172,10 +200,15 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .rm-misc{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
 .rm-mb{padding:9px 4px;border-radius:8px;background:#0d1825;border:1px solid #1a2e42;color:#4a6a80;font-size:10px;font-weight:700;cursor:pointer;text-align:center;line-height:1.3;word-break:break-word;transition:all .15s}
 .rm-mb:active{background:#162030;color:#d0e2f0}
+/* ── ATV placeholder ── */
+.atv-info{text-align:center;padding:32px 20px}
+.atv-info-icon{font-size:60px;margin-bottom:16px}
+.atv-info h2{font-size:16px;font-weight:700;color:#d0e2f0;margin-bottom:8px}
+.atv-info p{font-size:12px;color:#3a5870;line-height:1.7}
+.atv-info-card{background:#0d1825;border:1px solid #1a3070;border-radius:12px;padding:14px;margin:16px 0;text-align:left}
 </style>
 </head>
 <body>
-
 <div class="bar">
   <button class="back-btn" id="backbtn" onclick="goBack()">&#8592; Back</button>
   <div class="bar-info">
@@ -184,13 +217,12 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
   </div>
   <div class="conn-dot" id="cdot"></div>
 </div>
-
 <div class="phys-ind" id="physind">&#9211; POWER</div>
 <div class="page" id="app"></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="db-picker" accept=".json" style="display:none" onchange="onDbFilePick(event)">
 
-<!-- Power test confirm overlay -->
+<!-- Power test confirm -->
 <div class="overlay" id="pwr-overlay">
   <div class="ov-box">
     <h3>Did the device respond?</h3>
@@ -202,7 +234,7 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
   </div>
 </div>
 
-<!-- Delete confirm overlay -->
+<!-- Delete confirm -->
 <div class="overlay" id="del-overlay">
   <div class="ov-box danger">
     <h3>Delete configuration?</h3>
@@ -215,17 +247,60 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
   </div>
 </div>
 
-<!-- Rename overlay -->
+<!-- Rename -->
 <div class="overlay" id="ren-overlay">
   <div class="ov-box">
     <h3>Rename configuration</h3>
     <p style="margin-bottom:14px">Enter a new name below.</p>
-    <input class="save-input" id="ren-input" type="text" maxlength="40" autocomplete="off"
-      style="margin-bottom:16px">
+    <input class="save-input" id="ren-input" type="text" maxlength="40" autocomplete="off" style="margin-bottom:16px">
     <div class="ov-row">
       <button class="btn bg" onclick="doRenameConfirm()">&#10003;&nbsp; Save</button>
       <button class="btn bgh" onclick="doRenameCancel()">Cancel</button>
     </div>
+  </div>
+</div>
+
+<!-- WiFi: needs password -->
+<div class="overlay" id="wifi-pass-overlay">
+  <div class="ov-box">
+    <h3>&#128274;&nbsp; Enter Password</h3>
+    <p id="wifi-pass-ssid" style="font-weight:700;color:#d0e2f0;margin-bottom:12px"></p>
+    <p id="wifi-pass-err" style="color:#ff8888;margin-bottom:12px;display:none;font-weight:700">&#10007; Wrong password. Try again.</p>
+    <input class="save-input" id="wifi-pass-input" type="password" placeholder="Network password" maxlength="64" autocomplete="off" style="margin-bottom:16px">
+    <div class="ov-row">
+      <button class="btn bc" onclick="doWifiConnect()">Connect</button>
+      <button class="btn bgh" onclick="closeWifiPass()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- WiFi: connecting loading -->
+<div class="overlay" id="wifi-conn-overlay">
+  <div class="ov-box">
+    <div class="ov-load">
+      <div class="spinner"></div>
+      <p>Connecting to<br><b id="wifi-conn-ssid" style="color:#d0e2f0"></b></p>
+    </div>
+  </div>
+</div>
+
+<!-- WiFi: not connected (for ATV) -->
+<div class="overlay" id="wifi-needed-overlay">
+  <div class="ov-box warn">
+    <h3>&#128246;&nbsp; WiFi Required</h3>
+    <p>Connect to WiFi first to discover Android TVs on your network.</p>
+    <button class="btn bc" onclick="document.getElementById('wifi-needed-overlay').classList.remove('show')">Understood</button>
+  </div>
+</div>
+
+<!-- ATV: waiting for TV approval -->
+<div class="overlay" id="atv-pair-overlay">
+  <div class="ov-box">
+    <div class="ov-load">
+      <div class="spinner" style="border-top-color:#4a90ff"></div>
+      <p style="margin-top:16px">A permission request has been sent.<br><b style="color:#d0e2f0">Press Allow on your TV.</b></p>
+    </div>
+    <button class="btn bgh" style="margin-top:16px" onclick="cancelAtvPair()">Cancel</button>
   </div>
 </div>
 
@@ -235,73 +310,87 @@ document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault();},
 document.addEventListener('keydown',function(e){if(e.ctrlKey&&(e.key==='+'||e.key==='-'||e.key==='='||e.key==='0'))e.preventDefault();});
 document.addEventListener('touchstart',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
 document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
-var _lt=0;
-document.addEventListener('touchend',function(e){var n=Date.now();if(n-_lt<300)e.preventDefault();_lt=n;},{passive:false});
+var _lt=0;document.addEventListener('touchend',function(e){var n=Date.now();if(n-_lt<300)e.preventDefault();_lt=n;},{passive:false});
 
 // ── Physical button ────────────────────────────────────────
 window._physBtnAction=null;
 function triggerPhysBtn(){
   var el=document.getElementById('physind');
-  el.classList.add('show'); clearTimeout(el._t);
+  el.classList.add('show');clearTimeout(el._t);
   el._t=setTimeout(function(){el.classList.remove('show');},900);
   var pw=document.querySelector('.rm-pwr-btn,.pwr-btn');
   if(pw){pw.classList.remove('phys-press');void pw.offsetWidth;pw.classList.add('phys-press');setTimeout(function(){pw.classList.remove('phys-press');},350);}
-  if(typeof window._physBtnAction==='function') window._physBtnAction();
+  if(typeof window._physBtnAction==='function')window._physBtnAction();
 }
 
 // ══════════════════════════════════════════════════════════
 // State
 // ══════════════════════════════════════════════════════════
-var DB=null, NAV=[];
+var DB=null,NAV=[];
 var CUR={brand:'',type:'',pattern:0,total:0};
-window._pwrSig=null; window._remSigs=[];
-
-// Connection type: null | 'usb' | 'ble'
+window._pwrSig=null;window._remSigs=[];
 var CONN=null;
+var wifiState={connected:false,ssid:'',rssi:0,ip:''};
+var currentPage='';
+var _pendingWifiSsid='',_pendingWifiPass='';
+var _pendingAtvHost='',_pendingAtvPort=6467,_pendingAtvName='';
 
-// ── USB Serial state ───────────────────────────────────────
+// ── USB Serial ─────────────────────────────────────────────
 var _port=null,_writer=null,_reader=null,_usbConn=false,_rbuf='',_pending=null;
 
-// ── BLE state ──────────────────────────────────────────────
+// ── BLE ────────────────────────────────────────────────────
 var _bleDevice=null,_bleServer=null,_rxChar=null,_bleBuf='',_blePending=null;
 var BLE_SVC='6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-var BLE_RX ='6e400002-b5a3-f393-e0a9-e50e24dcca9e'; // write
-var BLE_TX ='6e400003-b5a3-f393-e0a9-e50e24dcca9e'; // notify
+var BLE_RX='6e400002-b5a3-f393-e0a9-e50e24dcca9e';
+var BLE_TX='6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 
 // ══════════════════════════════════════════════════════════
 // Utils
 // ══════════════════════════════════════════════════════════
 function toast(m,ok){
   var t=document.getElementById('toast');
-  t.textContent=m; t.style.borderColor=ok?'#00e87a':'#ff4455'; t.style.color=ok?'#6effc0':'#ff8888';
-  t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('show');},2400);
+  t.textContent=m;t.style.borderColor=ok?'#00e87a':'#ff4455';t.style.color=ok?'#6effc0':'#ff8888';
+  t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2400);
 }
 function bar(title,sub,back){
   document.getElementById('btitle').textContent=title;
   document.getElementById('bsub').textContent=sub||'';
-  var b=document.getElementById('backbtn'); back?b.classList.add('show'):b.classList.remove('show');
+  var b=document.getElementById('backbtn');back?b.classList.add('show'):b.classList.remove('show');
 }
-function goBack(){if(NAV.length) NAV.pop()();}
-function row(l,v){return '<div class="irow"><span>'+l+'</span><span class="ival">'+v+'</span></div>';}
+function goBack(){if(NAV.length)NAV.pop()();}
+function row(l,v){return'<div class="irow"><span>'+l+'</span><span class="ival">'+v+'</span></div>';}
 function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 function setDot(s){
   var d=document.getElementById('cdot');
   d.className='conn-dot'+(s==='ok'?' ok':s==='err'?' err':'');
-  d.title=s==='ok'?'Connected':s==='err'?'Error':'Not connected';
+}
+
+// ══════════════════════════════════════════════════════════
+// Event dispatcher
+// ══════════════════════════════════════════════════════════
+function dispatchEvent(ev){
+  if(ev.event==='btn_power')        { triggerPhysBtn(); return; }
+  if(ev.event==='wifi_scan_done')   { onWifiScanDone(ev); return; }
+  if(ev.event==='wifi_connecting')  { onWifiConnecting(ev); return; }
+  if(ev.event==='wifi_result')      { onWifiResult(ev); return; }
+  if(ev.event==='wifi_status')      { onWifiStatus(ev); return; }
+  if(ev.event==='atv_scan_done')    { onAtvScanDone(ev); return; }
+  if(ev.event==='atv_pair_waiting') { onAtvPairWaiting(); return; }
+  if(ev.event==='atv_pair_result')  { onAtvPairResult(ev); return; }
 }
 
 // ══════════════════════════════════════════════════════════
 // USB Serial
 // ══════════════════════════════════════════════════════════
 async function connectUsb(){
-  if(!('serial' in navigator)){toast('Web Serial not supported. Use Chrome or Edge.',false);return false;}
+  if(!('serial' in navigator)){toast('Web Serial not supported.',false);return false;}
   try{
     _port=await navigator.serial.requestPort();
     await _port.open({baudRate:115200});
-    _usbConn=true; _writer=_port.writable.getWriter();
-    CONN='usb'; setDot('ok'); bar('IR Remote','Connected · USB Serial',false);
-    _usbReadLoop(); return true;
-  }catch(e){setDot('err');toast('USB connection failed: '+e.message,false);return false;}
+    _usbConn=true;_writer=_port.writable.getWriter();
+    CONN='usb';setDot('ok');bar('IR Remote','Connected · USB Serial',false);
+    _usbReadLoop();return true;
+  }catch(e){setDot('err');toast('USB failed: '+e.message,false);return false;}
 }
 async function _usbReadLoop(){
   var dec=new TextDecoder();
@@ -309,22 +398,22 @@ async function _usbReadLoop(){
     try{
       _reader=_port.readable.getReader();
       while(true){
-        var r=await _reader.read(); if(r.done) break;
+        var r=await _reader.read();if(r.done)break;
         _rbuf+=dec.decode(r.value);
-        var lines=_rbuf.split('\n'); _rbuf=lines.pop();
+        var lines=_rbuf.split('\n');_rbuf=lines.pop();
         for(var i=0;i<lines.length;i++){
-          var ln=lines[i].trim(); if(!ln) continue;
-          try{var ev=JSON.parse(ln);if(ev.event==='btn_power'){triggerPhysBtn();continue;}}catch(e){}
+          var ln=lines[i].trim();if(!ln)continue;
+          try{var ev=JSON.parse(ln);if(ev.event){dispatchEvent(ev);continue;}}catch(e){}
           if(_pending){var fn=_pending;_pending=null;fn(ln);}
         }
       }
     }catch(e){if(_usbConn)setDot('err');}
     finally{try{_reader.releaseLock();}catch(e){}}
-    if(!_usbConn) break;
+    if(!_usbConn)break;
   }
 }
 async function _usbSend(obj){
-  if(!_usbConn||!_writer){toast('ESP32 not connected',false);return{ok:false,err:'Not connected'};}
+  if(!_usbConn||!_writer){toast('Not connected',false);return{ok:false,err:'Not connected'};}
   try{
     await _writer.write(new TextEncoder().encode(JSON.stringify(obj)+'\n'));
     var resp=await Promise.race([
@@ -335,51 +424,50 @@ async function _usbSend(obj){
     try{return JSON.parse(resp);}catch(e){return{ok:false,err:'Parse error'};}
   }catch(e){return{ok:false,err:e.message};}
 }
+async function _usbFire(obj){
+  if(!_usbConn||!_writer)return;
+  try{await _writer.write(new TextEncoder().encode(JSON.stringify(obj)+'\n'));}catch(e){}
+}
 
 // ══════════════════════════════════════════════════════════
 // BLE
 // ══════════════════════════════════════════════════════════
 function _handleBleLine(ln){
-  ln=ln.trim(); if(!ln) return;
-  try{var ev=JSON.parse(ln);if(ev.event==='btn_power'){triggerPhysBtn();return;}}catch(e){}
+  ln=ln.trim();if(!ln)return;
+  try{var ev=JSON.parse(ln);if(ev.event){dispatchEvent(ev);return;}}catch(e){}
   if(_blePending){var fn=_blePending;_blePending=null;fn(ln);}
 }
 function _onBleNotify(event){
   _bleBuf+=new TextDecoder().decode(event.target.value);
-  var lines=_bleBuf.split('\n'); _bleBuf=lines.pop();
+  var lines=_bleBuf.split('\n');_bleBuf=lines.pop();
   lines.forEach(function(l){_handleBleLine(l);});
 }
-
 async function connectBle(){
-  if(!('bluetooth' in navigator)){toast('Web Bluetooth not supported. Use Chrome on Android.',false);return false;}
+  if(!('bluetooth' in navigator)){toast('Web Bluetooth not supported.',false);return false;}
   try{
-    _bleDevice=await navigator.bluetooth.requestDevice({
-      filters:[{name:'IR-Remote'}],
-      optionalServices:[BLE_SVC]
-    });
+    _bleDevice=await navigator.bluetooth.requestDevice({filters:[{name:'IR-Remote'}],optionalServices:[BLE_SVC]});
     _bleDevice.addEventListener('gattserverdisconnected',function(){
-      CONN=null; setDot(''); bar('IR Remote','Choose a connection method',false);
+      CONN=null;setDot('');bar('IR Remote','Choose a connection method',false);
       toast('Bluetooth disconnected',false);
     });
     _bleServer=await _bleDevice.gatt.connect();
     var svc=await _bleServer.getPrimaryService(BLE_SVC);
-    var txChar=await svc.getCharacteristic(BLE_TX); // notify
-    _rxChar=await svc.getCharacteristic(BLE_RX);     // write
+    var txChar=await svc.getCharacteristic(BLE_TX);
+    _rxChar=await svc.getCharacteristic(BLE_RX);
     await txChar.startNotifications();
     txChar.addEventListener('characteristicvaluechanged',_onBleNotify);
-    CONN='ble'; setDot('ok'); bar('IR Remote','Connected · Bluetooth',false);
+    CONN='ble';setDot('ok');bar('IR Remote','Connected · Bluetooth',false);
     return true;
-  }catch(e){setDot('err');toast('BLE connection failed: '+e.message,false);return false;}
+  }catch(e){setDot('err');toast('BLE failed: '+e.message,false);return false;}
 }
-
 async function _bleSend(obj){
-  if(!_rxChar){toast('ESP32 not connected',false);return{ok:false,err:'Not connected'};}
+  if(!_rxChar){toast('Not connected',false);return{ok:false,err:'Not connected'};}
   var data=new TextEncoder().encode(JSON.stringify(obj)+'\n');
   var CHUNK=128;
   try{
     for(var i=0;i<data.length;i+=CHUNK){
       await _rxChar.writeValueWithoutResponse(data.slice(i,i+CHUNK));
-      if(data.length>CHUNK) await new Promise(function(r){setTimeout(r,10);});
+      if(data.length>CHUNK)await new Promise(function(r){setTimeout(r,10);});
     }
     var resp=await Promise.race([
       new Promise(function(res){_blePending=res;}),
@@ -389,18 +477,33 @@ async function _bleSend(obj){
     try{return JSON.parse(resp);}catch(e){return{ok:false,err:'Parse error'};}
   }catch(e){return{ok:false,err:e.message};}
 }
+async function _bleFire(obj){
+  if(!_rxChar)return;
+  var data=new TextEncoder().encode(JSON.stringify(obj)+'\n');
+  var CHUNK=128;
+  try{
+    for(var i=0;i<data.length;i+=CHUNK){
+      await _rxChar.writeValueWithoutResponse(data.slice(i,i+CHUNK));
+      if(data.length>CHUNK)await new Promise(function(r){setTimeout(r,10);});
+    }
+  }catch(e){}
+}
 
 // ── Unified send ───────────────────────────────────────────
 async function sendCmd(obj){
-  if(CONN==='usb') return await _usbSend(obj);
-  if(CONN==='ble') return await _bleSend(obj);
-  toast('Not connected',false); return{ok:false,err:'Not connected'};
+  if(CONN==='usb')return await _usbSend(obj);
+  if(CONN==='ble')return await _bleSend(obj);
+  toast('Not connected',false);return{ok:false,err:'Not connected'};
+}
+async function sendCmdFire(obj){
+  if(CONN==='usb')await _usbFire(obj);
+  else if(CONN==='ble')await _bleFire(obj);
 }
 
 // ══════════════════════════════════════════════════════════
-// LocalStorage configs
+// Config storage (localStorage)
 // ══════════════════════════════════════════════════════════
-var LS='ir_remote_configs', _cfgs=[];
+var LS='ir_remote_configs',_cfgs=[];
 function _persist(){try{localStorage.setItem(LS,JSON.stringify(_cfgs));}catch(e){}}
 function _restore(){try{var s=JSON.parse(localStorage.getItem(LS)||'[]');if(Array.isArray(s))_cfgs=s;}catch(e){_cfgs=[];}}
 function cfgLoad(){return _cfgs.slice();}
@@ -413,37 +516,188 @@ function cfgDelete(id){_cfgs=_cfgs.filter(function(c){return c.id!==id;});_persi
 async function loadDB(){
   try{
     var r=await fetch('./db.json');
-    if(!r.ok) throw new Error('HTTP '+r.status);
+    if(!r.ok)throw new Error('HTTP '+r.status);
     DB=await r.json();
-    if(!DB.devices||!Array.isArray(DB.devices)) throw new Error('Invalid format');
+    if(!DB.devices||!Array.isArray(DB.devices))throw new Error('Invalid format');
     return true;
   }catch(e){return e.message;}
 }
-
 function promptDbPicker(){document.getElementById('db-picker').click();}
-
 function onDbFilePick(event){
-  var file=event.target.files[0]; if(!file) return;
+  var file=event.target.files[0];if(!file)return;
   var rd=new FileReader();
   rd.onload=function(e){
     try{
       var parsed=JSON.parse(e.target.result);
-      if(!parsed.devices||!Array.isArray(parsed.devices)) throw new Error('Invalid format');
-      DB=parsed;
-      toast('Loaded: '+DB.devices.length+' devices',true);
-      // Re-render configs page to remove banner
-      showConfigs();
-    }catch(err){toast('Failed to load: '+err.message,false);}
+      if(!parsed.devices||!Array.isArray(parsed.devices))throw new Error('Invalid format');
+      DB=parsed;toast('Loaded: '+DB.devices.length+' devices',true);showConfigs();
+    }catch(err){toast('Failed: '+err.message,false);}
   };
-  rd.readAsText(file);
-  event.target.value=''; // reset picker
+  rd.readAsText(file);event.target.value='';
+}
+
+// ══════════════════════════════════════════════════════════
+// WiFi event handlers
+// ══════════════════════════════════════════════════════════
+function onWifiScanDone(ev){
+  var nets=ev.networks||[];
+  if(currentPage!=='wifi_scan')return;
+  bar('WiFi Networks',nets.length+' found',true);
+  if(!nets.length){
+    document.getElementById('app').innerHTML=
+      '<div style="text-align:center;padding:40px 20px;color:#2e4455">'
+      +'<div style="font-size:40px;margin-bottom:14px">&#128246;</div>'
+      +'<p style="font-size:13px">No networks found.<br>Make sure WiFi is enabled on the device.</p>'
+      +'</div>';
+    return;
+  }
+  var h='';
+  // Sort: known first, then by RSSI
+  nets.sort(function(a,b){return (b.known?1:0)-(a.known?1:0)||(b.rssi-a.rssi);});
+  nets.forEach(function(n){
+    var badge=n.known?'<span class="net-badge known">&#9733; Known</span>'
+              :n.open?'<span class="net-badge open">Open</span>'
+              :'<span class="net-badge lock">&#128274; Password</span>';
+    h+='<div class="net-item" onclick="onNetTap(\''+esc(n.ssid)+'\','+n.open+')">'
+      +'<div class="net-body">'
+      +'<div class="net-ssid">'+n.ssid+'</div>'
+      +'<div class="net-meta">'+n.rssi+' dBm</div>'
+      +'</div>'+badge+'</div>';
+  });
+  document.getElementById('app').innerHTML=h;
+
+  // Auto-connect jika ada known network — ESP32 sudah kirim wifi_connecting
+}
+
+function onWifiConnecting(ev){
+  // ESP32 auto-connecting ke known network
+  document.getElementById('wifi-conn-ssid').textContent=ev.ssid||'';
+  var ov=document.getElementById('wifi-conn-overlay');
+  ov.classList.add('show');
+  // Safety timeout: jika 14 detik tidak ada wifi_result, tutup overlay dan refresh status
+  clearTimeout(ov._safetyTimer);
+  ov._safetyTimer=setTimeout(function(){
+    ov.classList.remove('show');
+    sendCmdFire({cmd:'wifi_status'});
+    toast('Connection timed out',false);
+  },14000);
+}
+
+function onWifiResult(ev){
+  var ov=document.getElementById('wifi-conn-overlay');
+  clearTimeout(ov._safetyTimer);
+  ov.classList.remove('show');
+  if(ev.ok){
+    wifiState={connected:true,ssid:ev.ssid||'',rssi:ev.rssi||0,ip:ev.ip||''};
+    // Update wifi bar if visible
+    var wb=document.getElementById('wifi-bar');if(wb)wb.outerHTML=wifiBarHtml();
+    // Jika kita ada di wifi_scan page, kembali ke configs
+    if(currentPage==='wifi_scan'){showConfigs();return;}
+    // Tutup password overlay jika terbuka
+    document.getElementById('wifi-pass-overlay').classList.remove('show');
+    toast('Connected to '+wifiState.ssid,true);
+    showConfigs();
+  }else{
+    // Gagal
+    if(ev.err==='wrong_password'){
+      // Tunjukkan lagi password overlay dengan pesan error
+      document.getElementById('wifi-pass-err').style.display='block';
+      document.getElementById('wifi-pass-overlay').classList.add('show');
+      setTimeout(function(){var i=document.getElementById('wifi-pass-input');if(i){i.value='';i.focus();}},80);
+    }else{
+      document.getElementById('wifi-pass-overlay').classList.remove('show');
+      toast('Connection failed: '+(ev.err||'unknown'),false);
+    }
+  }
+}
+
+function onWifiStatus(ev){
+  wifiState.connected=ev.connected;
+  if(ev.connected){
+    wifiState.ssid=ev.ssid||'';wifiState.rssi=ev.rssi||0;wifiState.ip=ev.ip||'';
+  }
+  var wb=document.getElementById('wifi-bar');
+  if(wb) wb.outerHTML=wifiBarHtml();
+}
+
+// ══════════════════════════════════════════════════════════
+// ATV event handlers
+// ══════════════════════════════════════════════════════════
+function onAtvScanDone(ev){
+  if(currentPage!=='atv_scan')return;
+  var devs=ev.devices||[];
+  bar('Android TV',devs.length?devs.length+' found':'No TV found',true);
+  if(ev.err==='wifi_not_connected'||!devs.length){
+    document.getElementById('app').innerHTML=
+      '<div style="text-align:center;padding:40px 20px;color:#2e4455">'
+      +'<div style="font-size:40px;margin-bottom:14px">&#128250;</div>'
+      +'<p style="font-size:13px">'+(ev.err==='wifi_not_connected'?'WiFi not connected.':'No Android TVs found.')+'<br>'
+      +'Make sure your TV is on and on the same network.</p>'
+      +'</div>';
+    return;
+  }
+  var h='<p style="font-size:11px;color:#3a5870;margin-bottom:12px">Tap a TV to start pairing.</p>';
+  devs.forEach(function(d){
+    h+='<div class="atv-item" onclick="startAtvPair(\''+esc(d.name)+'\',\''+esc(d.host)+'\','+d.port+')">'
+      +'<div class="atv-item-icon">&#128250;</div>'
+      +'<div><div class="atv-item-name">'+d.name+'</div>'
+      +'<div class="atv-item-host">'+d.host+':'+d.port+'</div></div>'
+      +'</div>';
+  });
+  document.getElementById('app').innerHTML=h;
+}
+
+function onAtvPairWaiting(){
+  document.getElementById('atv-pair-overlay').classList.add('show');
+}
+
+function onAtvPairResult(ev){
+  document.getElementById('atv-pair-overlay').classList.remove('show');
+  if(ev.ok){
+    toast('Paired successfully!',true);
+    showSaveConfigAtv(_pendingAtvName,_pendingAtvHost,_pendingAtvPort);
+  }else{
+    var msg=ev.err==='rejected'?'TV denied the request.'
+            :ev.err==='timeout'?'No response from TV. Try again.'
+            :ev.err==='connect_failed'?'Could not connect to TV.'
+            :'Pairing failed.';
+    toast(msg,false);
+    // Tetap di ATV scan page
+  }
+}
+
+function cancelAtvPair(){
+  document.getElementById('atv-pair-overlay').classList.remove('show');
+  sendCmdFire({cmd:'atv_cancel'});
+}
+
+// ══════════════════════════════════════════════════════════
+// WiFi bar helpers
+// ══════════════════════════════════════════════════════════
+function wifiBarHtml(){
+  if(wifiState.connected){
+    return '<div class="wifi-bar connected" id="wifi-bar">'
+      +'<span class="wifi-icon">&#128246;</span>'
+      +'<div class="wifi-info">'
+      +'<div class="wifi-ssid-txt" style="color:#00e87a">'+wifiState.ssid+'</div>'
+      +'<div class="wifi-rssi-txt">'+wifiState.rssi+' dBm &middot; '+wifiState.ip+'</div>'
+      +'</div>'
+      +'<button class="wifi-conn-btn" onclick="showWifiScan()">&#8634;</button>'
+      +'</div>';
+  }else{
+    return '<div class="wifi-bar" id="wifi-bar">'
+      +'<span class="wifi-icon">&#128246;</span>'
+      +'<div class="wifi-info"><div class="wifi-ssid-txt" style="color:#3a5870">Not connected</div></div>'
+      +'<button class="wifi-conn-btn" onclick="showWifiScan()">Connect</button>'
+      +'</div>';
+  }
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Landing
 // ══════════════════════════════════════════════════════════
 function showLanding(){
-  NAV=[]; window._physBtnAction=null;
+  NAV=[];window._physBtnAction=null;currentPage='landing';
   bar('IR Remote','Choose a connection method',false);
   document.getElementById('app').innerHTML=
     '<div class="land-wrap">'
@@ -460,58 +714,46 @@ function showLanding(){
     +'<div class="conn-card-icon">&#128243;</div>'
     +'<div class="conn-card-title">Bluetooth</div>'
     +'<div class="conn-card-sub">Phone &amp; Tablet<br>Chrome Android</div>'
-    +'</div>'
-    +'</div>'
+    +'</div></div>'
     +'<div class="conn-note">'
     +'<b>ESP32</b> must be running IR-Remote firmware<br>'
-    +'<b>USB:</b> same folder as this file, place <code>db.json</code> there<br>'
-    +'<b>Bluetooth:</b> load <code>db.json</code> from device storage'
-    +'</div>'
-    +'</div>';
+    +'<b>USB:</b> place <code>db.json</code> in the same folder<br>'
+    +'<b>Bluetooth:</b> load <code>db.json</code> via file picker'
+    +'</div></div>';
 }
-
-async function doConnectUsb(){
-  var ok=await connectUsb();
-  if(ok){await loadDB(); showConfigs();}
-}
-async function doConnectBle(){
-  var ok=await connectBle();
-  if(ok){await loadDB(); showConfigs();}
-}
+async function doConnectUsb(){var ok=await connectUsb();if(ok){await loadDB();sendCmdFire({cmd:'wifi_status'});showConfigs();}}
+async function doConnectBle(){var ok=await connectBle();if(ok){await loadDB();sendCmdFire({cmd:'wifi_status'});showConfigs();}}
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Saved Configurations
 // ══════════════════════════════════════════════════════════
 function showConfigs(){
-  NAV=[]; window._physBtnAction=null;
+  NAV=[];window._physBtnAction=null;currentPage='configs';
   bar('IR Remote','Saved configurations',false);
   var cfgs=cfgLoad();
-  var h='';
-
-  // Show db load banner if DB not loaded
+  var h=wifiBarHtml();
   if(!DB){
     h+='<div class="db-banner">'
-      +'<div class="db-banner-text">&#9888;&nbsp; No device database loaded.<br>Load <b>db.json</b> to add new configurations.</div>'
+      +'<div class="db-banner-text">&#9888;&nbsp; No device database loaded. Load <b>db.json</b> to add IR devices.</div>'
       +'<button class="db-banner-btn" onclick="promptDbPicker()">Load db.json</button>'
       +'</div>';
   }
-
   h+='<div class="cfg-header">'
     +'<span class="cfg-heading">'+cfgs.length+' configuration'+(cfgs.length!==1?'s':'')+' saved</span>'
-    +'<button class="cfg-add" onclick="startAdd()" title="Add configuration">+</button>'
+    +'<button class="cfg-add" onclick="startAdd()" title="Add">+</button>'
     +'</div>';
-
   if(!cfgs.length){
-    h+='<div class="cfg-empty">'
-      +'<div class="cfg-empty-icon">&#128246;</div>'
-      +'<p>No configurations saved yet.<br>Tap <b>+</b> to add one.</p>'
-      +'</div>';
+    h+='<div class="cfg-empty"><div class="cfg-empty-icon">&#128246;</div>'
+      +'<p>No configurations saved yet.<br>Tap <b>+</b> to add one.</p></div>';
   }else{
     cfgs.forEach(function(c){
-      h+='<div class="cfg-item" onclick="openConfig(\''+c.id+'\')">'
+      var isAtv=c.device_type==='atv';
+      var badge='<span class="dev-badge '+(isAtv?'atv':'ir')+'">'+(isAtv?'ATV':'IR')+'</span>';
+      var meta=isAtv?(c.atv_host||'Android TV'):(c.brand+' &middot; '+c.type+' &middot; Pattern '+(c.pattern+1));
+      h+='<div class="cfg-item'+(isAtv?' atv-cfg':'')+'" onclick="openConfig(\''+c.id+'\')">'
         +'<div class="cfg-item-body">'
-        +'<div class="cfg-item-name">'+c.name+'</div>'
-        +'<div class="cfg-item-meta">'+c.brand+' &middot; '+c.type+' &middot; Pattern '+(c.pattern+1)+'</div>'
+        +'<div class="cfg-item-name">'+c.name+badge+'</div>'
+        +'<div class="cfg-item-meta">'+meta+'</div>'
         +'</div>'
         +'<div class="cfg-item-actions">'
         +'<button class="cfg-item-ren" onclick="event.stopPropagation();promptRename(\''+c.id+'\')">&#9998;</button>'
@@ -525,75 +767,205 @@ function showConfigs(){
 function openConfig(id){
   var c=_cfgs.find(function(x){return x.id===id;});
   if(!c){toast('Configuration not found',false);return;}
-  showRemote(c.brand,c.type,c.pattern,c.name);
+  if(c.device_type==='atv') showAtvInfo(c);
+  else showRemote(c.brand,c.type,c.pattern,c.name);
 }
 
-function startAdd(){
-  if(!DB){promptDbPicker();return;}
-  showBrands();
-}
+function startAdd(){showAddChoice();}
 
 // Delete overlay
 var _delId=null;
 function promptDelete(id){
-  var c=_cfgs.find(function(x){return x.id===id;});
-  if(!c) return;
-  _delId=id;
-  document.getElementById('del-name').textContent='\u201c'+c.name+'\u201d';
+  var c=_cfgs.find(function(x){return x.id===id;});if(!c)return;
+  _delId=id;document.getElementById('del-name').textContent='\u201c'+c.name+'\u201d';
   document.getElementById('del-overlay').classList.add('show');
 }
 function doDeleteConfirm(){
   document.getElementById('del-overlay').classList.remove('show');
   if(_delId){cfgDelete(_delId);_delId=null;}
-  showConfigs(); toast('Configuration deleted',true);
+  showConfigs();toast('Deleted',true);
 }
 function doDeleteCancel(){document.getElementById('del-overlay').classList.remove('show');_delId=null;}
 
 // Rename overlay
 var _renId=null;
 function promptRename(id){
-  var c=_cfgs.find(function(x){return x.id===id;});
-  if(!c) return;
-  _renId=id;
-  var inp=document.getElementById('ren-input');
-  inp.value=c.name;
+  var c=_cfgs.find(function(x){return x.id===id;});if(!c)return;
+  _renId=id;var inp=document.getElementById('ren-input');inp.value=c.name;
   document.getElementById('ren-overlay').classList.add('show');
   setTimeout(function(){inp.focus();inp.select();},80);
 }
 function doRenameConfirm(){
-  var inp=document.getElementById('ren-input');
-  var name=inp?inp.value.trim():'';
-  if(!name){toast('Please enter a name',false);inp.focus();return;}
+  var name=(document.getElementById('ren-input')||{}).value||'';name=name.trim();
+  if(!name){toast('Please enter a name',false);return;}
   var c=_cfgs.find(function(x){return x.id===_renId;});
   if(c){c.name=name;_persist();}
   document.getElementById('ren-overlay').classList.remove('show');
-  _renId=null; showConfigs(); toast('Renamed to: '+name,true);
+  _renId=null;showConfigs();toast('Renamed to: '+name,true);
 }
 function doRenameCancel(){document.getElementById('ren-overlay').classList.remove('show');_renId=null;}
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Select Brand
+// PAGE: Add Choice (IR or Android TV)
+// ══════════════════════════════════════════════════════════
+function showAddChoice(){
+  NAV.push(showConfigs);currentPage='add_choice';
+  bar('Add Configuration','Select device type',true);
+  document.getElementById('app').innerHTML=
+    '<div class="choice-cards">'
+    +'<div class="choice-card" onclick="startIrAdd()">'
+    +'<div class="choice-icon">&#128225;</div>'
+    +'<div class="choice-title">IR Device</div>'
+    +'<div class="choice-sub">TV, AC, Speaker<br>Uses database</div>'
+    +'</div>'
+    +'<div class="choice-card atv-choice" onclick="startAtvAdd()">'
+    +'<div class="choice-icon">&#128250;</div>'
+    +'<div class="choice-title">Android TV</div>'
+    +'<div class="choice-sub">Smart TV via WiFi<br>Needs WiFi</div>'
+    +'</div></div>';
+}
+
+function startIrAdd(){
+  if(!DB){promptDbPicker();return;}
+  showBrands();
+}
+
+function startAtvAdd(){
+  if(!wifiState.connected){
+    document.getElementById('wifi-needed-overlay').classList.add('show');
+    return;
+  }
+  showAtvScan();
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: WiFi Scan
+// ══════════════════════════════════════════════════════════
+function showWifiScan(){
+  NAV.push(showConfigs);currentPage='wifi_scan';
+  bar('WiFi Networks','Scanning...',true);
+  document.getElementById('app').innerHTML=
+    '<div style="text-align:center;padding:50px 20px">'
+    +'<div class="spinner"></div>'
+    +'<p style="color:#3a5870;margin-top:18px;font-size:12px">Scanning for networks...</p>'
+    +'</div>';
+  sendCmdFire({cmd:'wifi_scan'});
+}
+
+function onNetTap(ssid,open){
+  _pendingWifiSsid=ssid;
+  if(open){
+    // Langsung connect, tidak perlu password
+    _pendingWifiPass='';
+    document.getElementById('wifi-conn-ssid').textContent=ssid;
+    document.getElementById('wifi-conn-overlay').classList.add('show');
+    sendCmdFire({cmd:'wifi_connect',ssid:ssid,pass:''});
+  }else{
+    // Tampilkan password overlay
+    document.getElementById('wifi-pass-ssid').textContent=ssid;
+    document.getElementById('wifi-pass-err').style.display='none';
+    document.getElementById('wifi-pass-input').value='';
+    document.getElementById('wifi-pass-overlay').classList.add('show');
+    setTimeout(function(){document.getElementById('wifi-pass-input').focus();},80);
+  }
+}
+
+function doWifiConnect(){
+  var pass=document.getElementById('wifi-pass-input').value;
+  _pendingWifiPass=pass;
+  document.getElementById('wifi-pass-overlay').classList.remove('show');
+  document.getElementById('wifi-conn-ssid').textContent=_pendingWifiSsid;
+  document.getElementById('wifi-conn-overlay').classList.add('show');
+  sendCmdFire({cmd:'wifi_connect',ssid:_pendingWifiSsid,pass:pass});
+}
+
+function closeWifiPass(){document.getElementById('wifi-pass-overlay').classList.remove('show');}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Android TV Scan
+// ══════════════════════════════════════════════════════════
+function showAtvScan(){
+  NAV.push(showAddChoice);currentPage='atv_scan';
+  bar('Android TV','Scanning...',true);
+  document.getElementById('app').innerHTML=
+    '<div style="text-align:center;padding:50px 20px">'
+    +'<div class="spinner" style="border-top-color:#4a90ff"></div>'
+    +'<p style="color:#3a5870;margin-top:18px;font-size:12px">Searching for Android TVs on your network...</p>'
+    +'</div>';
+  sendCmdFire({cmd:'atv_scan'});
+}
+
+function startAtvPair(name,host,port){
+  _pendingAtvName=name;_pendingAtvHost=host;_pendingAtvPort=port;
+  sendCmdFire({cmd:'atv_pair',host:host,port:port});
+  // atv_pair_waiting event will show the overlay
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Save Config (ATV)
+// ══════════════════════════════════════════════════════════
+function showSaveConfigAtv(atvName,atvHost,atvPort){
+  window._physBtnAction=null;currentPage='save_atv';
+  bar('Save Configuration','Android TV',false);
+  var h='<div class="card"><div class="sec-label">Configuration name</div>'
+    +'<input class="save-input" id="cfg-name" type="text" value="'+atvName+'" maxlength="40" autocomplete="off">'
+    +'</div>'
+    +'<div class="card"><div class="sec-label">Device info</div>'
+    +row('Device Type','&#128250; Android TV')
+    +row('TV Name',atvName)
+    +row('Host',atvHost)
+    +row('Port',atvPort)
+    +'</div>'
+    +'<button class="btn bg" onclick="doSaveAtv(\''+esc(atvName)+'\',\''+esc(atvHost)+'\','+atvPort+')">&#10003;&nbsp; Save</button>'
+    +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>';
+  document.getElementById('app').innerHTML=h;
+  setTimeout(function(){var i=document.getElementById('cfg-name');if(i){i.focus();i.select();}},80);
+}
+
+function doSaveAtv(atvName,atvHost,atvPort){
+  var inp=document.getElementById('cfg-name');
+  var name=inp?inp.value.trim():atvName;
+  if(!name){toast('Please enter a name',false);return;}
+  cfgAdd({name:name,device_type:'atv',atv_name:atvName,atv_host:atvHost,atv_port:atvPort,saved_at:new Date().toISOString()});
+  toast('Saved: '+name,true);showConfigs();
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Android TV Info (placeholder remote)
+// ══════════════════════════════════════════════════════════
+function showAtvInfo(cfg){
+  NAV=[showConfigs];currentPage='atv_info';
+  bar(cfg.name,'Android TV',true);
+  document.getElementById('app').innerHTML=
+    '<div class="atv-info">'
+    +'<div class="atv-info-icon">&#128250;</div>'
+    +'<h2>'+cfg.name+'</h2>'
+    +'<p>Android TV control via network is being prepared for a future update.</p>'
+    +'<div class="atv-info-card">'
+    +row('TV Name',cfg.atv_name||'-')
+    +row('Host',cfg.atv_host||'-')
+    +row('Port',cfg.atv_port||6467)
+    +'</div></div>';
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Select Brand (IR)
 // ══════════════════════════════════════════════════════════
 function showBrands(){
-  NAV.push(showConfigs);
+  NAV.push(showAddChoice);currentPage='brands';
   bar('Select Brand','Type to search',true);
-  var all=[];
-  DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});
-  all.sort();
+  var all=[];DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});all.sort();
   document.getElementById('app').innerHTML=
     '<div class="search-box"><span class="search-ico">&#128269;</span>'
     +'<input id="bq" type="text" placeholder="Search brand... ('+all.length+' available)" oninput="renderBrands()">'
     +'</div>'
     +'<div class="brand-count" id="bcnt">'+all.length+' brands</div>'
     +'<div id="blist"></div>';
-  document.getElementById('bq').focus();
-  renderBrands();
+  document.getElementById('bq').focus();renderBrands();
 }
 function renderBrands(){
   var q=(document.getElementById('bq')||{}).value||'',ql=q.toLowerCase().trim();
-  var all=[];
-  DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});
-  all.sort();
+  var all=[];DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});all.sort();
   var fil=ql?all.filter(function(b){return b.toLowerCase().indexOf(ql)>=0;}):all;
   document.getElementById('bcnt').textContent=fil.length+(ql?' found':' brands');
   var h='';
@@ -604,92 +976,81 @@ function renderBrands(){
     h+='<button class="btn bgh" style="text-align:left;display:flex;justify-content:space-between;align-items:center" onclick="showTypes(\''+esc(b)+'\')">'
       +'<span>'+lbl+'</span><span style="color:#2e4455;font-size:11px;flex-shrink:0">&nbsp;'+c+' files</span></button>';
   });
-  if(!fil.length) h='<p style="text-align:center;color:#2e4455;padding:24px;font-size:13px">Not found</p>';
+  if(!fil.length)h='<p style="text-align:center;color:#2e4455;padding:24px;font-size:13px">Not found</p>';
   document.getElementById('blist').innerHTML=h;
 }
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Select Type
+// PAGE: Select Type (IR)
 // ══════════════════════════════════════════════════════════
 function showTypes(brand){
-  NAV.push(showBrands);
-  CUR.brand=brand;
+  NAV.push(showBrands);CUR.brand=brand;currentPage='types';
   bar(brand,'Select device type',true);
-  var types=[];
-  DB.devices.forEach(function(d){if(d.brand===brand&&types.indexOf(d.category)<0)types.push(d.category);});
-  types.sort();
+  var types=[];DB.devices.forEach(function(d){if(d.brand===brand&&types.indexOf(d.category)<0)types.push(d.category);});types.sort();
   var h='<div class="card"><div class="sec-label">'+brand+'</div>';
   types.forEach(function(t){
     var c=DB.devices.filter(function(d){return d.brand===brand&&d.category===t;}).length;
     h+='<button class="btn bgh" style="display:flex;justify-content:space-between;align-items:center" onclick="showPower(\''+esc(brand)+'\',\''+esc(t)+'\',0)">'
       +'<span>'+t+'</span><span style="color:#2e4455;font-size:11px">'+c+' patterns</span></button>';
   });
-  h+='</div>';
-  document.getElementById('app').innerHTML=h;
+  h+='</div>';document.getElementById('app').innerHTML=h;
 }
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Test Pattern
+// PAGE: Test Pattern (IR)
 // ══════════════════════════════════════════════════════════
 function showPower(brand,type,pattern){
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
-  var total=devs.length;
-  if(!total){toast('No data found',false);return;}
-  if(pattern<0) pattern=0; if(pattern>=total) pattern=total-1;
-  CUR.brand=brand;CUR.type=type;CUR.pattern=pattern;CUR.total=total;
+  var total=devs.length;if(!total){toast('No data found',false);return;}
+  if(pattern<0)pattern=0;if(pattern>=total)pattern=total-1;
+  CUR.brand=brand;CUR.type=type;CUR.pattern=pattern;CUR.total=total;currentPage='test_pattern';
   var key='types:'+brand;
   var lastIsTypes=NAV.length&&NAV[NAV.length-1]._k===key;
   if(!lastIsTypes){var fn=function(){showTypes(brand);};fn._k=key;NAV.push(fn);}
   bar('Test Pattern',brand+' · '+type,true);
   var dev=devs[pattern],ps=null;
   if(dev&&dev.signals){
-    for(var i=0;i<dev.signals.length;i++){
-      var sn=dev.signals[i].name.toUpperCase();
-      if(sn==='POWER'||sn==='PWR'||sn.indexOf('POWER')>=0||sn.indexOf('STANDBY')>=0){ps=dev.signals[i];break;}
-    }
-    if(!ps&&dev.signals.length) ps=dev.signals[0];
+    for(var i=0;i<dev.signals.length;i++){var sn=dev.signals[i].name.toUpperCase();if(sn==='POWER'||sn.indexOf('POWER')>=0||sn.indexOf('STANDBY')>=0){ps=dev.signals[i];break;}}
+    if(!ps&&dev.signals.length)ps=dev.signals[0];
   }
-  window._pwrSig=ps; window._physBtnAction=doPower;
+  window._pwrSig=ps;window._physBtnAction=doPower;
   var be=esc(brand),te=esc(type);
   var h='<div class="pat-nav">'
     +'<button class="btn ba" '+(pattern>0?'onclick="showPower(\''+be+'\',\''+te+'\','+(pattern-1)+')"':'disabled')+'>&#8592; Prev</button>'
     +'<div class="pat-ctr">'+(pattern+1)+'/'+total+'</div>'
     +'<button class="btn ba" '+(pattern<total-1?'onclick="showPower(\''+be+'\',\''+te+'\','+(pattern+1)+')"':'disabled')+'>Next &#8594;</button>'
     +'</div>';
-  if(dev) h+='<div class="card"><div class="sec-label">Pattern '+(pattern+1)+' info</div>'
+  if(dev)h+='<div class="card"><div class="sec-label">Pattern '+(pattern+1)+' info</div>'
     +row('File',dev.source_file||'-')
     +row('Protocol',dev.protocols?dev.protocols.join(', '):'?')
     +row('Buttons',(dev.signals?dev.signals.length:0)+' signals')
     +'</div>';
   h+='<div class="pwr-wrap"><button class="pwr-btn" id="pwrbtn" onclick="doPower()" '+(ps?'':'disabled')+'>'
     +'<span class="pwr-ico">&#9211;</span><span>TEST POWER</span></button></div>'
-    +'<p class="sel-hint">'+(ps?'Point at device and press to test':'No power signal in this pattern')+'</p>'
+    +'<p class="sel-hint">'+(ps?'Point at device and tap to test':'No power signal in this pattern')+'</p>'
     +'<button class="btn bc" onclick="showSaveConfig(\''+be+'\',\''+te+'\','+pattern+')">&#9654;&nbsp; Select This Pattern</button>';
   document.getElementById('app').innerHTML=h;
 }
-
 var _pwrBusy=false;
 async function doPower(){
-  if(_pwrBusy||!window._pwrSig) return;
-  _pwrBusy=true;
-  var btn=document.getElementById('pwrbtn'); btn.style.opacity='.4';
-  await sendSignal(window._pwrSig);
-  btn.style.opacity='1'; _pwrBusy=false;
+  if(_pwrBusy||!window._pwrSig)return;_pwrBusy=true;
+  var btn=document.getElementById('pwrbtn');btn.style.opacity='.4';
+  await sendSignal(window._pwrSig);btn.style.opacity='1';_pwrBusy=false;
   document.getElementById('pwr-overlay').classList.add('show');
 }
 function doYes(){document.getElementById('pwr-overlay').classList.remove('show');showSaveConfig(CUR.brand,CUR.type,CUR.pattern);}
 function doNo(){
   document.getElementById('pwr-overlay').classList.remove('show');
   var next=CUR.pattern+1;
-  if(next<CUR.total) showPower(CUR.brand,CUR.type,next);
+  if(next<CUR.total)showPower(CUR.brand,CUR.type,next);
   else toast('All '+CUR.total+' patterns tried',false);
 }
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Save Configuration
+// PAGE: Save Config (IR)
 // ══════════════════════════════════════════════════════════
 function showSaveConfig(brand,type,pattern){
-  window._physBtnAction=null;
+  window._physBtnAction=null;currentPage='save_ir';
   bar('Save Configuration',brand+' · '+type,false);
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
@@ -698,12 +1059,13 @@ function showSaveConfig(brand,type,pattern){
     +'<input class="save-input" id="cfg-name" type="text" placeholder="e.g. Living Room TV" maxlength="40" autocomplete="off">'
     +'</div>'
     +'<div class="card"><div class="sec-label">Settings to be saved</div>'
+    +row('Device Type','&#128225; IR')
     +row('Brand',brand)+row('Type',type)+row('Pattern',(pattern+1)+' of '+devs.length)
     +(dev?row('File',dev.source_file||'-'):'')
     +(dev?row('Protocol',dev.protocols?dev.protocols.join(', '):'?'):'')
     +(dev?row('Buttons',(dev.signals?dev.signals.length:0)+' signals'):'')
     +'</div>'
-    +'<button class="btn bg" onclick="doSave(\''+be+'\',\''+te+'\','+pattern+')">&#10003;&nbsp; Save</button>'
+    +'<button class="btn bg" onclick="doSaveIr(\''+be+'\',\''+te+'\','+pattern+')">&#10003;&nbsp; Save</button>'
     +'<div class="save-actions">'
     +'<button class="btn ba" onclick="showPower(\''+be+'\',\''+te+'\',0)">&#8592;&nbsp; Back</button>'
     +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>'
@@ -711,13 +1073,13 @@ function showSaveConfig(brand,type,pattern){
   document.getElementById('app').innerHTML=h;
   setTimeout(function(){var i=document.getElementById('cfg-name');if(i)i.focus();},80);
 }
-function doSave(brand,type,pattern){
+function doSaveIr(brand,type,pattern){
   var inp=document.getElementById('cfg-name');
   var name=inp?inp.value.trim():'';
-  if(!name){toast('Please enter a configuration name',false);if(inp)inp.focus();return;}
+  if(!name){toast('Please enter a name',false);if(inp)inp.focus();return;}
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
-  cfgAdd({name:name,brand:brand,type:type,pattern:pattern,
+  cfgAdd({name:name,device_type:'ir',brand:brand,type:type,pattern:pattern,
     source_file:dev?dev.source_file||'':'',protocols:dev?dev.protocols||[]:[],
     signal_count:dev?dev.signals?dev.signals.length:0:0,saved_at:new Date().toISOString()});
   toast('Saved: '+name,true);
@@ -725,50 +1087,41 @@ function doSave(brand,type,pattern){
 }
 
 // ══════════════════════════════════════════════════════════
-// PAGE: Remote Control
+// PAGE: Remote Control (IR)
 // ══════════════════════════════════════════════════════════
 function showRemote(brand,type,pattern,configName){
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
-  var dev=devs[pattern];
-  if(!dev){toast('Device not found',false);return;}
-  NAV=[showConfigs];
+  var dev=devs[pattern];if(!dev){toast('Device not found',false);return;}
+  NAV=[showConfigs];currentPage='remote';
   var barTitle=configName||(brand+' · '+type);
   var barSub=configName?(brand+' · '+type+' · Pattern '+(pattern+1)):('Pattern '+(pattern+1));
   bar(barTitle,barSub,true);
-  var sigs=dev.signals||[];
-  window._remSigs=sigs;
+  var sigs=dev.signals||[];window._remSigs=sigs;
 
   function fi(pats){
     for(var i=0;i<sigs.length;i++){var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');for(var k=0;k<pats.length;k++)if(u===pats[k])return i;}
     for(var i=0;i<sigs.length;i++){var u=sigs[i].name.toUpperCase().replace(/[-_ ]/g,'');for(var k=0;k<pats.length;k++){var p=pats[k];if(p.length>=4&&u.indexOf(p)>=0)return i;}}
     return -1;
   }
-
   var iPwr=fi(['POWER','PWR','STANDBY','ONOFF','POWERTOGGLE']);
   window._physBtnAction=(function(idx){return function(){if(idx>=0)clickBtn(idx);};})(iPwr);
-
-  var iVu=fi(['VOLUP','VOLUMEUP','VOL+','VOLUME+']),   iVd=fi(['VOLDOWN','VOLDN','VOLUMEDOWN','VOL-','VOLUME-']);
+  var iVu=fi(['VOLUP','VOLUMEUP','VOL+','VOLUME+']),iVd=fi(['VOLDOWN','VOLDN','VOLUMEDOWN','VOL-','VOLUME-']);
   var iMu=fi(['MUTE','MUTETOGGLE']);
-  var iCu=fi(['CHUP','CH+','CHANNELUP','CHANNEL+','PROGUP','PROG+','PAGEUP']),
-      iCd=fi(['CHDOWN','CHDN','CH-','CHANNELDOWN','CHANNEL-','PROGDOWN','PROG-','PAGEDOWN']);
-  var iTu=fi(['TEMPUP','TEMP+','TEMPERATUREUP','WARMER','HEATUP','HEAT+']),
-      iTd=fi(['TEMPDOWN','TEMP-','TEMPERATUREDOWN','COOLER','HEATDOWN','HEAT-']);
-  var iUp=fi(['UP','ARROWUP','DPADUP','CURSORUP']),   iDn=fi(['DOWN','ARROWDOWN','DPADDOWN','CURSORDOWN']);
-  var iLt=fi(['LEFT','ARROWLEFT','DPADLEFT','CURSORLEFT']), iRt=fi(['RIGHT','ARROWRIGHT','DPADRIGHT','CURSORRIGHT']);
+  var iCu=fi(['CHUP','CH+','CHANNELUP','CHANNEL+','PROGUP','PROG+','PAGEUP']),iCd=fi(['CHDOWN','CHDN','CH-','CHANNELDOWN','CHANNEL-','PROGDOWN','PROG-','PAGEDOWN']);
+  var iTu=fi(['TEMPUP','TEMP+','TEMPERATUREUP','WARMER','HEATUP','HEAT+']),iTd=fi(['TEMPDOWN','TEMP-','TEMPERATUREDOWN','COOLER','HEATDOWN','HEAT-']);
+  var iUp=fi(['UP','ARROWUP','DPADUP','CURSORUP']),iDn=fi(['DOWN','ARROWDOWN','DPADDOWN','CURSORDOWN']);
+  var iLt=fi(['LEFT','ARROWLEFT','DPADLEFT','CURSORLEFT']),iRt=fi(['RIGHT','ARROWRIGHT','DPADRIGHT','CURSORRIGHT']);
   var iOk=fi(['OK','ENTER','SELECT','CONFIRM','CENTER','DPADCENTER']);
   var iMenu=fi(['MENU','SETTINGS','SETUP']),iHome=fi(['HOME','HOMESCREEN']);
   var iBk=fi(['BACK','RETURN','EXIT','GOBACK']),iInfo=fi(['INFO','DISPLAY','STATUS']),iGui=fi(['GUIDE','EPG']);
-  var nums=[]; for(var n=0;n<=9;n++) nums.push(fi([String(n),'NUM'+n,'KEY'+n,'DIGIT'+n,'NUMBER'+n]));
-
+  var nums=[];for(var n=0;n<=9;n++)nums.push(fi([String(n),'NUM'+n,'KEY'+n,'DIGIT'+n,'NUMBER'+n]));
   var used={};
-  [iPwr,iVu,iVd,iMu,iCu,iCd,iTu,iTd,iUp,iDn,iLt,iRt,iOk,iMenu,iHome,iBk,iInfo,iGui]
-    .forEach(function(x){if(x>=0)used[x]=1;});
+  [iPwr,iVu,iVd,iMu,iCu,iCd,iTu,iTd,iUp,iDn,iLt,iRt,iOk,iMenu,iHome,iBk,iInfo,iGui].forEach(function(x){if(x>=0)used[x]=1;});
   nums.forEach(function(x){if(x>=0)used[x]=1;});
-  var misc=[]; sigs.forEach(function(s,i){if(!used[i])misc.push(i);});
+  var misc=[];sigs.forEach(function(s,i){if(!used[i])misc.push(i);});
 
   function rb(idx,cls,lbl){
-    if(idx<0)return'';
-    var s=sigs[idx],l=lbl||(s.name.length>8?s.name.slice(0,7)+'…':s.name);
+    if(idx<0)return'';var s=sigs[idx],l=lbl||(s.name.length>8?s.name.slice(0,7)+'…':s.name);
     return'<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+s.name+'">'+l+'</button>';
   }
   function dp(idx,lbl,cls){
@@ -776,17 +1129,14 @@ function showRemote(brand,type,pattern,configName){
     if(idx>=0)return'<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+sigs[idx].name+'">'+lbl+'</button>';
     return'<div class="rm-empty"></div>';
   }
-
   var h='<div class="remote">';
-  if(iPwr>=0) h+='<div class="rm-pwr-row">'+rb(iPwr,'rm-pwr-btn','&#9211;')+'</div>';
-
+  if(iPwr>=0)h+='<div class="rm-pwr-row">'+rb(iPwr,'rm-pwr-btn','&#9211;')+'</div>';
   var qRow=[[iMenu,'MENU'],[iHome,'HOME'],[iBk,'BACK'],[iInfo,'INFO'],[iGui,'GUIDE']].filter(function(x){return x[0]>=0;});
   if(qRow.length){h+='<div class="rm-quick">';qRow.forEach(function(x){h+=rb(x[0],'rm-q',x[1]);});h+='</div>';}
-
   var pCols=[];
-  if(iVu>=0||iVd>=0||iMu>=0) pCols.push({lbl:'VOL',u:iVu,d:iVd,ex:iMu,exl:'MUTE',c:'rm-pv'});
-  if(iCu>=0||iCd>=0)          pCols.push({lbl:'CH', u:iCu,d:iCd,ex:-1, exl:'',   c:'rm-pc'});
-  if(iTu>=0||iTd>=0)          pCols.push({lbl:'TEMP',u:iTu,d:iTd,ex:-1,exl:'',   c:'rm-pt'});
+  if(iVu>=0||iVd>=0||iMu>=0)pCols.push({lbl:'VOL',u:iVu,d:iVd,ex:iMu,exl:'MUTE',c:'rm-pv'});
+  if(iCu>=0||iCd>=0)pCols.push({lbl:'CH',u:iCu,d:iCd,ex:-1,exl:'',c:'rm-pc'});
+  if(iTu>=0||iTd>=0)pCols.push({lbl:'TEMP',u:iTu,d:iTd,ex:-1,exl:'',c:'rm-pt'});
   if(pCols.length){
     h+='<div class="rm-pairs">';
     pCols.forEach(function(p){
@@ -798,7 +1148,6 @@ function showRemote(brand,type,pattern,configName){
     });
     h+='</div>';
   }
-
   if(iUp>=0||iDn>=0||iLt>=0||iRt>=0||iOk>=0){
     h+='<div class="rm-dpad">';
     h+='<div class="rm-empty"></div>'+dp(iUp,'&#9650;')+'<div class="rm-empty"></div>';
@@ -806,7 +1155,6 @@ function showRemote(brand,type,pattern,configName){
     h+='<div class="rm-empty"></div>'+dp(iDn,'&#9660;')+'<div class="rm-empty"></div>';
     h+='</div>';
   }
-
   if(nums.some(function(x){return x>=0;})){
     h+='<div class="rm-numpad">';
     [1,2,3,4,5,6,7,8,9,-1,0,-1].forEach(function(n){
@@ -817,7 +1165,6 @@ function showRemote(brand,type,pattern,configName){
     });
     h+='</div>';
   }
-
   if(misc.length){
     h+='<div class="rm-misc-lbl">Other</div><div class="rm-misc">';
     misc.forEach(function(i){
@@ -829,7 +1176,6 @@ function showRemote(brand,type,pattern,configName){
   h+='</div>';
   document.getElementById('app').innerHTML=h;
 }
-
 function clickBtn(i){sendSignal(window._remSigs[i]);}
 
 // ══════════════════════════════════════════════════════════
@@ -842,7 +1188,7 @@ function parseVal(dec,hex,raw){
   return 0;
 }
 async function sendSignal(sig){
-  if(!sig) return false;
+  if(!sig)return false;
   var p;
   if(sig.raw_timings_us&&sig.raw_timings_us.length>0){
     p={proto:'RAW',raw:sig.raw_timings_us,freq:sig.frequency_hz||38000};
@@ -850,8 +1196,7 @@ async function sendSignal(sig){
     p={proto:(sig.protocol||'NEC').replace(/\{\d+\}/,'').trim().toUpperCase(),
        addr:parseVal(sig.address_decimal,sig.address_hex,sig.address_raw),
        cmd:parseVal(sig.command_decimal,sig.command_hex,sig.command_raw),
-       freq:sig.frequency_hz||38000,
-       bits:sig.signal_structure?(sig.signal_structure.bits||32):32};
+       freq:sig.frequency_hz||38000,bits:sig.signal_structure?(sig.signal_structure.bits||32):32};
   }
   var j=await sendCmd(p);
   toast(j.ok?('OK: '+sig.name):('Failed: '+(j.err||'Error')),j.ok);
@@ -861,7 +1206,7 @@ async function sendSignal(sig){
 // ── Init ───────────────────────────────────────────────────
 (async function(){
   _restore();
-  await loadDB(); // try to load db.json (works on PC, may fail on mobile)
+  await loadDB();
   showLanding();
 })();
 </script>
