@@ -77,6 +77,8 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .cfg-item:hover{border-color:#00d4ff}
 .cfg-item.atv-cfg{border-color:#1a3070}
 .cfg-item.atv-cfg:hover{border-color:#4a90ff}
+.cfg-item.rec-cfg{border-color:#2a1a40}
+.cfg-item.rec-cfg:hover{border-color:#c07af0}
 .cfg-item:active{background:#0c1a28}
 .cfg-item-body{flex:1;min-width:0}
 .cfg-item-name{font-size:14px;font-weight:700;color:#d0e2f0;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -92,6 +94,7 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .dev-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;margin-left:4px;vertical-align:middle}
 .dev-badge.ir{background:#071810;color:#00e87a;border:1px solid rgba(0,232,122,.2)}
 .dev-badge.atv{background:#07101a;color:#4fc3f7;border:1px solid rgba(79,195,247,.2)}
+.dev-badge.rec{background:#18071a;color:#c07af0;border:1px solid rgba(180,100,240,.2)}
 /* ── DB load banner ── */
 .db-banner{background:#0a1520;border:1px solid #ffb020;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
 .db-banner-text{flex:1;font-size:11px;color:#c08030;line-height:1.5}
@@ -206,6 +209,41 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
 .atv-info h2{font-size:16px;font-weight:700;color:#d0e2f0;margin-bottom:8px}
 .atv-info p{font-size:12px;color:#3a5870;line-height:1.7}
 .atv-info-card{background:#0d1825;border:1px solid #1a3070;border-radius:12px;padding:14px;margin:16px 0;text-align:left}
+/* ── TV brand badges ── */
+.brand-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.brand-badge.atv{background:#071420;color:#4fc3f7;border:1px solid rgba(79,195,247,.25)}
+.brand-badge.lg{background:#07101a;color:#ff4444;border:1px solid rgba(255,68,68,.25)}
+.brand-badge.samsung{background:#07101a;color:#1e90ff;border:1px solid rgba(30,144,255,.25)}
+.brand-badge.roku{background:#0a0a1a;color:#7c4dff;border:1px solid rgba(124,77,255,.25)}
+.brand-badge.sony{background:#1a0a07;color:#ff8c42;border:1px solid rgba(255,140,66,.25)}
+.brand-badge.chromecast{background:#071420;color:#4fc3f7;border:1px solid rgba(79,195,247,.25)}
+.brand-badge.default{background:#0d1420;color:#7a9ab0;border:1px solid #1a2e42}
+.proto-chip{display:inline-block;font-size:9px;padding:2px 6px;border-radius:6px;background:#0a1520;color:#3a5870;border:1px solid #1a2e42;margin-top:3px}
+/* ── TV test page ── */
+.tv-cmd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.tv-cmd-btn{padding:10px 4px;border-radius:8px;background:#0d1825;border:1px solid #1a2e42;color:#5a7a90;font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.3;word-break:break-word}
+.tv-cmd-btn:active{background:#162030;color:#d0e2f0;border-color:#00d4ff}
+.tv-cmd-btn.special{background:#07111e;border-color:#1a3070;color:#4fc3f7}
+.tv-cmd-btn.special:active{background:#1a3070;color:#fff}
+/* ── IR Recording ── */
+@keyframes rec-pulse{0%{transform:scale(1);opacity:.9}50%{transform:scale(1.5);opacity:.3}100%{transform:scale(1);opacity:.9}}
+.rec-ring{width:14px;height:14px;border-radius:50%;border:2px solid #00d4ff;flex-shrink:0;animation:rec-pulse .8s ease infinite}
+.rec-dev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+.rec-dev-card{background:#0d1825;border:1px solid #1a2e42;border-radius:12px;padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .18s;text-align:center}
+.rec-dev-card:hover{border-color:#00d4ff;background:#0c1e30}
+.rec-dev-card:active{transform:scale(.94)}
+.rec-dev-icon{font-size:30px;line-height:1}
+.rec-dev-label{font-size:12px;font-weight:700;color:#d0e2f0}
+.rec-slot{background:#0d1825;border:1px solid #1a2e42;border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:border-color .2s}
+.rec-slot.waiting{border-color:rgba(0,212,255,.5)}
+.rec-slot.captured{border-color:rgba(0,232,122,.5);background:#061510}
+.rec-slot.pending{opacity:.35}
+.rec-slot-label{font-size:10px;font-weight:700;color:#5a7a90;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.rec-slot-status{display:flex;align-items:center;gap:10px;font-size:12px;color:#3a5870}
+.rec-step-hero{text-align:center;padding:20px 0 18px}
+.rec-step-icon{font-size:44px;margin-bottom:6px}
+.rec-step-title{font-size:16px;font-weight:700;color:#d0e2f0;margin-bottom:4px}
+.rec-step-hint{font-size:11px;color:#3a5870;line-height:1.6}
 </style>
 </head>
 <body>
@@ -293,14 +331,38 @@ body{background:#07090f;color:#d0e2f0;font-family:-apple-system,BlinkMacSystemFo
   </div>
 </div>
 
-<!-- ATV: waiting for TV approval -->
-<div class="overlay" id="atv-pair-overlay">
+<!-- TV: waiting for user to approve on TV -->
+<div class="overlay" id="tv-pair-overlay">
   <div class="ov-box">
     <div class="ov-load">
       <div class="spinner" style="border-top-color:#4a90ff"></div>
-      <p style="margin-top:16px">A permission request has been sent.<br><b style="color:#d0e2f0">Press Allow on your TV.</b></p>
+      <p style="margin-top:16px" id="tv-pair-msg">A request has been sent.<br><b style="color:#d0e2f0">Press Allow on your TV.</b></p>
     </div>
-    <button class="btn bgh" style="margin-top:16px" onclick="cancelAtvPair()">Cancel</button>
+    <button class="btn bgh" style="margin-top:16px" onclick="cancelTvPair()">Cancel</button>
+  </div>
+</div>
+
+<!-- TV: Sony PIN entry -->
+<div class="overlay" id="tv-pin-overlay">
+  <div class="ov-box">
+    <h3>&#128274;&nbsp; Enter TV PIN</h3>
+    <p style="margin-bottom:6px">Your Sony TV is showing a <b style="color:#d0e2f0">4-digit PIN</b> on screen.</p>
+    <p id="tv-pin-err" style="color:#ff8888;margin-bottom:12px;display:none;font-weight:700">&#10007; Wrong PIN. Try again.</p>
+    <input class="save-input" id="tv-pin-input" type="number" placeholder="e.g. 1234" maxlength="4" autocomplete="off" style="margin-bottom:16px;font-size:22px;text-align:center;letter-spacing:.2em">
+    <div class="ov-row">
+      <button class="btn bc" onclick="doTvPin()">Confirm</button>
+      <button class="btn bgh" onclick="closeTvPin()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TV: pairing connecting loading -->
+<div class="overlay" id="tv-conn-overlay">
+  <div class="ov-box">
+    <div class="ov-load">
+      <div class="spinner" style="border-top-color:#4a90ff"></div>
+      <p id="tv-conn-msg" style="margin-top:14px;color:#5a7a90">Connecting...</p>
+    </div>
   </div>
 </div>
 
@@ -333,7 +395,57 @@ var CONN=null;
 var wifiState={connected:false,ssid:'',rssi:0,ip:''};
 var currentPage='';
 var _pendingWifiSsid='',_pendingWifiPass='';
-var _pendingAtvHost='',_pendingAtvPort=6467,_pendingAtvName='';
+var _pendingTvHost='',_pendingTvPort=0,_pendingTvName='',_pendingTvBrand='',_pendingTvProto='';
+
+// ── IR Record state ─────────────────────────────────────────
+var REC={devType:'',devLabel:'',steps:[],stepIdx:0,slotIdx:0,captured:{},recording:false};
+
+var REC_STEP_DEFS={
+  power:      {key:'power',     label:'Power',             icon:'&#9211;', skip:false, signals:[{key:'power',    label:'Power'}]},
+  volume:     {key:'volume',    label:'Volume',            icon:'&#128266;',skip:true,  signals:[{key:'vol_up',  label:'Volume Up'},{key:'vol_down',label:'Volume Down'}]},
+  mute:       {key:'mute',      label:'Mute',              icon:'&#128264;',skip:true,  signals:[{key:'mute',    label:'Mute'}]},
+  channel:    {key:'channel',   label:'Channel',           icon:'&#128225;',skip:true,  signals:[{key:'ch_up',   label:'Channel Up'},{key:'ch_down',label:'Channel Down'}]},
+  freeze:     {key:'freeze',    label:'Freeze / Blank',    icon:'&#9208;',  skip:true,  signals:[{key:'freeze',  label:'Freeze'},{key:'blank',label:'Blank / Dark'}]},
+  input:      {key:'input',     label:'Input / Source',    icon:'&#128268;',skip:true,  signals:[{key:'input',   label:'Input / Source'}]},
+  nav:        {key:'nav',       label:'Navigation',        icon:'&#128377;',skip:true,  signals:[{key:'up',label:'Up'},{key:'down',label:'Down'},{key:'left',label:'Left'},{key:'right',label:'Right'},{key:'ok',label:'OK / Enter'}]},
+  back_menu:  {key:'back_menu', label:'Back &amp; Menu',   icon:'&#8617;',  skip:true,  signals:[{key:'back',    label:'Back / Return'},{key:'menu',label:'Menu / Settings'}]},
+  media_play: {key:'media_play',label:'Play / Pause',      icon:'&#9654;',  skip:true,  signals:[{key:'play',    label:'Play / Pause'},{key:'stop',label:'Stop'}]},
+  media_nav:  {key:'media_nav', label:'Next / Previous',   icon:'&#9197;',  skip:true,  signals:[{key:'next',    label:'Next'},{key:'prev',label:'Previous'}]},
+  eject:      {key:'eject',     label:'Eject',             icon:'&#9167;',  skip:true,  signals:[{key:'eject',   label:'Eject / Open'}]},
+  temp:       {key:'temp',      label:'Temperature',       icon:'&#127777;',skip:true,  signals:[{key:'temp_up', label:'Temp Up'},{key:'temp_down',label:'Temp Down'}]},
+  mode:       {key:'mode',      label:'Mode',              icon:'&#8635;',  skip:true,  signals:[{key:'mode',    label:'Mode (Cool/Heat/Fan/Auto)'}]},
+  fan_speed:  {key:'fan_speed', label:'Fan Speed',         icon:'&#128168;',skip:true,  signals:[{key:'fan_speed',label:'Fan Speed'}]},
+  swing:      {key:'swing',     label:'Swing / Louver',    icon:'&#8596;',  skip:true,  signals:[{key:'swing',   label:'Swing'}]},
+  timer_ac:   {key:'timer_ac',  label:'Timer',             icon:'&#9200;',  skip:true,  signals:[{key:'timer',   label:'Timer'}]},
+  fan_osc:    {key:'fan_osc',   label:'Speed &amp; Oscillate',icon:'&#127744;',skip:true,signals:[{key:'speed',label:'Speed'},{key:'oscillate',label:'Oscillate'}]},
+  eq:         {key:'eq',        label:'EQ / Sound Mode',   icon:'&#127925;',skip:true,  signals:[{key:'eq',      label:'EQ / Sound Mode'}]}
+};
+
+var REC_DEVICE_STEPS={
+  tv:        ['power','volume','mute','channel','freeze','input','nav','back_menu'],
+  ac:        ['power','temp','mode','fan_speed','swing','timer_ac'],
+  dvd:       ['power','media_play','media_nav','eject','volume'],
+  speaker:   ['power','volume','mute','eq','input'],
+  soundbar:  ['power','volume','mute','eq','input'],
+  projector: ['power','volume','mute','freeze','input','nav'],
+  stb:       ['power','channel','volume','mute','nav','back_menu','input'],
+  avr:       ['power','volume','mute','input'],
+  fan:       ['power','fan_osc','timer_ac'],
+  other:     ['power','volume','mute','input']
+};
+
+var REC_DEVICES=[
+  {id:'tv',       icon:'&#128250;',label:'TV'},
+  {id:'ac',       icon:'&#10052;', label:'Air Conditioner'},
+  {id:'dvd',      icon:'&#128191;',label:'DVD / Blu-ray'},
+  {id:'speaker',  icon:'&#128266;',label:'Speaker'},
+  {id:'soundbar', icon:'&#128265;',label:'Soundbar'},
+  {id:'projector',icon:'&#127901;',label:'Projector'},
+  {id:'stb',      icon:'&#128225;',label:'Set-top Box'},
+  {id:'avr',      icon:'&#127899;',label:'AV Receiver'},
+  {id:'fan',      icon:'&#127744;',label:'Fan'},
+  {id:'other',    icon:'&#128246;',label:'Other / Generic'}
+];
 
 // ── USB Serial ─────────────────────────────────────────────
 var _port=null,_writer=null,_reader=null,_usbConn=false,_rbuf='',_pending=null;
@@ -369,14 +481,16 @@ function setDot(s){
 // Event dispatcher
 // ══════════════════════════════════════════════════════════
 function dispatchEvent(ev){
-  if(ev.event==='btn_power')        { triggerPhysBtn(); return; }
-  if(ev.event==='wifi_scan_done')   { onWifiScanDone(ev); return; }
-  if(ev.event==='wifi_connecting')  { onWifiConnecting(ev); return; }
-  if(ev.event==='wifi_result')      { onWifiResult(ev); return; }
-  if(ev.event==='wifi_status')      { onWifiStatus(ev); return; }
-  if(ev.event==='atv_scan_done')    { onAtvScanDone(ev); return; }
-  if(ev.event==='atv_pair_waiting') { onAtvPairWaiting(); return; }
-  if(ev.event==='atv_pair_result')  { onAtvPairResult(ev); return; }
+  if(ev.event==='btn_power')           { triggerPhysBtn(); return; }
+  if(ev.event==='wifi_scan_done')      { onWifiScanDone(ev); return; }
+  if(ev.event==='wifi_connecting')     { onWifiConnecting(ev); return; }
+  if(ev.event==='wifi_result')         { onWifiResult(ev); return; }
+  if(ev.event==='wifi_status')         { onWifiStatus(ev); return; }
+  if(ev.event==='tv_scan_done')        { onTvScanDone(ev); return; }
+  if(ev.event==='tv_pair_waiting')     { onTvPairWaiting(ev); return; }
+  if(ev.event==='tv_pair_pin_required'){ onTvPinRequired(ev); return; }
+  if(ev.event==='tv_pair_result')      { onTvPairResult(ev); return; }
+  if(ev.event==='ir_captured')         { onIrCaptured(ev); return; }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -620,56 +734,255 @@ function onWifiStatus(ev){
   if(wb) wb.outerHTML=wifiBarHtml();
 }
 
+
 // ══════════════════════════════════════════════════════════
-// ATV event handlers
+// TV brand helpers
 // ══════════════════════════════════════════════════════════
-function onAtvScanDone(ev){
-  if(currentPage!=='atv_scan')return;
+var TV_BRAND_COLORS={
+  'Android TV':'atv','LG':'lg','Samsung':'samsung',
+  'Roku':'roku','Sony':'sony','Chromecast':'atv'
+};
+var TV_PROTOCOL_LABELS={
+  'androidtvremote2':'Android TV Remote v2',
+  'webos':'LG SSAP (webOS)',
+  'samsung_tizen':'Samsung SmartThings',
+  'roku_ecp':'Roku ECP',
+  'sony_bravia':'Sony Bravia REST'
+};
+// Commands per protocol (from tv_protocols.json, embedded for offline use)
+var TV_COMMANDS={
+  'androidtvremote2':['POWER','VOLUME_UP','VOLUME_DOWN','MUTE','CHANNEL_UP','CHANNEL_DOWN',
+    'DPAD_UP','DPAD_DOWN','DPAD_LEFT','DPAD_RIGHT','DPAD_CENTER',
+    'HOME','BACK','MENU','SEARCH','GUIDE','INFO','SETTINGS',
+    'MEDIA_PLAY','MEDIA_PAUSE','MEDIA_STOP','MEDIA_NEXT','MEDIA_PREVIOUS',
+    'MEDIA_FAST_FORWARD','MEDIA_REWIND',
+    'NUM_0','NUM_1','NUM_2','NUM_3','NUM_4','NUM_5','NUM_6','NUM_7','NUM_8','NUM_9',
+    'INPUT_SELECT','CAPTIONS','F1_RED','F2_GREEN','F3_YELLOW','F4_BLUE'],
+  'webos':['POWER','MUTE','VOLUME_UP','VOLUME_DOWN','CHANNEL_UP','CHANNEL_DOWN',
+    'UP','DOWN','LEFT','RIGHT','ENTER','BACK','HOME','EXIT',
+    '0','1','2','3','4','5','6','7','8','9',
+    'PLAY','PAUSE','STOP','FF','REW','RED','GREEN','YELLOW','BLUE',
+    'INFO','GUIDE','SETTINGS','NETFLIX','AMAZON','ASPECT_RATIO'],
+  'samsung_tizen':['KEY_POWER','KEY_MUTE','KEY_VOLUP','KEY_VOLDOWN',
+    'KEY_CHUP','KEY_CHDOWN','KEY_UP','KEY_DOWN','KEY_LEFT','KEY_RIGHT','KEY_ENTER',
+    'KEY_RETURN','KEY_HOME','KEY_MENU','KEY_EXIT',
+    'KEY_0','KEY_1','KEY_2','KEY_3','KEY_4','KEY_5','KEY_6','KEY_7','KEY_8','KEY_9',
+    'KEY_PLAY','KEY_PAUSE','KEY_STOP','KEY_FF','KEY_REWIND',
+    'KEY_RED','KEY_GREEN','KEY_YELLOW','KEY_BLUE',
+    'KEY_HDMI1','KEY_HDMI2','KEY_HDMI3','KEY_HDMI4',
+    'KEY_NETFLIX','KEY_GUIDE','KEY_INFO','KEY_TOOLS','KEY_SLEEP'],
+  'roku_ecp':['Power','VolumeUp','VolumeDown','VolumeMute',
+    'ChannelUp','ChannelDown',
+    'Up','Down','Left','Right','Select','Back','Home','Search',
+    'Play','Rev','Fwd','InstantReplay','Info',
+    'Lit_0','Lit_1','Lit_2','Lit_3','Lit_4','Lit_5','Lit_6','Lit_7','Lit_8','Lit_9',
+    'InputHDMI1','InputHDMI2','InputHDMI3','InputHDMI4','InputTuner',
+    'MediaPlay','MediaPause','MediaStop','MediaRewind','MediaFastForward','A','B'],
+  'sony_bravia':['PowerOff','VolumeUp','VolumeDown','Mute',
+    'ChannelUp','ChannelDown','Up','Down','Left','Right','Confirm',
+    'Return','Exit','Home','SyncMenu',
+    'Num1','Num2','Num3','Num4','Num5','Num6','Num7','Num8','Num9','Num0',
+    'Play','Pause','Stop','Next','Prev','FlashPlus','FlashMinus',
+    'HDMI1','HDMI2','HDMI3','HDMI4',
+    'Red','Green','Yellow','Blue','Netflix','Audio','Wide','ClosedCaption']
+};
+// Special/important keys per protocol
+var TV_SPECIAL_KEYS={
+  'androidtvremote2':['POWER','HOME','BACK','DPAD_CENTER','VOLUME_UP','VOLUME_DOWN','MUTE'],
+  'webos':['POWER','HOME','BACK','ENTER','VOLUME_UP','VOLUME_DOWN','MUTE'],
+  'samsung_tizen':['KEY_POWER','KEY_HOME','KEY_RETURN','KEY_ENTER','KEY_VOLUP','KEY_VOLDOWN','KEY_MUTE'],
+  'roku_ecp':['Power','Home','Back','Select','VolumeUp','VolumeDown','VolumeMute'],
+  'sony_bravia':['PowerOff','Home','Return','Confirm','VolumeUp','VolumeDown','Mute']
+};
+
+function brandBadge(brand){
+  var cls=TV_BRAND_COLORS[brand]||'default';
+  return '<span class="brand-badge '+cls+'">'+brand+'</span>';
+}
+
+// ══════════════════════════════════════════════════════════
+// TV event handlers
+// ══════════════════════════════════════════════════════════
+function onTvScanDone(ev){
   var devs=ev.devices||[];
-  bar('Android TV',devs.length?devs.length+' found':'No TV found',true);
+  if(currentPage!=='tv_scan')return;
+  bar('Smart TV',devs.length?devs.length+' found':'No TV found',true);
   if(ev.err==='wifi_not_connected'||!devs.length){
     document.getElementById('app').innerHTML=
       '<div style="text-align:center;padding:40px 20px;color:#2e4455">'
       +'<div style="font-size:40px;margin-bottom:14px">&#128250;</div>'
-      +'<p style="font-size:13px">'+(ev.err==='wifi_not_connected'?'WiFi not connected.':'No Android TVs found.')+'<br>'
-      +'Make sure your TV is on and on the same network.</p>'
+      +'<p style="font-size:13px">'+(ev.err==='wifi_not_connected'?'WiFi not connected.':'No Smart TVs found.')
+      +'<br>Make sure your TV is on and on the same network.</p>'
       +'</div>';
     return;
   }
   var h='<p style="font-size:11px;color:#3a5870;margin-bottom:12px">Tap a TV to start pairing.</p>';
   devs.forEach(function(d){
-    h+='<div class="atv-item" onclick="startAtvPair(\''+esc(d.name)+'\',\''+esc(d.host)+'\','+d.port+')">'
+    var proto=TV_PROTOCOL_LABELS[d.protocol]||d.protocol;
+    h+='<div class="atv-item" onclick="startTvPair(\''+esc(d.name)+'\',\''+esc(d.brand)+'\',\''+esc(d.protocol)+'\',\''+esc(d.host)+'\','+d.port+')">'
       +'<div class="atv-item-icon">&#128250;</div>'
-      +'<div><div class="atv-item-name">'+d.name+'</div>'
-      +'<div class="atv-item-host">'+d.host+':'+d.port+'</div></div>'
-      +'</div>';
+      +'<div><div class="atv-item-name">'+d.name+brandBadge(d.brand)+'</div>'
+      +'<div class="atv-item-host">'+d.host+':'+d.port+'</div>'
+      +'<div><span class="proto-chip">'+proto+'</span></div>'
+      +'</div></div>';
   });
   document.getElementById('app').innerHTML=h;
 }
 
-function onAtvPairWaiting(){
-  document.getElementById('atv-pair-overlay').classList.add('show');
+function onTvPairWaiting(ev){
+  var brand=ev.brand||'TV';
+  var msgs={
+    'LG':'Allow access request on your LG TV.',
+    'Samsung':'Allow access request on your Samsung TV.',
+    'Android TV':'Press <b style="color:#d0e2f0">Allow</b> on your TV.',
+    'Chromecast':'Press <b style="color:#d0e2f0">Allow</b> on your TV.'
+  };
+  document.getElementById('tv-pair-msg').innerHTML=(msgs[brand]||'Press Allow on your TV.');
+  document.getElementById('tv-pair-overlay').classList.add('show');
 }
 
-function onAtvPairResult(ev){
-  document.getElementById('atv-pair-overlay').classList.remove('show');
+function onTvPinRequired(ev){
+  document.getElementById('tv-conn-overlay').classList.remove('show');
+  document.getElementById('tv-pin-err').style.display='none';
+  document.getElementById('tv-pin-input').value='';
+  document.getElementById('tv-pin-overlay').classList.add('show');
+  setTimeout(function(){document.getElementById('tv-pin-input').focus();},80);
+}
+
+function onTvPairResult(ev){
+  document.getElementById('tv-pair-overlay').classList.remove('show');
+  document.getElementById('tv-pin-overlay').classList.remove('show');
+  document.getElementById('tv-conn-overlay').classList.remove('show');
   if(ev.ok){
-    toast('Paired successfully!',true);
-    showSaveConfigAtv(_pendingAtvName,_pendingAtvHost,_pendingAtvPort);
+    // Save credentials from pairing into pending TV data
+    var creds={client_key:ev.client_key||'',token:ev.token||''};
+    if(ev.no_auth)creds.no_auth=true;
+    toast('Paired with '+(_pendingTvBrand||'TV')+'!',true);
+    showTvTestSave(creds);
   }else{
-    var msg=ev.err==='rejected'?'TV denied the request.'
-            :ev.err==='timeout'?'No response from TV. Try again.'
-            :ev.err==='connect_failed'?'Could not connect to TV.'
-            :'Pairing failed.';
-    toast(msg,false);
-    // Tetap di ATV scan page
+    var errMsgs={
+      'rejected':'TV denied the request.',
+      'denied':'TV denied access.',
+      'timeout':'No response from TV.',
+      'connect_failed':'Could not connect to TV.',
+      'wrong_pin':'Wrong PIN. Try again.'
+    };
+    if(ev.err==='wrong_pin'){
+      // Show PIN overlay again with error
+      document.getElementById('tv-pin-err').style.display='block';
+      document.getElementById('tv-pin-input').value='';
+      document.getElementById('tv-pin-overlay').classList.add('show');
+      setTimeout(function(){document.getElementById('tv-pin-input').focus();},80);
+    }else{
+      toast((errMsgs[ev.err]||'Pairing failed.')+' ('+_pendingTvBrand+')',false);
+    }
   }
 }
 
-function cancelAtvPair(){
-  document.getElementById('atv-pair-overlay').classList.remove('show');
-  sendCmdFire({cmd:'atv_cancel'});
+function cancelTvPair(){
+  document.getElementById('tv-pair-overlay').classList.remove('show');
+  sendCmdFire({cmd:'tv_cancel'});
 }
+
+function doTvPin(){
+  var pin=document.getElementById('tv-pin-input').value.trim();
+  if(pin.length!==4||isNaN(pin)){toast('Enter a 4-digit PIN',false);return;}
+  document.getElementById('tv-pin-overlay').classList.remove('show');
+  document.getElementById('tv-conn-overlay').classList.add('show');
+  document.getElementById('tv-conn-msg').textContent='Verifying PIN...';
+  sendCmdFire({cmd:'tv_pin',host:_pendingTvHost,pin:pin});
+}
+
+function closeTvPin(){
+  document.getElementById('tv-pin-overlay').classList.remove('show');
+  sendCmdFire({cmd:'tv_cancel'});
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Smart TV Scan
+// ══════════════════════════════════════════════════════════
+function showTvScan(){
+  NAV.push(showAddChoice);currentPage='tv_scan';
+  bar('Smart TV','Scanning...',true);
+  document.getElementById('app').innerHTML=
+    '<div style="text-align:center;padding:50px 20px">'
+    +'<div class="spinner" style="border-top-color:#4a90ff"></div>'
+    +'<p style="color:#3a5870;margin-top:18px;font-size:12px">Searching for Smart TVs on your network...<br>'
+    +'<span style="font-size:10px;color:#2a3e50">Android TV · LG · Samsung · Roku · Sony</span></p>'
+    +'</div>';
+  sendCmdFire({cmd:'tv_scan'});
+}
+
+function startTvPair(name,brand,proto,host,port){
+  _pendingTvName=name;_pendingTvBrand=brand;_pendingTvProto=proto;
+  _pendingTvHost=host;_pendingTvPort=port;
+  document.getElementById('tv-conn-overlay').classList.add('show');
+  document.getElementById('tv-conn-msg').textContent='Connecting to '+brand+'...';
+  sendCmdFire({cmd:'tv_pair',brand:brand,host:host,port:port});
+  // For Roku (no_auth): overlay will close on tv_pair_result immediately
+  // For others: tv-conn-overlay will be replaced by tv-pair-overlay or tv-pin-overlay
+  setTimeout(function(){document.getElementById('tv-conn-overlay').classList.remove('show');},1500);
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: TV Test & Save
+// ══════════════════════════════════════════════════════════
+function showTvTestSave(creds){
+  currentPage='tv_test_save';
+  bar(_pendingTvName||'Smart TV','Test & Save',false);
+  var proto=_pendingTvProto;
+  var cmds=TV_COMMANDS[proto]||[];
+  var specials=TV_SPECIAL_KEYS[proto]||[];
+  var protoLabel=TV_PROTOCOL_LABELS[proto]||proto;
+
+  var h='<div class="card"><div class="sec-label">Configuration name</div>'
+    +'<input class="save-input" id="tv-cfg-name" type="text" value="'+(_pendingTvName||'Smart TV')+'" maxlength="40" autocomplete="off">'
+    +'</div>'
+    +'<div class="card"><div class="sec-label">Device</div>'
+    +row('Brand',brandBadge(_pendingTvBrand))
+    +row('Protocol',protoLabel)
+    +row('Host',_pendingTvHost+':'+_pendingTvPort)
+    +(creds.client_key?row('Client Key','<span style="font-size:9px;color:#3a5870">'+creds.client_key.slice(0,16)+'...</span>'):'')
+    +(creds.token?row('Token','<span style="font-size:9px;color:#3a5870">'+creds.token.slice(0,16)+'...</span>'):'')
+    +'</div>';
+
+  if(cmds.length){
+    h+='<div class="card">'
+      +'<div class="sec-label">Test commands (tap to send via app after saving)</div>'
+      +'<div class="tv-cmd-grid">';
+    cmds.forEach(function(cmd){
+      var isSpec=specials.indexOf(cmd)>=0;
+      var lbl=cmd.replace(/^(KEY_|NUM_|Lit_)/,'').replace(/_/g,' ');
+      if(lbl.length>10)lbl=lbl.slice(0,9)+'…';
+      h+='<div class="tv-cmd-btn'+(isSpec?' special':'')+'" title="'+cmd+'">'+lbl+'</div>';
+    });
+    h+='</div></div>';
+  }
+
+  h+='<button class="btn bg" onclick="doSaveTv(\''+esc(JSON.stringify(creds))+'\')">✓&nbsp; Save Configuration</button>'
+    +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>';
+
+  document.getElementById('app').innerHTML=h;
+  setTimeout(function(){var i=document.getElementById('tv-cfg-name');if(i){i.focus();i.select();}},80);
+}
+
+function doSaveTv(credsJson){
+  var inp=document.getElementById('tv-cfg-name');
+  var name=inp?inp.value.trim():(_pendingTvName||'Smart TV');
+  if(!name){toast('Please enter a name',false);return;}
+  var creds={}; try{creds=JSON.parse(credsJson);}catch(e){}
+  cfgAdd({
+    name:name,device_type:'smarttv',
+    tv_name:_pendingTvName,tv_brand:_pendingTvBrand,tv_protocol:_pendingTvProto,
+    tv_host:_pendingTvHost,tv_port:_pendingTvPort,
+    tv_credentials:creds,
+    saved_at:new Date().toISOString()
+  });
+  toast('Saved: '+name,true);
+  showConfigs();
+}
+
+
 
 // ══════════════════════════════════════════════════════════
 // WiFi bar helpers
@@ -747,10 +1060,15 @@ function showConfigs(){
       +'<p>No configurations saved yet.<br>Tap <b>+</b> to add one.</p></div>';
   }else{
     cfgs.forEach(function(c){
-      var isAtv=c.device_type==='atv';
-      var badge='<span class="dev-badge '+(isAtv?'atv':'ir')+'">'+(isAtv?'ATV':'IR')+'</span>';
-      var meta=isAtv?(c.atv_host||'Android TV'):(c.brand+' &middot; '+c.type+' &middot; Pattern '+(c.pattern+1));
-      h+='<div class="cfg-item'+(isAtv?' atv-cfg':'')+'" onclick="openConfig(\''+c.id+'\')">'
+      var isAtv=(c.device_type==='atv'||c.device_type==='smarttv');
+      var isRec=(c.device_type==='recorded');
+      var badgeCls=isAtv?'atv':isRec?'rec':'ir';
+      var badgeLabel=isAtv?'ATV':isRec?'REC':'IR';
+      var badge='<span class="dev-badge '+badgeCls+'">'+badgeLabel+'</span>';
+      var meta=isAtv?((c.tv_brand||c.atv_name||'Smart TV')+' &middot; '+(c.tv_host||c.atv_host||'')):
+               isRec?(c.dev_label+' &middot; '+Object.keys(c.signals||{}).length+' buttons recorded'):
+               (c.brand+' &middot; '+c.type+' &middot; Pattern '+(c.pattern+1));
+      h+='<div class="cfg-item'+(isAtv?' atv-cfg':isRec?' rec-cfg':'')+'" onclick="openConfig(\''+c.id+'\')">'
         +'<div class="cfg-item-body">'
         +'<div class="cfg-item-name">'+c.name+badge+'</div>'
         +'<div class="cfg-item-meta">'+meta+'</div>'
@@ -767,7 +1085,8 @@ function showConfigs(){
 function openConfig(id){
   var c=_cfgs.find(function(x){return x.id===id;});
   if(!c){toast('Configuration not found',false);return;}
-  if(c.device_type==='atv') showAtvInfo(c);
+  if(c.device_type==='atv'||c.device_type==='smarttv') showTvInfo(c);
+  else if(c.device_type==='recorded') showRecordedRemote(c);
   else showRemote(c.brand,c.type,c.pattern,c.name);
 }
 
@@ -820,14 +1139,49 @@ function showAddChoice(){
     +'</div>'
     +'<div class="choice-card atv-choice" onclick="startAtvAdd()">'
     +'<div class="choice-icon">&#128250;</div>'
-    +'<div class="choice-title">Android TV</div>'
-    +'<div class="choice-sub">Smart TV via WiFi<br>Needs WiFi</div>'
+    +'<div class="choice-title">Smart TV</div>'
+    +'<div class="choice-sub">LG · Samsung · Roku · Sony<br>Android TV · Needs WiFi</div>'
     +'</div></div>';
 }
 
 function startIrAdd(){
+  showIrAddChoice();
+}
+
+function showIrAddChoice(){
+  NAV.push(showAddChoice);currentPage='ir_add_choice';
+  bar('Add IR Device','Choose method',true);
+  document.getElementById('app').innerHTML=
+    '<div class="choice-cards">'
+    +'<div class="choice-card" onclick="startIrFromDb()">'
+    +'<div class="choice-icon">&#128218;</div>'
+    +'<div class="choice-title">Select Brand</div>'
+    +'<div class="choice-sub">Browse 46 000+ devices<br>TV, AC, Speaker &amp; more</div>'
+    +'</div>'
+    +'<div class="choice-card" style="border-color:#1a4020" onclick="showRecordDevType()">'
+    +'<div class="choice-icon">&#127357;</div>'
+    +'<div class="choice-title">Record Remote</div>'
+    +'<div class="choice-sub">Capture signals from<br>your original remote</div>'
+    +'</div></div>';
+}
+
+function startIrFromDb(){
   if(!DB){promptDbPicker();return;}
   showBrands();
+}
+
+function showRecordDevType(){
+  NAV.push(showIrAddChoice);currentPage='rec_dev_type';
+  bar('Record Remote','Choose device type',true);
+  var h='<div class="rec-dev-grid">';
+  REC_DEVICES.forEach(function(d){
+    h+='<div class="rec-dev-card" onclick="startRecording(\''+d.id+'\',\''+d.label+'\')">'
+      +'<div class="rec-dev-icon">'+d.icon+'</div>'
+      +'<div class="rec-dev-label">'+d.label+'</div>'
+      +'</div>';
+  });
+  h+='</div>';
+  document.getElementById('app').innerHTML=h;
 }
 
 function startAtvAdd(){
@@ -835,7 +1189,7 @@ function startAtvAdd(){
     document.getElementById('wifi-needed-overlay').classList.add('show');
     return;
   }
-  showAtvScan();
+  showTvScvScan();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -884,7 +1238,7 @@ function closeWifiPass(){document.getElementById('wifi-pass-overlay').classList.
 // ══════════════════════════════════════════════════════════
 // PAGE: Android TV Scan
 // ══════════════════════════════════════════════════════════
-function showAtvScan(){
+function showTvScan(){
   NAV.push(showAddChoice);currentPage='atv_scan';
   bar('Android TV','Scanning...',true);
   document.getElementById('app').innerHTML=
@@ -895,58 +1249,41 @@ function showAtvScan(){
   sendCmdFire({cmd:'atv_scan'});
 }
 
-function startAtvPair(name,host,port){
-  _pendingAtvName=name;_pendingAtvHost=host;_pendingAtvPort=port;
-  sendCmdFire({cmd:'atv_pair',host:host,port:port});
-  // atv_pair_waiting event will show the overlay
+function startTvPairOld(name,host,port){
+  // legacy - replaced by startTvPair
 }
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Save Config (ATV)
 // ══════════════════════════════════════════════════════════
-function showSaveConfigAtv(atvName,atvHost,atvPort){
-  window._physBtnAction=null;currentPage='save_atv';
-  bar('Save Configuration','Android TV',false);
-  var h='<div class="card"><div class="sec-label">Configuration name</div>'
-    +'<input class="save-input" id="cfg-name" type="text" value="'+atvName+'" maxlength="40" autocomplete="off">'
-    +'</div>'
-    +'<div class="card"><div class="sec-label">Device info</div>'
-    +row('Device Type','&#128250; Android TV')
-    +row('TV Name',atvName)
-    +row('Host',atvHost)
-    +row('Port',atvPort)
-    +'</div>'
-    +'<button class="btn bg" onclick="doSaveAtv(\''+esc(atvName)+'\',\''+esc(atvHost)+'\','+atvPort+')">&#10003;&nbsp; Save</button>'
-    +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>';
-  document.getElementById('app').innerHTML=h;
-  setTimeout(function(){var i=document.getElementById('cfg-name');if(i){i.focus();i.select();}},80);
-}
-
-function doSaveAtv(atvName,atvHost,atvPort){
-  var inp=document.getElementById('cfg-name');
-  var name=inp?inp.value.trim():atvName;
-  if(!name){toast('Please enter a name',false);return;}
-  cfgAdd({name:name,device_type:'atv',atv_name:atvName,atv_host:atvHost,atv_port:atvPort,saved_at:new Date().toISOString()});
-  toast('Saved: '+name,true);showConfigs();
-}
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Android TV Info (placeholder remote)
 // ══════════════════════════════════════════════════════════
-function showAtvInfo(cfg){
-  NAV=[showConfigs];currentPage='atv_info';
-  bar(cfg.name,'Android TV',true);
+function showTvInfo(cfg){
+  NAV=[showConfigs];currentPage='tv_info';
+  var brand=cfg.tv_brand||cfg.atv_name||'Smart TV';
+  var proto=cfg.tv_protocol||'androidtvremote2';
+  var protoLabel=TV_PROTOCOL_LABELS[proto]||proto;
+  bar(cfg.name,brand,true);
+  var creds=cfg.tv_credentials||{};
   document.getElementById('app').innerHTML=
     '<div class="atv-info">'
     +'<div class="atv-info-icon">&#128250;</div>'
     +'<h2>'+cfg.name+'</h2>'
-    +'<p>Android TV control via network is being prepared for a future update.</p>'
-    +'<div class="atv-info-card">'
-    +row('TV Name',cfg.atv_name||'-')
-    +row('Host',cfg.atv_host||'-')
-    +row('Port',cfg.atv_port||6467)
-    +'</div></div>';
+    +'<p style="color:#3a5870;font-size:12px">'+protoLabel+'</p>'
+    +'<div class="atv-info-card" style="text-align:left">'
+    +row('Brand',brandBadge(brand))
+    +row('Protocol',protoLabel)
+    +row('Host',(cfg.tv_host||cfg.atv_host||'-')+':'+(cfg.tv_port||cfg.atv_port||'-'))
+    +(creds.client_key?row('Auth','Client key saved &#10003;'):'')
+    +(creds.token?row('Auth','Token saved &#10003;'):'')
+    +(creds.no_auth?row('Auth','No auth required (Roku)'):'')
+    +'</div>'
+    +'<p style="font-size:11px;color:#2a3e50;margin-top:12px">Network remote control for this TV will be available in a future update.</p>'
+    +'</div>';
 }
+
 
 // ══════════════════════════════════════════════════════════
 // PAGE: Select Brand (IR)
@@ -1201,6 +1538,247 @@ async function sendSignal(sig){
   var j=await sendCmd(p);
   toast(j.ok?('OK: '+sig.name):('Failed: '+(j.err||'Error')),j.ok);
   return j.ok;
+}
+
+// ══════════════════════════════════════════════════════════
+// IR RECORD ENGINE
+// ══════════════════════════════════════════════════════════
+function startRecording(devType,devLabel){
+  REC={devType:devType,devLabel:devLabel,steps:REC_DEVICE_STEPS[devType]||['power'],
+       stepIdx:0,slotIdx:0,captured:{},recording:false};
+  showRecordStep();
+}
+
+function showRecordStep(){
+  var stepKey=REC.steps[REC.stepIdx];
+  var def=REC_STEP_DEFS[stepKey];
+  currentPage='record_step';
+  bar(def.label,REC.devLabel+' · Step '+(REC.stepIdx+1)+'/'+REC.steps.length,true);
+
+  // Replace NAV back to go to device type selector
+  NAV=[function(){sendCmdFire({cmd:'ir_record_stop'});REC.recording=false;showRecordDevType();}];
+
+  var h='<div class="rec-step-hero">'
+    +'<div class="rec-step-icon">'+def.icon+'</div>'
+    +'<div class="rec-step-title">'+def.label+'</div>'
+    +'<div class="rec-step-hint">Point your remote at the IR sensor and<br>press the <b style="color:#d0e2f0">'+def.signals[0].label+'</b> button</div>'
+    +'</div>';
+
+  def.signals.forEach(function(sig,i){
+    var cap=REC.captured[sig.key];
+    var isActive=(i===REC.slotIdx&&!cap);
+    var isCap=!!cap;
+    var cls=isCap?'captured':(isActive?'waiting':'pending');
+    h+='<div class="rec-slot '+cls+'" id="rec-slot-'+i+'">'
+      +'<div class="rec-slot-label">'+sig.label+'</div>'
+      +'<div class="rec-slot-status" id="rec-slot-st-'+i+'">';
+    if(isCap){
+      h+='<span style="color:#00e87a;font-size:16px">&#10003;</span>'
+        +'<span style="color:#00e87a;font-weight:700">'+(cap.protocol||'RAW')+(cap.code?' · '+cap.code:'')+'</span>';
+    }else if(isActive){
+      h+='<div class="rec-ring"></div><span style="color:#5a7a90">Waiting for signal...</span>';
+    }else{
+      h+='<span style="color:#2e4455">— not yet —</span>';
+    }
+    h+='</div></div>';
+  });
+
+  var allCaptured=def.signals.every(function(s){return!!REC.captured[s.key];});
+  var isPower=(def.key==='power');
+  h+='<div style="margin-top:18px">'
+    +'<button class="btn bg" id="rec-cont-btn" onclick="continueRecordStep()" '+((!isPower||allCaptured)?'':'disabled')+'>&#9654;&nbsp; Continue</button>';
+  if(def.skip){
+    h+='<button class="btn bgh" onclick="skipRecordStep()">Skip &rarr;</button>';
+  }
+  h+='</div>'
+    +'<p style="font-size:10px;color:#2a3e50;text-align:center;margin-top:14px">'
+    +(isPower?'Power is required — cannot skip':'Capture as many buttons as you need, then press Continue or Skip')
+    +'</p>';
+
+  document.getElementById('app').innerHTML=h;
+
+  if(!allCaptured){
+    sendCmdFire({cmd:'ir_record_start'});
+    REC.recording=true;
+  }
+}
+
+function onIrCaptured(ev){
+  if(currentPage!=='record_step')return;
+  var stepKey=REC.steps[REC.stepIdx];
+  var def=REC_STEP_DEFS[stepKey];
+  var slot=def.signals[REC.slotIdx];
+  if(!slot)return;
+
+  // Store captured signal
+  REC.captured[slot.key]={
+    protocol:ev.protocol||'RAW',
+    code:ev.code||null,
+    bits:ev.bits||32,
+    addr:ev.addr||null,
+    raw:ev.raw||[],
+    freq:38000
+  };
+
+  // Update slot UI → captured state
+  var slotEl=document.getElementById('rec-slot-'+REC.slotIdx);
+  var stEl=document.getElementById('rec-slot-st-'+REC.slotIdx);
+  if(slotEl)slotEl.className='rec-slot captured';
+  if(stEl)stEl.innerHTML='<span style="color:#00e87a;font-size:16px">&#10003;</span>'
+    +'<span style="color:#00e87a;font-weight:700">'+(ev.protocol||'RAW')+(ev.code?' · '+ev.code:'')+'</span>';
+
+  // Advance to next slot
+  var nextIdx=REC.slotIdx+1;
+  if(nextIdx<def.signals.length){
+    REC.slotIdx=nextIdx;
+    var nextSlotEl=document.getElementById('rec-slot-'+nextIdx);
+    var nextStEl=document.getElementById('rec-slot-st-'+nextIdx);
+    if(nextSlotEl)nextSlotEl.className='rec-slot waiting';
+    if(nextStEl)nextStEl.innerHTML='<div class="rec-ring"></div><span style="color:#5a7a90">Waiting for signal...</span>';
+  }else{
+    // All slots in this step captured
+    sendCmdFire({cmd:'ir_record_stop'});REC.recording=false;
+    var btn=document.getElementById('rec-cont-btn');
+    if(btn){btn.disabled=false;}
+    // Auto-flash a toast so user knows
+    toast('All signals captured!',true);
+  }
+}
+
+function continueRecordStep(){
+  if(REC.recording){sendCmdFire({cmd:'ir_record_stop'});REC.recording=false;}
+  REC.stepIdx++;
+  if(REC.stepIdx>=REC.steps.length){showRecordSave();return;}
+  REC.slotIdx=0;
+  showRecordStep();
+}
+
+function skipRecordStep(){
+  // Discard any partial captures for this step
+  var def=REC_STEP_DEFS[REC.steps[REC.stepIdx]];
+  def.signals.forEach(function(s){delete REC.captured[s.key];});
+  if(REC.recording){sendCmdFire({cmd:'ir_record_stop'});REC.recording=false;}
+  REC.stepIdx++;
+  if(REC.stepIdx>=REC.steps.length){showRecordSave();return;}
+  REC.slotIdx=0;
+  showRecordStep();
+}
+
+function showRecordSave(){
+  sendCmdFire({cmd:'ir_record_stop'});REC.recording=false;
+  currentPage='record_save';
+  bar('Save Remote',REC.devLabel,false);
+  // Collect ordered signal labels for metadata
+  var allSigs=[];
+  REC.steps.forEach(function(sk){REC_STEP_DEFS[sk].signals.forEach(function(s){allSigs.push({key:s.key,label:s.label});});});
+  var captured=Object.keys(REC.captured);
+  var h='<div class="card"><div class="sec-label">Remote name</div>'
+    +'<input class="save-input" id="rec-name" type="text" placeholder="e.g. My Sony TV" maxlength="40" autocomplete="off">'
+    +'</div>'
+    +'<div class="card"><div class="sec-label">Recorded</div>'
+    +row('Device type',REC.devLabel)
+    +row('Buttons captured',captured.length+' of '+allSigs.length);
+  allSigs.forEach(function(s){
+    if(REC.captured[s.key]){
+      var sig=REC.captured[s.key];
+      h+=row(s.label,'<span style="color:#00e87a">&#10003;</span> '+(sig.protocol||'RAW'));
+    }
+  });
+  h+='</div>'
+    +'<button class="btn bg" onclick="doSaveRecorded()">&#10003;&nbsp; Save Remote</button>'
+    +'<button class="btn bx" onclick="showConfigs()">&#10005;&nbsp; Cancel</button>';
+  document.getElementById('app').innerHTML=h;
+  setTimeout(function(){var i=document.getElementById('rec-name');if(i)i.focus();},80);
+}
+
+function doSaveRecorded(){
+  var inp=document.getElementById('rec-name');
+  var name=inp?inp.value.trim():'';
+  if(!name){toast('Please enter a name',false);if(inp)inp.focus();return;}
+  var allSigs=[];
+  REC.steps.forEach(function(sk){REC_STEP_DEFS[sk].signals.forEach(function(s){allSigs.push({key:s.key,label:s.label});});});
+  cfgAdd({name:name,device_type:'recorded',dev_type:REC.devType,dev_label:REC.devLabel,
+    signals:JSON.parse(JSON.stringify(REC.captured)),signal_order:allSigs,
+    saved_at:new Date().toISOString()});
+  toast('Saved: '+name,true);
+  showConfigs();
+}
+
+// ══════════════════════════════════════════════════════════
+// PAGE: Recorded Remote
+// ══════════════════════════════════════════════════════════
+function showRecordedRemote(cfg){
+  NAV=[showConfigs];currentPage='recorded_remote';
+  bar(cfg.name,cfg.dev_label||'Custom Remote',true);
+  var sigs=cfg.signals||{};
+  window._recCfg=cfg;
+  window._physBtnAction=sigs.power?function(){sendRecordedSig('power');}:null;
+
+  var h='<div class="remote">';
+  // Power
+  if(sigs.power)h+='<div class="rm-pwr-row"><button class="rm-pwr-btn" onclick="sendRecordedSig(\'power\')" title="Power">&#9211;</button></div>';
+  // Vol / Ch / Temp pairs
+  var pCols=[];
+  if(sigs.vol_up||sigs.vol_down||sigs.mute)pCols.push({lbl:'VOL',u:'vol_up',d:'vol_down',ex:'mute',exl:'MUTE',c:'rm-pv'});
+  if(sigs.ch_up||sigs.ch_down)pCols.push({lbl:'CH',u:'ch_up',d:'ch_down',ex:null,c:'rm-pc'});
+  if(sigs.temp_up||sigs.temp_down)pCols.push({lbl:'TEMP',u:'temp_up',d:'temp_down',ex:null,c:'rm-pt'});
+  if(pCols.length){
+    h+='<div class="rm-pairs">';
+    pCols.forEach(function(p){
+      h+='<div class="rm-pcol"><div class="rm-plbl">'+p.lbl+'</div>';
+      if(sigs[p.u])h+='<button class="rm-pb '+p.c+'" onclick="sendRecordedSig(\''+p.u+'\')">+</button>';
+      if(sigs[p.d])h+='<button class="rm-pb '+p.c+'" onclick="sendRecordedSig(\''+p.d+'\')">&#8722;</button>';
+      if(p.ex&&sigs[p.ex])h+='<button class="rm-pb rm-pe" onclick="sendRecordedSig(\''+p.ex+'\')">'+p.exl+'</button>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  // Navigation d-pad
+  if(sigs.up||sigs.down||sigs.left||sigs.right||sigs.ok){
+    var dp=function(k,lbl,cls){cls=cls||'rm-dp';return sigs[k]?'<button class="'+cls+'" onclick="sendRecordedSig(\''+k+'\')">'+lbl+'</button>':'<div class="rm-empty"></div>';};
+    h+='<div class="rm-dpad">'
+      +'<div class="rm-empty"></div>'+dp('up','&#9650;')+'<div class="rm-empty"></div>'
+      +dp('left','&#9664;')+dp('ok','OK','rm-dp rm-ok')+dp('right','&#9654;')
+      +'<div class="rm-empty"></div>'+dp('down','&#9660;')+'<div class="rm-empty"></div>'
+      +'</div>';
+  }
+  // Quick row: back, menu
+  var qr=[['back','BACK'],['menu','MENU']].filter(function(x){return!!sigs[x[0]];});
+  if(qr.length){h+='<div class="rm-quick">';qr.forEach(function(x){h+='<button class="rm-q" onclick="sendRecordedSig(\''+x[0]+'\')">'+x[1]+'</button>';});h+='</div>';}
+  // Media
+  if(sigs.play||sigs.stop||sigs.next||sigs.prev){
+    h+='<div class="rm-quick">';
+    if(sigs.prev)h+='<button class="rm-q" onclick="sendRecordedSig(\'prev\')">&#9664;&#9664;</button>';
+    if(sigs.play)h+='<button class="rm-q" onclick="sendRecordedSig(\'play\')">&#9654;&#9646;&#9646;</button>';
+    if(sigs.stop)h+='<button class="rm-q" onclick="sendRecordedSig(\'stop\')">&#9632;</button>';
+    if(sigs.next)h+='<button class="rm-q" onclick="sendRecordedSig(\'next\')">&#9654;&#9654;</button>';
+    h+='</div>';
+  }
+  // Misc: input, freeze, blank, mode, fan_speed, swing, timer, speed, oscillate, eq, eject
+  var miscMap={input:'INPUT',freeze:'FREEZE',blank:'BLANK',mode:'MODE',fan_speed:'FAN SPD',swing:'SWING',timer:'TIMER',speed:'SPEED',oscillate:'OSC',eq:'EQ',eject:'EJECT'};
+  var hasMisc=Object.keys(miscMap).some(function(k){return!!sigs[k];});
+  if(hasMisc){
+    h+='<div class="rm-misc-lbl">Other</div><div class="rm-misc">';
+    Object.keys(miscMap).forEach(function(k){
+      if(sigs[k])h+='<button class="rm-mb" onclick="sendRecordedSig(\''+k+'\')">'+miscMap[k]+'</button>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+  document.getElementById('app').innerHTML=h;
+}
+
+async function sendRecordedSig(key){
+  var cfg=window._recCfg;if(!cfg)return;
+  var sig=cfg.signals[key];
+  if(!sig){toast('Signal not recorded',false);return;}
+  var resp;
+  if(sig.raw&&sig.raw.length){
+    resp=await sendCmd({proto:'RAW',raw:sig.raw,freq:sig.freq||38000});
+  }else{
+    resp=await sendCmd({proto:sig.protocol||'NEC',addr:parseInt(sig.addr||'0',16)||0,cmd:parseInt(sig.code||'0',16)||0,bits:sig.bits||32});
+  }
+  toast(resp.ok?'OK':('Error: '+(resp.err||'?')),resp.ok);
 }
 
 // ── Init ───────────────────────────────────────────────────
