@@ -246,6 +246,14 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .rm-mb{padding:12px 4px;border-radius:14px;border:1px solid var(--line);background:var(--bg2);color:var(--tx2);font:inherit;font-size:11px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2;transition:all .12s}
 .rm-mb:active{background:var(--ac);border-color:var(--ac);color:var(--ac-fg);transform:scale(.94)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#cli{display:none;position:fixed;inset:0;height:100dvh;background:#000;color:#fff;font:15px/1.35 Consolas,'Lucida Console',monospace;overflow-y:auto;padding:8px 10px;z-index:1000;word-break:break-word}
+#cli,#cli *{user-select:text;-webkit-user-select:text}
+#co{white-space:pre-wrap}
+#cl{display:flex}#cp{white-space:pre;flex-shrink:0}
+#ci{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:inherit;caret-color:#fff;caret-shape:block;padding:0}
+body.cli{background:#000;overflow:hidden;padding:0}
+body.cli #cli{display:block}
+body.cli>*:not(#cli):not(script){display:none!important}
 </style>
 </head>
 <body>
@@ -255,7 +263,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
     <div class="bar-title" id="btitle">VynRemote</div>
     <div class="bar-sub" id="bsub">Choose a connection method</div>
   </div>
-  <div class="conn-pill" id="cpill"><span class="conn-dot" id="cdot"></span><span id="clbl">Offline</span></div>
+  <button class="conn-pill" style="cursor:pointer;font-family:inherit" onclick="setUI('cli')" title="CLI mode">&gt;_ CLI</button><div class="conn-pill" id="cpill"><span class="conn-dot" id="cdot"></span><span id="clbl">Offline</span></div>
 </div>
 <div class="overlay" id="connecting-overlay" style="z-index:250">
   <div class="ov-box">
@@ -334,6 +342,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 </div>
 
 
+<div id="cli" onclick="if(!getSelection().toString())document.getElementById('ci').focus()"><div id="co"></div><div id="cl"><span id="cp"></span><input id="ci" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div></div>
 <script>
 // ── Block zoom ─────────────────────────────────────────────
 document.addEventListener('wheel',function(e){if(e.ctrlKey)e.preventDefault();},{passive:false});
@@ -345,6 +354,7 @@ var _lt=0;document.addEventListener('touchend',function(e){var n=Date.now();if(n
 // ── Physical button ────────────────────────────────────────
 window._physBtnAction=null;
 function triggerPhysBtn(){
+  if(UI==='cli')cliP('[PHYS] POWER button pressed');
   var el=document.getElementById('physind');
   el.classList.add('show');clearTimeout(el._t);
   el._t=setTimeout(function(){el.classList.remove('show');},900);
@@ -377,6 +387,7 @@ var BLE_TX='6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 // Utils
 // ══════════════════════════════════════════════════════════
 function toast(m,ok){
+  if(UI==='cli'){cliP((ok?'[OK] ':'[!] ')+m);return;}
   var t=document.getElementById('toast');
   t.textContent=m;t.style.borderColor=ok?'var(--ok)':'#ff4455';t.style.color=ok?'#6effc0':'var(--bad)';
   t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2400);
@@ -398,6 +409,7 @@ function setDot(s){
   l.textContent=s==='ok'?(CONN==='ble'?'Bluetooth':'USB'):'Offline';
 }
 function showNetBanner(msg){
+  if(UI==='cli')cliP('[!] '+msg);
   var b=document.getElementById('netbanner');
   document.getElementById('netbanner-msg').textContent=msg;
   b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(function(){b.classList.remove('show');},5500);
@@ -407,6 +419,7 @@ function showNetBanner(msg){
 // Disconnect handling (USB / Bluetooth)
 var _discNotice=null;
 function setConnecting(msg,sub){
+  if(UI==='cli'&&msg)cliP(msg+(sub?' - '+sub:'')+' ...');
   var o=document.getElementById('connecting-overlay');
   if(!msg){o.classList.remove('show');return;}
   document.getElementById('connecting-msg').textContent=msg;
@@ -429,6 +442,7 @@ function handleDisconnect(kind,reason){
   wifiState={connected:false,ssid:'',rssi:0,ip:''};
   window._physBtnAction=null;window._pwrSig=null;
   document.querySelectorAll('.overlay.show').forEach(function(o){o.classList.remove('show');});
+  if(UI==='cli')cliReset();
   setDot('err');
   _discNotice={kind:label,reason:reason||'',time:new Date()};
   showNetBanner(label+' terputus \u2014 kembali ke halaman koneksi');
@@ -618,6 +632,7 @@ function onWifiScanDone(ev){
   var nets=ev.networks||[];
   if(currentPage!=='wifi_scan')return;
   bar('WiFi Networks',nets.length+' found',true);
+  if(UI==='cli'){cliV('nets',nets);return;}
   if(!nets.length){
     document.getElementById('app').innerHTML=
       '<div style="text-align:center;padding:40px 20px;color:var(--tx3)">'
@@ -642,6 +657,7 @@ function onWifiScanDone(ev){
 }
 
 function onWifiConnecting(ev){
+  if(UI==='cli')cliP('Connecting to '+(ev.ssid||'')+' ...');
   document.getElementById('wifi-conn-ssid').textContent=ev.ssid||'';
   var ov=document.getElementById('wifi-conn-overlay');
   ov.classList.add('show');
@@ -666,6 +682,7 @@ function onWifiResult(ev){
     showConfigs();
   }else{
     if(ev.err==='wrong_password'){
+      if(UI==='cli'){cliP('[!] Wrong password.');cliAsk('pass');return;}
       document.getElementById('wifi-pass-err').style.display='block';
       document.getElementById('wifi-pass-overlay').classList.add('show');
       setTimeout(function(){var i=document.getElementById('wifi-pass-input');if(i){i.value='';i.focus();}},80);
@@ -683,6 +700,7 @@ function onWifiStatus(ev){
   }
   var wb=document.getElementById('wifi-bar');
   if(wb) wb.outerHTML=wifiBarHtml();
+  if(UI==='cli'&&currentPage==='configs')cliP('[WIFI] '+cliW());
 }
 
 
@@ -714,6 +732,7 @@ function wifiBarHtml(){
 function showLanding(){
   NAV=[];window._physBtnAction=null;currentPage='landing';
   bar('VynRemote','Pilih metode koneksi',false);
+  if(UI==='cli'){cliV('landing');return;}
   var alert='';
   if(_discNotice){
     var t=_discNotice.time,hh=('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2);
@@ -767,6 +786,7 @@ function catIcon(t){
 function showConfigs(){
   NAV=[];window._physBtnAction=null;currentPage='configs';
   bar('VynRemote','Saved configurations',false);
+  if(UI==='cli'){cliV('configs');return;}
   var cfgs=cfgLoad();
   var h=wifiBarHtml();
   if(!DB){
@@ -852,6 +872,7 @@ function doRenameCancel(){document.getElementById('ren-overlay').classList.remov
 function showWifiScan(){
   NAV.push(showConfigs);currentPage='wifi_scan';
   bar('WiFi Networks','Scanning...',true);
+  if(UI==='cli'){cliV('scan');sendCmdFire({cmd:'wifi_scan'});return;}
   document.getElementById('app').innerHTML=
     '<div style="text-align:center;padding:50px 20px">'
     +'<div class="spinner"></div>'
@@ -862,6 +883,7 @@ function showWifiScan(){
 
 function onNetTap(ssid,open){
   _pendingWifiSsid=ssid;
+  if(UI==='cli'&&!open){cliAsk('pass');return;}
   if(open){
     _pendingWifiPass='';
     document.getElementById('wifi-conn-ssid').textContent=ssid;
@@ -876,8 +898,8 @@ function onNetTap(ssid,open){
   }
 }
 
-function doWifiConnect(){
-  var pass=document.getElementById('wifi-pass-input').value;
+function doWifiConnect(p){
+  var pass=(typeof p==='string')?p:document.getElementById('wifi-pass-input').value;
   _pendingWifiPass=pass;
   document.getElementById('wifi-pass-overlay').classList.remove('show');
   document.getElementById('wifi-conn-ssid').textContent=_pendingWifiSsid;
@@ -893,6 +915,7 @@ function closeWifiPass(){document.getElementById('wifi-pass-overlay').classList.
 function showBrands(){
   NAV.push(showConfigs);currentPage='brands';
   bar('Select Brand','Type to search',true);
+  if(UI==='cli'){cliV('brands');return;}
   var all=[];DB.devices.forEach(function(d){if(all.indexOf(d.brand)<0)all.push(d.brand);});all.sort();
   document.getElementById('app').innerHTML=
     '<div class="search-box"><span class="search-ico">&#128269;</span>'
@@ -964,6 +987,7 @@ function renderBrands(){
 function showTypes(brand){
   NAV.push(showBrands);CUR.brand=brand;currentPage='types';
   bar(brand,'Select device type',true);
+  if(UI==='cli'){cliV('types');return;}
   var types=[];DB.devices.forEach(function(d){if(d.brand===brand&&types.indexOf(d.category)<0)types.push(d.category);});types.sort();
   var h='<div class="sec-label" style="margin-left:2px">Pilih jenis perangkat</div>';
   types.forEach(function(t){
@@ -992,6 +1016,7 @@ function showPower(brand,type,pattern){
     if(!ps&&dev.signals.length)ps=dev.signals[0];
   }
   window._pwrSig=ps;window._physBtnAction=doPower;
+  if(UI==='cli'){cliV('power');return;}
   var be=esc(brand),te=esc(type);
   var h='<div class="pat-nav">'
     +'<button class="btn ba" '+(pattern>0?'onclick="showPower(\''+be+'\',\''+te+'\','+(pattern-1)+')"':'disabled')+'>&#8592; Prev</button>'
@@ -1012,9 +1037,10 @@ function showPower(brand,type,pattern){
 var _pwrBusy=false;
 async function doPower(){
   if(_pwrBusy||!window._pwrSig)return;_pwrBusy=true;
-  var btn=document.getElementById('pwrbtn');btn.style.opacity='.4';
-  await sendSignal(window._pwrSig);btn.style.opacity='1';_pwrBusy=false;
+  var btn=document.getElementById('pwrbtn');if(btn)btn.style.opacity='.4';
+  await sendSignal(window._pwrSig);if(btn)btn.style.opacity='1';_pwrBusy=false;
   document.getElementById('pwr-overlay').classList.add('show');
+  if(UI==='cli')cliAsk('yn');
 }
 function doYes(){document.getElementById('pwr-overlay').classList.remove('show');showSaveConfig(CUR.brand,CUR.type,CUR.pattern);}
 function doNo(){
@@ -1030,6 +1056,7 @@ function doNo(){
 function showSaveConfig(brand,type,pattern){
   window._physBtnAction=null;currentPage='save_ir';
   bar('Save Configuration',brand+' · '+type,false);
+  if(UI==='cli'){CUR.brand=brand;CUR.type=type;CUR.pattern=pattern;cliV('save');return;}
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
   var be=esc(brand),te=esc(type);
@@ -1051,9 +1078,9 @@ function showSaveConfig(brand,type,pattern){
   document.getElementById('app').innerHTML=h;
   setTimeout(function(){var i=document.getElementById('cfg-name');if(i)i.focus();},80);
 }
-function doSaveIr(brand,type,pattern){
+function doSaveIr(brand,type,pattern,nm){
   var inp=document.getElementById('cfg-name');
-  var name=inp?inp.value.trim():'';
+  var name=(typeof nm==='string')?nm.trim():(inp?inp.value.trim():'');
   if(!name){toast('Please enter a name',false);if(inp)inp.focus();return;}
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];
@@ -1070,7 +1097,7 @@ function doSaveIr(brand,type,pattern){
 function showRemote(brand,type,pattern,configName){
   var devs=DB.devices.filter(function(d){return d.brand===brand&&d.category===type;});
   var dev=devs[pattern];if(!dev){toast('Device not found',false);return;}
-  NAV=[showConfigs];currentPage='remote';
+  NAV=[showConfigs];currentPage='remote';CUR.brand=brand;CUR.type=type;CUR.pattern=pattern;window._rn=configName;
   var barTitle=configName||(brand+' · '+type);
   var barSub=configName?(brand+' · '+type+' · Pattern '+(pattern+1)):('Pattern '+(pattern+1));
   bar(barTitle,barSub,true);
@@ -1107,6 +1134,7 @@ function showRemote(brand,type,pattern,configName){
     if(idx>=0)return'<button class="'+cls+'" onclick="clickBtn('+idx+')" title="'+sigs[idx].name+'">'+lbl+'</button>';
     return'<div class="rm-empty"></div>';
   }
+  if(UI==='cli'){cliV('remote',[['pwr',iPwr],['menu',iMenu],['home',iHome],['rtn',iBk],['info',iInfo],['guide',iGui],['vol+',iVu],['vol-',iVd],['mute',iMu],['ch+',iCu],['ch-',iCd],['t+',iTu],['t-',iTd],['up',iUp],['dn',iDn],['lt',iLt],['rt',iRt],['ok',iOk]].concat(nums.map(function(x,k){return[''+k,x];}),misc.map(function(x,k){return['x'+(k+1),x];})));return;}
   var h='<div class="remote">';
   if(iPwr>=0)h+='<div class="rm-pwr-row">'+rb(iPwr,'rm-pwr-btn','&#9211;')+'</div>';
   var qRow=[[iMenu,'MENU'],[iHome,'HOME'],[iBk,'BACK'],[iInfo,'INFO'],[iGui,'GUIDE']].filter(function(x){return x[0]>=0;});
@@ -1182,6 +1210,151 @@ async function sendSignal(sig){
 }
 
 // ── Init ───────────────────────────────────────────────────
+// ══════════ CLI MODE (presentation layer only; logic above is shared) ══════════
+var UI=(function(){try{return localStorage.getItem('vyn_ui')==='cli'?'cli':'gui';}catch(e){return'gui';}})();
+var cliMode=null,cliLast=[],cliKeys={},cliNets=[],cliHist=[],cliHi=0;
+function $c(i){return document.getElementById(i);}
+function cliP(t){$c('co').appendChild(document.createTextNode((t===undefined?'':t)+'\n'));var c=$c('cli');c.scrollTop=c.scrollHeight;}
+function cliW(){return wifiState.connected?wifiState.ssid+' ('+wifiState.rssi+' dBm, '+wifiState.ip+')':'Not connected';}
+function cliPr(){
+  var M={pass:'Password: ',yn:'[Y/N]: ',del:'[Y/N]: ',name:'Name: ',ren:'New name: '};if(M[cliMode])return M[cliMode];
+  var P={configs:'\\configs',wifi_scan:'\\wifi',brands:'\\add\\brand',types:'\\add\\'+CUR.brand,test_pattern:'\\add\\'+CUR.brand+'\\'+CUR.type,save_ir:'\\save',remote:'\\remote'};
+  return'VynRemote'+(P[currentPage]||'')+'>';
+}
+function cliSet(){if(UI!=='cli')return;$c('cp').textContent=cliPr();$c('ci').type=cliMode==='pass'?'password':'text';$c('ci').focus();}
+function cliAsk(m){cliMode=m;
+  if(m==='pass')cliP('Password for "'+_pendingWifiSsid+'" (Ctrl+C = cancel):');
+  if(m==='yn')cliP('Did the device respond to the signal? (Y = save this pattern, N = try next pattern)');
+  cliSet();}
+function cliReset(){cliMode=null;cliSet();}
+function cliBanner(){$c('co').textContent='';cliP('VynRemote CLI [IR remote via ESP32]\nType "help" for commands, "gui" to switch back to GUI mode.');}
+function setUI(m){UI=m;try{localStorage.setItem('vyn_ui',m);}catch(e){}
+  document.body.classList.toggle('cli',m==='cli');cliMode=null;
+  if(m==='cli'){cliBanner();$c('app').innerHTML='';}
+  var p=currentPage;
+  if(p==='wifi_scan'||p==='brands')NAV.pop();if(p==='types')NAV.pop();
+  if(p==='landing')showLanding();else if(p==='configs')showConfigs();else if(p==='wifi_scan')showWifiScan();
+  else if(p==='brands')showBrands();else if(p==='types')showTypes(CUR.brand);
+  else if(p==='test_pattern')showPower(CUR.brand,CUR.type,CUR.pattern);else if(p==='save_ir')showSaveConfig(CUR.brand,CUR.type,CUR.pattern);
+  else if(p==='remote')showRemote(CUR.brand,CUR.type,CUR.pattern,window._rn);else showLanding();
+  cliSet();}
+function cliBrands(){var a=[];DB.devices.forEach(function(d){if(a.indexOf(d.brand)<0)a.push(d.brand);});return a.sort();}
+function cliList(a){cliLast=a;if(!a.length){cliP('Not found.');return;}
+  a.forEach(function(b,k){var c=DB.devices.filter(function(d){return d.brand===b;}).length;cliP(' '+(k+1)+'. '+b+'  ('+c+(c===1?' file)':' files)'));});
+  cliP(a.length+' brand(s). Enter a number or exact name to choose.');}
+function cliV(n,d){
+  cliMode=null;var D,v;
+  if(n==='landing'){
+    if(_discNotice){var t=_discNotice.time;cliP('\n[!] '+_discNotice.kind+' disconnected at '+('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+'. Check cable/range, then reconnect. ("dismiss" hides this)');}
+    cliP('\nConnect to ESP32:\n  usb   USB Serial   (PC/Laptop, Chrome/Edge)\n  ble   Bluetooth    (Phone/Tablet, Chrome Android)\n');
+  }else if(n==='configs'){
+    var c=cfgLoad();cliP('\nWiFi: '+cliW()+'   ("wifi" to change)');
+    if(!DB)cliP('[!] No device database loaded. Type "loaddb" to pick db.json.');
+    cliP(c.length+' configuration'+(c.length!==1?'s':'')+' saved');
+    c.forEach(function(x,k){cliP(' '+(k+1)+'. '+x.name+'   ['+x.brand+' | '+x.type+']');});
+    cliP('add | open <n> | ren <n> | del <n> | wifi | help\n');
+  }else if(n==='scan'){cliP('\nScanning for networks ...');
+  }else if(n==='nets'){
+    d.sort(function(a,b){return (b.known?1:0)-(a.known?1:0)||(b.rssi-a.rssi);});cliNets=d;
+    if(!d.length)cliP('No networks found. Make sure WiFi is enabled on the device.');
+    else{cliP('\n'+d.length+' network(s):');d.forEach(function(x,k){cliP(' '+(k+1)+'. '+x.ssid+'   '+x.rssi+' dBm   '+(x.known?'[known]':x.open?'[open]':'[password]'));});}
+    cliP('connect <n> | scan | back\n');
+  }else if(n==='brands'){cliLast=[];cliP('\nSelect brand ('+cliBrands().length+' available)\nType text to search | ls = list all | ls <letter> | <n>/<name> = choose | back\n');
+  }else if(n==='types'){
+    var t2=[];DB.devices.forEach(function(x){if(x.brand===CUR.brand&&t2.indexOf(x.category)<0)t2.push(x.category);});t2.sort();cliLast=t2;
+    cliP('\n'+CUR.brand+' - select device type:');
+    t2.forEach(function(k,i){var q=DB.devices.filter(function(x){return x.brand===CUR.brand&&x.category===k;}).length;cliP(' '+(i+1)+'. '+k+'  ('+q+(q===1?' pattern)':' patterns)'));});
+    cliP('<n>/<name> = choose | back\n');
+  }else if(n==='power'){
+    D=DB.devices.filter(function(x){return x.brand===CUR.brand&&x.category===CUR.type;});v=D[CUR.pattern];
+    cliP('\nTest pattern '+(CUR.pattern+1)+'/'+CUR.total+'   '+CUR.brand+' | '+CUR.type);
+    if(v)cliP('  File    : '+(v.source_file||'-')+'\n  Protocol: '+(v.protocols?v.protocols.join(', '):'?')+'\n  Buttons : '+(v.signals?v.signals.length:0)+' signals');
+    cliP(window._pwrSig?'test = send POWER | next | prev | select = use this pattern | back\n':'No power signal in this pattern.\nnext | prev | select | back\n');
+  }else if(n==='save'){
+    D=DB.devices.filter(function(x){return x.brand===CUR.brand&&x.category===CUR.type;});v=D[CUR.pattern];
+    cliP('\nSave configuration: '+CUR.brand+' | '+CUR.type+' | pattern '+(CUR.pattern+1)+' of '+D.length+(v?' | '+(v.source_file||'-'):''));
+    cliP('Enter a name (e.g. Living Room TV). Type "back" (to test pattern) or "cancel".');cliAsk('name');return;
+  }else if(n==='remote'){
+    cliKeys={};d.forEach(function(x){if(x[1]>=0)cliKeys[x[0]]=x[1];});
+    cliP('\nRemote: '+(window._rn?window._rn+'  ':'')+'['+CUR.brand+' | '+CUR.type+' | pattern '+(CUR.pattern+1)+']\nType a key name to send it:');
+    [['pwr','menu','home','rtn','info','guide'],['vol+','vol-','mute','ch+','ch-','t+','t-'],['up','dn','lt','rt','ok'],['1','2','3','4','5','6','7','8','9','0']].forEach(function(g){
+      var r=g.filter(function(k){return cliKeys[k]!==undefined;});if(r.length)cliP('  '+r.join('  '));});
+    var xs=Object.keys(cliKeys).filter(function(k){return /^x\d+$/.test(k);});
+    if(xs.length){cliP('  Other:');xs.forEach(function(k){cliP('    '+k+' = '+window._remSigs[cliKeys[k]].name);});}
+    cliP('keys = show this list | help | back\n');
+  }
+  cliSet();
+}
+function cliHelp(){
+  var H={landing:'usb | ble | dismiss',configs:'add | open <n> (or just <n>) | ren <n> | del <n> | wifi | loaddb | ls',wifi_scan:'connect <n> (or just <n>) | scan | back',
+    brands:'<text> = search | ls [letter] | <n>/<name> = choose | back',types:'<n>/<name> = choose | back',test_pattern:'test | next | prev | select | back',
+    save_ir:'type a name | back | cancel',remote:'<key> | keys | back\n  Keys: pwr menu home rtn(back) info guide | vol+ vol- mute | ch+ ch- | t+ t- | up dn lt rt ok | 0-9 | x1,x2.. (other buttons)\n  Aliases: power=pwr, return=rtn, down=dn, left=lt, right=rt, enter=ok. ("back" always means go back; use rtn for the remote BACK key)'};
+  cliP('\nThis page: '+(H[currentPage]||'')+'\nGlobal   : help | cls | back (or ..) | gui (switch to GUI mode) | Ctrl+C (cancel prompt)\n');
+}
+function cliCmd(l){
+  var a=l.split(/\s+/),c=a[0].toLowerCase(),r=a.slice(1).join(' '),p=currentPage,n=/^\d+$/.test(c)?+c:0,k;
+  function bad(){cliP("'"+l+"' is not recognized. Type help.");}
+  if(c==='help'||c==='?')return cliHelp();
+  if(c==='cls'||c==='clear'){$c('co').textContent='';return;}
+  if(c==='gui')return setUI('gui');
+  if(c==='cli'||c==='mode'){return cliP('Mode: CLI. Type "gui" to switch.');}
+  if(c==='back'||c==='..'){
+    if(p==='save_ir')showPower(CUR.brand,CUR.type,0);
+    else if(['wifi_scan','brands','types','test_pattern','remote'].indexOf(p)>=0)goBack();else cliP('Nothing to go back to.');return;}
+  if(p==='landing'){if(c==='usb')doConnectUsb();else if(c==='ble')doConnectBle();else if(c==='dismiss'){_discNotice=null;showLanding();}else bad();}
+  else if(p==='configs'){
+    if(c==='wifi')showWifiScan();else if(c==='loaddb')promptDbPicker();else if(c==='add')startAdd();else if(c==='ls')showConfigs();
+    else if(c==='open'||c==='ren'||c==='del'||n){var x=cfgLoad()[(n||+r)-1];
+      if(!x)cliP('No such configuration.');
+      else if(c==='ren'){promptRename(x.id);cliAsk('ren');}
+      else if(c==='del'){promptDelete(x.id);cliP('Delete "'+x.name+'"? This cannot be undone.');cliAsk('del');}
+      else openConfig(x.id);}
+    else bad();}
+  else if(p==='wifi_scan'){
+    if(c==='scan'){cliP('Scanning ...');sendCmdFire({cmd:'wifi_scan'});}
+    else if(c==='connect'||n){var w=cliNets[(n||+r)-1];if(w)onNetTap(w.ssid,w.open);else cliP('No such network.');}else bad();}
+  else if(p==='brands'){
+    if(c==='ls'){var b=cliBrands();if(r)b=b.filter(function(x){return alphaKey(x)===r.toUpperCase();});cliList(b);}
+    else{var f=n?cliLast[n-1]:cliBrands().filter(function(x){return x.toLowerCase()===l.toLowerCase();})[0];
+      if(f)showTypes(f);else if(n)cliP('Invalid number.');
+      else{var q=(c==='find'?r:l).toLowerCase();cliList(cliBrands().filter(function(x){return x.toLowerCase().indexOf(q)>=0;}));}}}
+  else if(p==='types'){var t=n?cliLast[n-1]:cliLast.filter(function(x){return x.toLowerCase()===l.toLowerCase();})[0];
+    if(t)showPower(CUR.brand,t,0);else cliP('Invalid choice.');}
+  else if(p==='test_pattern'){
+    if(c==='test'||c==='power')doPower();
+    else if(c==='next'||c==='n'){if(CUR.pattern+1<CUR.total)showPower(CUR.brand,CUR.type,CUR.pattern+1);else cliP('Last pattern.');}
+    else if(c==='prev'||c==='p'){if(CUR.pattern>0)showPower(CUR.brand,CUR.type,CUR.pattern-1);else cliP('First pattern.');}
+    else if(c==='select')showSaveConfig(CUR.brand,CUR.type,CUR.pattern);else bad();}
+  else if(p==='remote'){
+    var A={power:'pwr',return:'rtn',down:'dn',left:'lt',right:'rt',enter:'ok'};k=A[c]||c;
+    if(c==='keys')showRemote(CUR.brand,CUR.type,CUR.pattern,window._rn);else if(cliKeys[k]!==undefined)clickBtn(cliKeys[k]);else bad();}
+  else bad();
+}
+function cliAns(v){
+  var m=cliMode,y=/^y(es)?$/i.test(v),no=/^n(o)?$/i.test(v),q=v.toLowerCase();
+  if(m==='pass'){cliMode=null;doWifiConnect(v);}
+  else if(m==='yn'){if(y){cliMode=null;doYes();}else if(no){cliMode=null;doNo();}else cliP('Please answer Y or N.');}
+  else if(m==='del'){if(y){cliMode=null;doDeleteConfirm();}else if(no){cliMode=null;doDeleteCancel();cliP('Cancelled.');}else cliP('Please answer Y or N.');}
+  else if(m==='ren'){$c('ren-input').value=v;doRenameConfirm();}
+  else if(m==='name'){if(q==='back')showPower(CUR.brand,CUR.type,0);else if(q==='cancel')showConfigs();else doSaveIr(CUR.brand,CUR.type,CUR.pattern,v);}
+}
+(function(){
+  var ci=$c('ci');
+  ci.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){
+      var v=ci.value;ci.value='';cliP(cliMode==='pass'?cliPr():cliPr()+v);
+      if(cliMode){cliAns(cliMode==='pass'?v:v.trim());}
+      else if(v.trim()){cliHist.push(v.trim());cliHi=cliHist.length;cliCmd(v.trim());}
+      cliSet();e.preventDefault();
+    }else if(e.key==='ArrowUp'&&!cliMode){if(cliHi>0)ci.value=cliHist[--cliHi];e.preventDefault();}
+    else if(e.key==='ArrowDown'&&!cliMode){ci.value=cliHi<cliHist.length-1?cliHist[++cliHi]:'';cliHi=Math.min(cliHi,cliHist.length);e.preventDefault();}
+    else if(e.ctrlKey&&e.key.toLowerCase()==='c'&&!getSelection().toString()){
+      cliP(cliPr()+ci.value+'^C');ci.value='';var m=cliMode;cliMode=null;
+      if(m==='del')doDeleteCancel();if(m==='ren')doRenameCancel();if(m==='name')showConfigs();cliSet();e.preventDefault();}
+  });
+  if(UI==='cli'){document.body.classList.add('cli');cliBanner();cliSet();}
+})();
+
 (async function(){
   _restore();
   await loadDB();
