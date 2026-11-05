@@ -1214,14 +1214,37 @@ async function sendSignal(sig){
 var UI=(function(){try{return localStorage.getItem('vyn_ui')==='cli'?'cli':'gui';}catch(e){return'gui';}})();
 var cliMode=null,cliLast=[],cliKeys={},cliNets=[],cliHist=[],cliHi=0;
 function $c(i){return document.getElementById(i);}
-function cliP(t){$c('co').appendChild(document.createTextNode((t===undefined?'':t)+'\n'));var c=$c('cli');c.scrollTop=c.scrollHeight;}
+var CC={g:'#16c60c',r:'#f03a47',y:'#f9f1a5',c:'#61d6d6',m:'#e879f9',d:'#8a8a8a'};
+function cS(p,t,c,b){if(!t)return;var e=document.createElement('span');e.textContent=t;if(c)e.style.color=c;if(b)e.style.fontWeight='bold';p.appendChild(e);}
+function cEnd(){var c=$c('cli');c.scrollTop=c.scrollHeight;}
+function cTok(f,s){s.split(/(\[[^\]]*\]|\([^)]*\)|-?\d+ dBm)/).forEach(function(x){cS(f,x,x[0]==='['?CC.m:(x[0]==='('||/dBm$/.test(x))?CC.d:null);});}
+function cHint(f,s){s.split(/(<[^>]*>|"[^"]*"|\b(?:usb|ble|add|open|ren|del|wifi|loaddb|ls|connect|scan|test|next|prev|select|back|cancel|help|cls|gui|keys|dismiss)\b)/).forEach(function(x,i){
+  cS(f,x,i%2?(x[0]==='<'?CC.c:x[0]==='"'?CC.g:CC.y):null,i%2&&x[0]!=='<'&&x[0]!=='"');});}
+function cliL(t){var f=document.createDocumentFragment(),m;
+  if(/^\[OK\]/.test(t))cS(f,t,CC.g);
+  else if(/^\[!\]/.test(t))cS(f,t,CC.r);
+  else if(/^\[(PHYS|WIFI)\]/.test(t))cS(f,t,CC.m);
+  else if(/^VynRemote CLI/.test(t))cS(f,t,CC.c,1);
+  else if(m=/^(\s*)(\d+)\. (.*)$/.exec(t)){cS(f,m[1]);cS(f,m[2]+'.',CC.c,1);cS(f,' ');cTok(f,m[3]);}
+  else if(/^ {2}[a-z0-9+\-]+( {2}[a-z0-9+\-]+)*$/.test(t))t.split(/( +)/).forEach(function(x){cS(f,x,/\S/.test(x)?CC.y:null,1);});
+  else if(m=/^ {4}(x\d+) = (.*)$/.exec(t)){cS(f,'    ');cS(f,m[1],CC.y,1);cS(f,' = ');cS(f,m[2]);}
+  else if(m=/^(\s*)(WiFi|File|Protocol|Buttons|Remote|Mode|Network|Connect to ESP32|Test pattern|Save configuration|Select brand|Other)\b(.*)$/.exec(t)){cS(f,m[1]);cS(f,m[2],CC.c,1);cTok(f,m[3]);}
+  else if(/\b(back|help|cancel)\b|^ {2}(usb|ble)\b/.test(t))cHint(f,t);
+  else cTok(f,t);
+  cS(f,'\n');return f;}
+function cliP(t){String(t===undefined?'':t).split('\n').forEach(function(l){$c('co').appendChild(cliL(l));});cEnd();}
+function cliPN(){var f=document.createDocumentFragment(),s=cliPr(),m;
+  if(cliMode){cS(f,s,CC.y,1);return f;}
+  m=/^(VynRemote)(.*)>$/.exec(s);cS(f,m[1],CC.g,1);cS(f,m[2],CC.c);cS(f,'>',CC.g,1);cS(f,' ');return f;}
+function cliEcho(v){var f=document.createDocumentFragment(),m=/^(\S+)(.*)$/.exec(v)||[0,'',''];f.appendChild(cliPN());
+  if(cliMode)cS(f,v);else{cS(f,m[1],CC.y,1);cS(f,m[2]);}cS(f,'\n');$c('co').appendChild(f);cEnd();}
 function cliW(){return wifiState.connected?wifiState.ssid+' ('+wifiState.rssi+' dBm, '+wifiState.ip+')':'Not connected';}
 function cliPr(){
   var M={pass:'Password: ',yn:'[Y/N]: ',del:'[Y/N]: ',name:'Name: ',ren:'New name: '};if(M[cliMode])return M[cliMode];
   var P={configs:'\\configs',wifi_scan:'\\wifi',brands:'\\add\\brand',types:'\\add\\'+CUR.brand,test_pattern:'\\add\\'+CUR.brand+'\\'+CUR.type,save_ir:'\\save',remote:'\\remote'};
   return'VynRemote'+(P[currentPage]||'')+'>';
 }
-function cliSet(){if(UI!=='cli')return;$c('cp').textContent=cliPr();$c('ci').type=cliMode==='pass'?'password':'text';$c('ci').focus();}
+function cliSet(){if(UI!=='cli')return;$c('cp').textContent='';$c('cp').appendChild(cliPN());$c('ci').type=cliMode==='pass'?'password':'text';$c('ci').focus();}
 function cliAsk(m){cliMode=m;
   if(m==='pass')cliP('Password for "'+_pendingWifiSsid+'" (Ctrl+C = cancel):');
   if(m==='yn')cliP('Did the device respond to the signal? (Y = save this pattern, N = try next pattern)');
@@ -1342,14 +1365,14 @@ function cliAns(v){
   var ci=$c('ci');
   ci.addEventListener('keydown',function(e){
     if(e.key==='Enter'){
-      var v=ci.value;ci.value='';cliP(cliMode==='pass'?cliPr():cliPr()+v);
+      var v=ci.value;ci.value='';cliEcho(cliMode==='pass'?'':v);
       if(cliMode){cliAns(cliMode==='pass'?v:v.trim());}
       else if(v.trim()){cliHist.push(v.trim());cliHi=cliHist.length;cliCmd(v.trim());}
       cliSet();e.preventDefault();
     }else if(e.key==='ArrowUp'&&!cliMode){if(cliHi>0)ci.value=cliHist[--cliHi];e.preventDefault();}
     else if(e.key==='ArrowDown'&&!cliMode){ci.value=cliHi<cliHist.length-1?cliHist[++cliHi]:'';cliHi=Math.min(cliHi,cliHist.length);e.preventDefault();}
     else if(e.ctrlKey&&e.key.toLowerCase()==='c'&&!getSelection().toString()){
-      cliP(cliPr()+ci.value+'^C');ci.value='';var m=cliMode;cliMode=null;
+      cliEcho(ci.value+'^C');ci.value='';var m=cliMode;cliMode=null;
       if(m==='del')doDeleteCancel();if(m==='ren')doRenameCancel();if(m==='name')showConfigs();cliSet();e.preventDefault();}
   });
   if(UI==='cli'){document.body.classList.add('cli');cliBanner();cliSet();}
