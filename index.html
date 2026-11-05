@@ -172,6 +172,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 /* ---------- alphabet index ---------- */
 #blist{padding-right:22px}
 .alpha-head{position:sticky;top:calc(122px + var(--st));z-index:5;margin:10px -4px 8px;padding:6px 4px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:10px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--ac);scroll-margin-top:calc(122px + var(--st))}
+.alpha-group{scroll-margin-top:calc(122px + var(--st))}
 .alpha-head:first-child{margin-top:2px}
 .alpha-rail{position:fixed;z-index:60;right:max(4px,calc((100vw - var(--pw))/2 + 4px));top:calc(150px + var(--st));bottom:calc(24px + var(--sb));width:22px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:6px 0;border-radius:999px;background:color-mix(in srgb,var(--surf) 82%,transparent);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);touch-action:none;cursor:pointer}
 .alpha-rail .ar-l{font-size:10px;font-weight:800;line-height:1;color:var(--ac);pointer-events:none;transition:transform .12s,color .12s}
@@ -911,7 +912,7 @@ function alphaRender(has){
 }
 function alphaJump(k){
   var el=document.getElementById('ah-'+(k==='#'?'num':k));if(!el)return;
-  window.scrollTo(0,el.getBoundingClientRect().top+window.pageYOffset-124);
+  window.scrollTo(0,el.getBoundingClientRect().top+window.pageYOffset-(112+(parseFloat(getComputedStyle(document.body).getPropertyValue('--st'))||0)));
   var r=document.getElementById('arail'),b=document.getElementById('abubble');
   if(r)[].forEach.call(r.children,function(c){c.classList.toggle('on',c.getAttribute('data-k')===k);});
   if(b){b.textContent=k;b.classList.add('show');clearTimeout(_alphaTm);_alphaTm=setTimeout(function(){b.classList.remove('show');if(r)[].forEach.call(r.children,function(c){c.classList.remove('on');});},700);}
@@ -941,7 +942,7 @@ function renderBrands(){
   fil.forEach(function(b){var k=alphaKey(b);(groups[k]=groups[k]||[]).push(b);has[k]=1;});
   ['#'].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')).forEach(function(k){
     if(!groups[k])return;
-    h+='<div class="alpha-head" id="ah-'+(k==='#'?'num':k)+'">'+k+'</div>';
+    h+='<div class="alpha-group" id="ah-'+(k==='#'?'num':k)+'"><div class="alpha-head">'+k+'</div>';
     groups[k].forEach(function(b){
       var c=DB.devices.filter(function(d){return d.brand===b;}).length;
       var safe=ql.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -950,6 +951,7 @@ function renderBrands(){
         +'<span class="avatar">'+hesc(b.charAt(0).toUpperCase())+'</span>'
         +'<span class="lr-main">'+lbl+'</span><span class="lr-sub">'+c+(c===1?' file':' files')+'</span><i class="chev"></i></button>';
     });
+    h+='</div>';
   });
   if(!fil.length)h='<p style="text-align:center;color:var(--tx3);padding:24px;font-size:13px">Not found</p>';
   alphaRender(has);
