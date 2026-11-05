@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-<title>IR Remote</title>
+<title>VynRemote</title>
 <meta name="theme-color" content="#0a0b10">
 <style>
-/* ===== IR Remote — design v3 ===== */
+/* ===== VynRemote — design v3 ===== */
 :root{
   color-scheme:dark;
   --bg:#0a0b10;--bg2:#10121a;--surf:#151823;--surf2:#1c2030;--surf3:#242a3d;
@@ -241,7 +241,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 <div class="bar">
   <button class="back-btn" id="backbtn" onclick="goBack()" aria-label="Kembali">Back</button>
   <div class="bar-info">
-    <div class="bar-title" id="btitle">IR Remote</div>
+    <div class="bar-title" id="btitle">VynRemote</div>
     <div class="bar-sub" id="bsub">Choose a connection method</div>
   </div>
   <div class="conn-pill" id="cpill"><span class="conn-dot" id="cdot"></span><span id="clbl">Offline</span></div>
@@ -445,7 +445,7 @@ async function connectUsb(){
     setConnecting('Membuka port USB...','Menyambung ke ESP32');
     await _port.open({baudRate:115200});
     _usbConn=true;_writer=_port.writable.getWriter();
-    _rbuf='';CONN='usb';_discNotice=null;setDot('ok');bar('IR Remote','Connected · USB Serial',false);
+    _rbuf='';CONN='usb';_discNotice=null;setDot('ok');bar('VynRemote','Connected · USB Serial',false);
     _usbReadLoop();return true;
   }catch(e){setConnecting();setDot('err');toast('USB failed: '+e.message,false);return false;}
 }
@@ -520,7 +520,7 @@ async function connectBle(){
     _rxChar=await svc.getCharacteristic(BLE_RX);
     await txChar.startNotifications();
     txChar.addEventListener('characteristicvaluechanged',_onBleNotify);
-    _bleBuf='';CONN='ble';_discNotice=null;setDot('ok');bar('IR Remote','Connected · Bluetooth',false);
+    _bleBuf='';CONN='ble';_discNotice=null;setDot('ok');bar('VynRemote','Connected · Bluetooth',false);
     return true;
   }catch(e){setConnecting();setDot('err');toast('BLE failed: '+e.message,false);return false;}
 }
@@ -702,7 +702,7 @@ function wifiBarHtml(){
 // ══════════════════════════════════════════════════════════
 function showLanding(){
   NAV=[];window._physBtnAction=null;currentPage='landing';
-  bar('IR Remote','Pilih metode koneksi',false);
+  bar('VynRemote','Pilih metode koneksi',false);
   var alert='';
   if(_discNotice){
     var t=_discNotice.time,hh=('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2);
@@ -717,18 +717,14 @@ function showLanding(){
     '<div class="land-wrap">'
     +alert
     +'<div class="land-hero"><div class="land-logo">'+logo+'</div>'
-    +'<div class="land-title">IR Remote</div>'
+    +'<div class="land-title">VynRemote</div>'
     +'<div class="land-sub">Hubungkan ke ESP32 lewat USB atau Bluetooth untuk mulai mengontrol perangkat IR.</div></div>'
     +'<div class="conn-cards">'
     +'<div class="conn-card" onclick="doConnectUsb()"><div class="conn-card-ico">'+usbSvg+'</div>'
     +'<div class="cc-body"><div class="conn-card-title">USB</div><div class="conn-card-sub">PC &amp; Laptop &middot; Chrome / Edge</div></div><i class="chev"></i></div>'
     +'<div class="conn-card ble" onclick="doConnectBle()"><div class="conn-card-ico">'+bleSvg+'</div>'
     +'<div class="cc-body"><div class="conn-card-title">Bluetooth</div><div class="conn-card-sub">HP &amp; Tablet &middot; Chrome Android</div></div><i class="chev"></i></div></div>'
-    +'<div class="conn-note">'
-    +'<b>ESP32</b> harus menjalankan firmware IR-Remote<br>'
-    +'<b>USB:</b> taruh <code>db.json</code> di folder yang sama<br>'
-    +'<b>Bluetooth:</b> muat <code>db.json</code> lewat file picker'
-    +'</div></div>';
+    +'</div>';
 }
 async function doConnectUsb(){
   try{
@@ -759,7 +755,7 @@ function catIcon(t){
 }
 function showConfigs(){
   NAV=[];window._physBtnAction=null;currentPage='configs';
-  bar('IR Remote','Saved configurations',false);
+  bar('VynRemote','Saved configurations',false);
   var cfgs=cfgLoad();
   var h=wifiBarHtml();
   if(!DB){
